@@ -8,5 +8,7 @@
 
 Yu-shan Lin (SLMT), 2015/10/14
 
-本書的 Github Repository：[https://github.com/SLMT/google-cpp-style-guide-zh-tw](https://github.com/SLMT/google-cpp-style-guide-zh-tw)
-Google 官方 C++ Style 說明文件 (英文)：[https://google-styleguide.googlecode.com/svn/trunk/cppguide.html](https://google-styleguide.googlecode.com/svn/trunk/cppguide.html)
+### Links
+
+- 本書的 Github Repository：[https://github.com/SLMT/google-cpp-style-guide-zh-tw](https://github.com/SLMT/google-cpp-style-guide-zh-tw)
+- Google 官方 C++ Style 說明文件 (英文)：[https://google-styleguide.googlecode.com/svn/trunk/cppguide.html](https://google-styleguide.googlecode.com/svn/trunk/cppguide.html)
