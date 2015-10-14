@@ -6,6 +6,6 @@
 
 不過可惜的是，Google 官方只有提供英文版的說明。為了讓不善英文，並使用中文的人能夠理解文件的內容，特別撰寫本書供大家閱讀。
 
-- Yu-shan Lin (SLMT), 2015/10/14
+Yu-shan Lin (SLMT), 2015/10/14
 
 Google 官方 C++ Style 說明文件 (英文)：[https://google-styleguide.googlecode.com/svn/trunk/cppguide.html](https://google-styleguide.googlecode.com/svn/trunk/cppguide.html)
