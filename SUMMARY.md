@@ -1,8 +1,8 @@
 # Summary
 
 * [本書介紹](README.md)
-* [背景](1_background/README.md)
-* [標頭檔 (Header Files)]()
+* [背景](1_background.md)
+* [標頭檔 (Header Files)](2_header_files.md)
 * [作用域 (Scoping)]()
 * [類別 (Classes)]()
 * [Google 特有的魔術]()
