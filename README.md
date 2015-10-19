@@ -13,7 +13,7 @@ Yu-shan Lin (SLMT), 2015/10/14
 - 所有文句除標題外，一律以句號結尾。
 - 句號之後若還有其他語句在同一段，一律加上一個半形空白。
 
-## 翻譯錯誤或語句不通順
+## 回報與修正
 
 如果覺得哪裡翻譯有誤，或者覺得語句不通順，歡迎到 Github repository 的 [issue][4] 提出問題。 如果熟悉 Git 的話，也歡迎在 Github 上 fork 這個 repository 自行修改，並開啟 pull request 請求合併。
 
