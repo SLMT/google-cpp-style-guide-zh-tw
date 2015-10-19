@@ -8,8 +8,22 @@
 
 Yu-shan Lin (SLMT), 2015/10/14
 
-### Links
+## 一些撰寫時的規則
 
-- 本書的 Github Repository：[https://github.com/SLMT/google-cpp-style-guide-zh-tw](https://github.com/SLMT/google-cpp-style-guide-zh-tw)
-- 本書的 GitBook 網址：[https://www.gitbook.com/book/slmt/google-cpp-style-guide-zh-tw](https://www.gitbook.com/book/slmt/google-cpp-style-guide-zh-tw)
-- Google 官方 C++ Style 說明文件 (英文)：[https://google-styleguide.googlecode.com/svn/trunk/cppguide.html](https://google-styleguide.googlecode.com/svn/trunk/cppguide.html)
+- 所有文句除標題外，一律以句號結尾。
+- 句號之後若還有其他語句在同一段，一律加上一個半形空白。
+
+## 翻譯錯誤或語句不通順
+
+如果覺得哪裡翻譯有誤，或者覺得語句不通順，歡迎到 Github repository 的 [issue][4] 提出問題。 如果熟悉 Git 的話，也歡迎在 Github 上 fork 這個 repository 自行修改，並開啟 pull request 請求合併。
+
+## 相關連結
+
+- 本書的 Github Repository：[https://github.com/SLMT/google-cpp-style-guide-zh-tw][1]
+- 本書的 GitBook 網址：[https://www.gitbook.com/book/slmt/google-cpp-style-guide-zh-tw][2]
+- Google 官方 C++ Style 說明文件 (英文)：[https://google-styleguide.googlecode.com/svn/trunk/cppguide.html][3]
+
+[1]: https://github.com/SLMT/google-cpp-style-guide-zh-tw
+[2]: https://www.gitbook.com/book/slmt/google-cpp-style-guide-zh-tw
+[3]: https://google-styleguide.googlecode.com/svn/trunk/cppguide.html
+[4]: https://github.com/SLMT/google-cpp-style-guide-zh-tw/issues
