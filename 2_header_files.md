@@ -36,7 +36,7 @@
 ```
 
 
-## 前向宣告 (Forward Declarations)
+## 前向宣告 (Forward Declarations) <a name="forward_declaration"></a>
 
 > 你可以透過前向宣告常見的類別來避免不必要的 `#include`。
 
@@ -88,14 +88,99 @@ class A;
 
 這樣就可以不用使用 `#include` 來載入相關的標頭檔。 但是這個使用有個限制，就是程式碼中使用到 `class A` 的地方，都只能使用指標或參考，而不能直接使用像是 `A a` 這樣的變數。 使用類別的前向宣告要注意的事情相對比較多，所以上面的建議才會提到大部份的情況還是直接 `#include` 比較好。
 
-## Inline Functions
+## 行內函式 (Inline Functions)
 
-TBT.
+> 只有在函式程式碼少於或等於 10 行時才將它宣告為行內函式
 
-## Function Parameter Ordering
+### 定義
 
-TBT.
+透過宣告函式為行內函式，可以讓編譯器直接在呼叫該函式的地方展開函式，而不是遵照一般的函式呼叫機制編譯。
 
-## Names and Order of Includes
+### 優點
 
-TBT.
+將函式宣告為行內函式可以產生更有效率的目的碼 (object code)，因為行內函式比起一般的函式小很多。 你可以盡量將存取函式 (accessor) 、修改函式 (mutator) 以及一些極短但對效能有巨大影響的函式行內化。
+
+### 缺點
+
+過度使用行內函式可能會造成程式變慢。 依照函式長度的不同，行內化可能會增加或減少程式碼的大小。 行內化一個很小的存取函式通常可以減少程式碼的長度，不過行內化一個很大的函式可能會巨幅地增加長度。 現在的處理器因為指令快取 (instruction cache) 的關係，處理較短的程式碼通常會更快。
+
+### 抉擇
+
+一個適當的規則是不要將 10 行以上的函式行內化。 其中要特別注意解構函式 (destructors)，解構函式常常比你所看到的還要長。 因為解構函式還會隱性地另外呼叫成員以及基底類別 (base class) 的解構函式。
+
+另一個有用的規則：一般來說將一個有迴圈或者 `switch` 的函式行內化對效能並沒有幫助 (除非大多數的情況下這個迴圈或 `switch` 都不會被執行到)。
+
+要特別注意的是，就算將一個函式宣告為行內函式，編譯器也不一定會照做。 例如：虛擬函式 (virtual function) 或遞迴函式 (recursive function) 常常不會被行內化。 因為遞迴函式ㄧ般來說不該是行內函式。 至於將虛擬函式寫成行內函式的理由，通常只是為了要方便將函式的定義放在類別內而已 (例如類別的存取函式或修改函式)。
+
+### 譯註
+
+這邊提供一個行內函式的範例，`inline` 關鍵字是將函式行內化的關鍵：
+
+```c++
+inline int sum(int a, int b) {
+	return a + b;
+}
+```
+
+## 函式參數的順序
+
+> 當定義函式的時候，參數先放輸入值，再放輸出值。
+
+C/C++ 函式的參數不是輸入值就是輸出值，甚至可能都是。 輸入參數通常會是數值或者 `const` 參考，輸出或者同時具有兩種身分的參數則通常是非 `const` 的指標。 在決定函式參數的順序時，把純輸入參數放在最前面。 特別是不要單純因為一個參數是新加的，就直接把它放在最尾端。 如果它是純輸入參數的話，一樣要放在所有輸出參數之前。
+
+你不一定要完全遵守這個規則。 那些同時扮演兩種腳色的參數 (通常是結構或者類別) 就沒有定則，只要你自己想出一個一致的規則就好。
+
+## `#include` 時的名稱與順序
+
+> 利用右列順序 `#include` 標頭檔，避免隱藏的依賴關係：直接相關的標頭檔、C 函式庫、C++ 函式庫、其他函式庫 `.h` 檔、你的專案的 '.h' 檔。
+
+所有標頭檔的路徑應該都要以專案的程式碼目錄為起點，並且不要使用 UNIX 資料夾簡稱，像是 `.` (現在) 跟 `..` (上一個目錄)。 舉例來說，`google-awesome-project/src/base/logging.h` 檔案應該要被這樣載入：
+
+```c++
+#include "base/logging.h"
+```
+
+假設現在有 `dir/foo.cc` 或 `dir/foo_test.cc` 檔案，其目標在於實作或測試 `dir2/foo2.h` 檔內的東西，那麼 `#include` 的順序應該這樣寫：
+
+1. `dir2/foo2.h`
+2. C 系統檔
+3. C++ 系統檔
+4. 其他函式庫 `.h` 檔
+5. 你的專案的 `.h` 檔
+
+依照這個順序，如果 `dir2/foo2.h` 遺漏了任何必要的 `#include`，那麼在建置 `dir/foo.cc` 或 `dir/foo_test.cc` 的時候就會中斷。 因此這確保了建置會先在這些檔案中斷，而不是在其他無辜的地方發生。
+
+`dir/foo.cc` 與 `dir2/foo2.h` 通常會放在同一個資料夾下，像是 `base/basictypes_test.cc` 跟 `base/basictypes.h`，但是有時候也有可能會分開放。
+
+每個區塊中的檔案應該要依照字母順序排列。 要注意一些比較老的專案中可能沒有遵照這個規則，這些都應該要等方便的時候修改過來。
+
+你應該要 `#include` 所有包含你使用到任何符號的標頭檔 (除非你使用了[前向宣告](#forward_declaration))。 如果你使用了 `bar.h` 中的符號，別期待你 `#include` 了 `foo.h` 之後，`foo.h` 裡面會包含著 `bar.h`，此時你應該也要 `#include` `bar.h`，除非 `foo.h` 有明顯地展現出它提供了 `bar.h` 中的符號。 另外，已經在相關的標頭檔中 `#include` 過的東西，可以不用在 `cc` 檔中 `#include` (像是 `foo.cc` 可以依賴在 `foo.h` 上)。
+
+舉個範例，`google-awesome-project/src/foo/internal/fooserver.cc` 檔中的 `#include` 可能長這樣：
+
+```c++
+#include "foo/server/fooserver.h"
+
+#include <sys/types.h>
+#include <unistd.h>
+#include <hash_map>
+#include <vector>
+
+#include "base/basictypes.h"
+#include "base/commandlineflags.h"
+#include "foo/server/bar.h"
+```
+
+### 特例
+
+有時候，只能在某些系統中使用的程式碼需要有條件地 `#include`，這種就可以程式碼就可以放在所有 `#include` 之後。 當然，盡可能地讓這種程式碼越少且影響範圍越小越好。 例子：
+
+```c++
+#include "foo/public/fooserver.h"
+
+#include "base/port.h"  // For LANG_CXX11.
+
+#ifdef LANG_CXX11
+#include <initializer_list>
+#endif  // LANG_CXX11
+```
