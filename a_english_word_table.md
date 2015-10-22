@@ -12,11 +12,13 @@
 | Declaration | 宣告 |
 | Define, Definition | 定義 |
 | Destructor | 解構函式 |
+| Directory | 資料夾、目錄 |
 | Forward Declaration | 前向宣告 |
 | Function | 函式 |
 | Header, Header File | 標頭檔 |
 | Inline Function | 行內函式 |
 | Input | 輸入值 |
+| Library | 函式庫 |
 | Link | 連結 |
 | Linker | 連結器 |
 | Loop | 迴圈 |
