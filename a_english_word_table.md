@@ -4,6 +4,7 @@
 
 | 英文 (English) | 繁體中文 (Traditional Chinese) |
 | :------------- | :------------- |
+| Alias | 別名 |
 | Base Class | 基底類別 |
 | Class | 類別 |
 | Compile | 編譯 |
@@ -37,4 +38,5 @@
 | Struct | 結構 |
 | Symbol | 符號 |
 | Template | 模板 |
+| Unnamed Namespaces | 無名名稱空間 |
 | Virtual Function | 虛擬函式 |
