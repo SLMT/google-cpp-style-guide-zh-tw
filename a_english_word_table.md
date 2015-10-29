@@ -35,6 +35,8 @@
 | Public | 公用的 |
 | Public Member | 公用成員 |
 | Reference | 參考 |
+| Static Data Member | 靜態資料成員 |
+| Static Member Function | 靜態成員函式 |
 | Struct | 結構 |
 | Symbol | 符號 |
 | Template | 模板 |
