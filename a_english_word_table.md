@@ -4,6 +4,7 @@
 
 | 英文 (English) | 繁體中文 (Traditional Chinese) |
 | :------------- | :------------- |
+| Alias | 別名 |
 | Base Class | 基底類別 |
 | Class | 類別 |
 | Compile | 編譯 |
@@ -15,6 +16,7 @@
 | Directory | 資料夾、目錄 |
 | Forward Declaration | 前向宣告 |
 | Function | 函式 |
+| Global Scope | 全域 |
 | Header, Header File | 標頭檔 |
 | Inline Function | 行內函式 |
 | Input | 輸入值 |
@@ -33,7 +35,10 @@
 | Public | 公用的 |
 | Public Member | 公用成員 |
 | Reference | 參考 |
+| Static Data Member | 靜態資料成員 |
+| Static Member Function | 靜態成員函式 |
 | Struct | 結構 |
 | Symbol | 符號 |
 | Template | 模板 |
+| Unnamed Namespaces | 無名名稱空間 |
 | Virtual Function | 虛擬函式 |
