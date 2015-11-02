@@ -24,6 +24,7 @@
 | Library | 函式庫 |
 | Link | 連結 |
 | Linker | 連結器 |
+| Local | 局部的 |
 | Loop | 迴圈 |
 | Namespace | 名稱空間 |
 | Object Code | 目的碼 |
@@ -36,10 +37,12 @@
 | Public | 公用的 |
 | Public Member | 公用成員 |
 | Reference | 參考 |
+| Statement | 陳述句 |
 | Static Data Member | 靜態資料成員 |
 | Static Member Function | 靜態成員函式 |
 | Struct | 結構 |
 | Symbol | 符號 |
 | Template | 模板 |
+| Type | 型別 |
 | Unnamed Namespaces | 無名名稱空間 |
 | Virtual Function | 虛擬函式 |
