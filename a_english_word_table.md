@@ -19,6 +19,7 @@
 | Global Scope | 全域 |
 | Header, Header File | 標頭檔 |
 | Inline Function | 行內函式 |
+| Instance | 實例 |
 | Input | 輸入值 |
 | Library | 函式庫 |
 | Link | 連結 |
