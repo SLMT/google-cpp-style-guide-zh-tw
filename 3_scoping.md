@@ -1,6 +1,6 @@
 # 作用域 (Scoping)
 
-## 名稱空間 (Namespace)
+## 名稱空間 (Namespace) <a name="namespace"></a>
 
 > 我們鼓勵在 `.cc` 檔案中使用無名的名稱空間。 如果要命名的話，請取跟專案有關的名字，最好也把路徑考慮進去。 不要使用 using 指示詞 (using-directive)。 不要使用行內名稱空間 (inline namespace)。
 
@@ -164,13 +164,11 @@ inline void my_inline_function() {
 
 ```c++
 namespace A {
-
 namespace B {
-    void fun() {
-        // code
-    }
+void fun() {
+    // code
 }
-
+}
 }
 ```
 
@@ -178,13 +176,11 @@ namespace B {
 
 ```c++
 namespace A {
-
 inline namespace B {
-    void fun() {
-        // code
-    }
+void fun() {
+    // code
 }
-
+}
 }
 ```
 
@@ -202,13 +198,11 @@ inline namespace B {
 
 ```c++
 namespace SomeLib {
-
 inline namespace v1 {
-    void fun() {
-        // code
-    }
+void fun() {
+    // code
 }
-
+}
 }
 ```
 
@@ -216,20 +210,56 @@ inline namespace v1 {
 
 ```c++
 namespace SomeLib {
-
 namespace v1 {
-    void fun() {
-        // code
-    }
+void fun() {
+    // code
 }
-
+}
 inline namespace v2 {
-    void fun() {
-        // code
-    }
+void fun() {
+    // code
 }
-
+}
 }
 ```
 
 這樣原本連結到 `SomeLib::v1::fun` 的程式仍然可以運作，而且新的程式呼叫 `SomeLib::fun` 時，也可以如我預期地使用到新的版本。 因此行內名稱空間才常用於函式庫的版本控管。
+
+## 非成員、靜態成員、全域函式
+
+> 盡量將非成員函式放在名稱空間中，少用完全的全域函式。 盡量用名稱空間來組織函式，而不是用類別。 類別的靜態成員一般來說應該要與類別的實例或者靜態資料有關。
+
+### 優點
+
+非成員及靜態成員函式在某些狀況下很有用。 將非成員函式放在名稱空間中可以避免汙染全域的名稱空間。
+
+### 缺點
+
+非成員及靜態成員函式也許作為某個類別中的成員會更合理，特別是這些函式會存取一些外部資源或者有高度相關時。
+
+### 抉擇
+
+有時候定義一個不受類別實例限制的函式很有用，甚至某些狀況下是必要的。 這樣的函式可以是非成員或者靜態成員函式。 非成員函式不應該依賴在某個外部變數上，而且應該放在某個名稱空間內。 不要特別為了一群函式建立一個沒有分享任何靜態變數的類別，如果要組織起來的話，請使用[名稱空間](#namespace)。 例如，在 `myproject/foo_bar.h` 標頭檔內，請寫：
+
+```c++
+namespace myproject {
+namespace foo_bar {
+void Function1();
+void Function2();
+}
+}
+```
+
+而不要寫：
+
+```c++
+namespace myproject {
+class FooBar {
+ public:
+  static void Function1();
+  static void Function2();
+};
+}
+```
+
+如果你需要定義一個非成員函式，而且這個函式只會用在某個 `.cc` 檔中，請使用無名的[名稱空間](#namespace)或者 `static` 連鎖 (像是 `static int Foo() {...}`) 來限制它的作用域。
