@@ -263,3 +263,9 @@ class FooBar {
 ```
 
 如果你需要定義一個非成員函式，而且這個函式只會用在某個 `.cc` 檔中，請使用無名的[名稱空間](#namespace)或者 `static` 連鎖 (像是 `static int Foo() {...}`) 來限制它的作用域。
+
+## 靜態與全域變數
+
+不允許使用有著靜態生存期 ([static storage duration](http://en.cppreference.com/w/cpp/language/storage_duration#Storage_duration)) 的類別變數：這種變數從建構出來到解構之間的執行順序很混亂，常常造成許多難以找出的錯誤。 然而，如果他們是 `constexpr` 的話就可以用。 因為他們不會被動態初始化或解構。
+
+有著靜態生存期 (static storage duration) 的物件，包含全域變數、靜態變數、靜態類別成員變數和函式靜態變數，必須要是 POD (Plain Old Data)。 POD 只能包含整數、字元、浮點數、指標、陣列或者結構。

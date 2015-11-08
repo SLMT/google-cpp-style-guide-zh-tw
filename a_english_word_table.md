@@ -6,6 +6,7 @@
 | :------------- | :------------- |
 | Alias | 別名 |
 | Base Class | 基底類別 |
+| Bug | 錯誤 |
 | Class | 類別 |
 | Compile | 編譯 |
 | Compiler | 編譯器 |
