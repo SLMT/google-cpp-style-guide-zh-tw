@@ -316,6 +316,20 @@ for (int i = 0; i < 1000000; ++i) {
 
 ## 靜態與全域變數
 
-不允許使用有著靜態生存期 ([static storage duration](http://en.cppreference.com/w/cpp/language/storage_duration#Storage_duration)) 的類別變數：這種變數從建構出來到解構之間的執行順序很混亂，常常造成許多難以找出的錯誤。 然而，如果他們是 `constexpr` 的話就可以用。 因為他們不會被動態初始化或解構。
+不允許使用有著靜態生存期 ([static storage duration](http://en.cppreference.com/w/cpp/language/storage_duration#Storage_duration)) 的類別變數：這類變數之間建構、解構的順序並不固定，常常造成許多難以找出的錯誤。 然而，如果他們是 `constexpr` (常數表達式) 的話就可以用：因為他們不會被動態初始化或解構。
 
 有著靜態生存期 (static storage duration) 的物件，包含全域變數、靜態變數、靜態類別成員變數和函式靜態變數，必須要是 POD (Plain Old Data)。 POD 只能包含整數、字元、浮點數、指標、陣列或者結構。
+
+C++ 只有部分規範類別靜態變數在建構與解構時的執行順序，甚至每次建置的之後的呼叫順序也有可能不同，這會造成一些難以找出的錯誤。 因此除了全域的類別變數外，我們也禁止用函式的結果來初始化靜態的 POD 變數，除非那個函式並不是依賴於其他全域資訊上 (像是 `getenv()` 或 `getpid()`)。 (這項禁令不適用於函式作用域內的靜態變數，因為這類變數的初始化順序已經有嚴格定義過了，而且只會在程式執行到宣告位置的時候才會開始初始化)
+
+同樣地，無論程式從 `main()` 返回而終止，或是因為呼叫 `exit()` 終止，全域與靜態變數都會在程式結束的時候被摧毀。 解構函式被呼叫的順序被定義為建構函式的呼叫順序的反向。 因為建構函式的順序並不一定，因此解構函式也沒有固定順序。 例如，程式結束時有個靜態變數被摧毀了，但是程式碼還在跑，此時 (也許在其他線程中) 存取這個變數就會發生錯誤。 或是某個字串的解構函式會在另一個含有該字串的變數的解構函式之前執行。
+
+One way to alleviate the destructor problem is to terminate the program by calling quick_exit() instead of exit(). The difference is that quick_exit() does not invoke destructors and does not invoke any handlers that were registered by calling atexit(). If you have a handler that needs to run when a program terminates via quick_exit() (flushing logs, for example), you can register it using at_quick_exit(). (If you have a handler that needs to run at both exit() and quick_exit(), you need to register it in both places.)
+
+As a result we only allow static variables to contain POD data. This rule completely disallows vector (use C arrays instead), or string (use const char []).
+
+If you need a static or global variable of a class type, consider initializing a pointer (which will never be freed), from either your main() function or from pthread_once(). Note that this must be a raw pointer, not a "smart" pointer, since the smart pointer's destructor will have the order-of-destructor issue that we are trying to avoid.
+
+### 譯註
+
+POD (Plain Old Data) 簡單來說指的就是不含建構函式、解構函式與虛擬成員函式的類別。

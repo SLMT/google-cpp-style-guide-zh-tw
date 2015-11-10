@@ -44,6 +44,7 @@
 | Struct | 結構 |
 | Symbol | 符號 |
 | Template | 模板 |
+| Thread | 線程 |
 | Type | 型別 |
 | Unnamed Namespaces | 無名名稱空間 |
 | Virtual Function | 虛擬函式 |
