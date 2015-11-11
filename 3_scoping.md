@@ -318,18 +318,18 @@ for (int i = 0; i < 1000000; ++i) {
 
 不允許使用有著靜態生存期 ([static storage duration](http://en.cppreference.com/w/cpp/language/storage_duration#Storage_duration)) 的類別變數：這類變數之間建構、解構的順序並不固定，常常造成許多難以找出的錯誤。 然而，如果他們是 `constexpr` (常數表達式) 的話就可以用：因為他們不會被動態初始化或解構。
 
-有著靜態生存期 (static storage duration) 的物件，包含全域變數、靜態變數、靜態類別成員變數和函式靜態變數，必須要是 POD (Plain Old Data)。 POD 只能包含整數、字元、浮點數、指標、陣列或者結構。
+有著靜態生存期的物件，包含全域變數、靜態變數、靜態類別成員變數和函式靜態變數，必須要是 POD (Plain Old Data)。 POD 只能包含整數、字元、浮點數、指標、陣列或者結構。
 
-C++ 只有部分規範類別靜態變數在建構與解構時的執行順序，甚至每次建置的之後的呼叫順序也有可能不同，這會造成一些難以找出的錯誤。 因此除了全域的類別變數外，我們也禁止用函式的結果來初始化靜態的 POD 變數，除非那個函式並不是依賴於其他全域資訊上 (像是 `getenv()` 或 `getpid()`)。 (這項禁令不適用於函式作用域內的靜態變數，因為這類變數的初始化順序已經有嚴格定義過了，而且只會在程式執行到宣告位置的時候才會開始初始化)
+C++ 只有部分規範類別靜態變數在建構與解構時的執行順序，甚至每次建置之後的呼叫順序也有可能不同，這會造成一些難以找出的錯誤。 因此除了全域的類別變數外，我們也禁止用函式的結果來初始化靜態的 POD 變數，除非那個函式並不是依賴於其他全域資訊上 (像是 `getenv()` 或 `getpid()`)。 (這項禁令不適用於函式作用域內的靜態變數，因為這類變數的初始化順序已經有嚴格定義過了，而且只會在程式執行到宣告位置的時候才會開始初始化)
 
 同樣地，無論程式從 `main()` 返回而終止，或是因為呼叫 `exit()` 終止，全域與靜態變數都會在程式結束的時候被摧毀。 解構函式被呼叫的順序被定義為建構函式的呼叫順序的反向。 因為建構函式的順序並不一定，因此解構函式也沒有固定順序。 例如，程式結束時有個靜態變數被摧毀了，但是程式碼還在跑，此時 (也許在其他線程中) 存取這個變數就會發生錯誤。 或是某個字串的解構函式會在另一個含有該字串的變數的解構函式之前執行。
 
-One way to alleviate the destructor problem is to terminate the program by calling quick_exit() instead of exit(). The difference is that quick_exit() does not invoke destructors and does not invoke any handlers that were registered by calling atexit(). If you have a handler that needs to run when a program terminates via quick_exit() (flushing logs, for example), you can register it using at_quick_exit(). (If you have a handler that needs to run at both exit() and quick_exit(), you need to register it in both places.)
+一種緩解解構問題的方法是使用 `quick_exit()` 而不是 `exit()` 來終止程式。 差別在於，`quick_exit()` 不會呼叫解構函式，也不會呼叫那些利用 `atexit()` 註冊的 handler。 如果你有個需要在 `quick_exit()` 執行的 handler，你可以在 `at_quick_exit()` 註冊它。 (如果你有個 handler 需要在 `exit()` 與 `quick_exit()` 都執行，那你必須兩邊都要註冊。)
 
-As a result we only allow static variables to contain POD data. This rule completely disallows vector (use C arrays instead), or string (use const char []).
+因此我們只允許靜態變數包含 POD 資料。 這條規則完全禁止使用 `vector` (請使用 C 的陣列)，或者 `string` (請使用 `const char []`)。
 
-If you need a static or global variable of a class type, consider initializing a pointer (which will never be freed), from either your main() function or from pthread_once(). Note that this must be a raw pointer, not a "smart" pointer, since the smart pointer's destructor will have the order-of-destructor issue that we are trying to avoid.
+如果你需要一個類別的靜態或全域變數，請考慮從 `main()` 或者 `pthread_once()` 初始化一個指標 (永遠不會被釋放)。 注意這個指標必須要是原始指標 (raw pointer)，而不是智慧指標 (smart pointer)，因為智慧指標的解構函式有我們極力避免的解構順序問題。
 
 ### 譯註
 
-POD (Plain Old Data) 簡單來說指的就是不含建構函式、解構函式與虛擬成員函式的類別。
+POD (Plain Old Data) 簡單來說指的就是不含明確定義的建構函式、解構函式與虛擬成員函式的類別。
