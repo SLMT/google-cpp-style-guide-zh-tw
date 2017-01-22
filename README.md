@@ -6,6 +6,12 @@
 
 不過可惜的是，Google 官方只有提供英文版的說明。為了讓不善英文，並使用中文的人能夠理解文件的內容，特別撰寫本書供大家閱讀。
 
+### 英文對應版本
+
+請注意原本的 Google C++ Style Guide 也會與時俱進，英文本的內容會不斷修改。 因此這裡標註出此書翻譯時對應的英文版原件：
+
+- 目前本書內容對應到的版本為 Google [官方 Repository][6] [2016/12/31 Commit 的版本][5]
+
 ### 一些撰寫時的規則
 
 - 所有文句除標題外，一律以句號結尾。
@@ -38,3 +44,5 @@
 [2]: https://www.gitbook.com/book/slmt/google-cpp-style-guide-zh-tw
 [3]: https://google-styleguide.googlecode.com/svn/trunk/cppguide.html
 [4]: https://github.com/SLMT/google-cpp-style-guide-zh-tw/issues
+[5]: https://github.com/google/styleguide/blob/a33bdd6e3a0fffd7174a113536d95d134f34e77b/cppguide.html
+[6]: https://github.com/google/styleguide/
