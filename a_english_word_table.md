@@ -14,8 +14,10 @@
 | Constructor | 建構函式 |
 | Declaration | 宣告 |
 | Define, Definition | 定義 |
+| Dependency | 依賴關係 |
 | Destructor | 解構函式 |
 | Directory | 資料夾、目錄 |
+| Entity | 實體 |
 | Forward Declaration | 前向宣告 |
 | Function | 函式 |
 | Global Scope | 全域 |
