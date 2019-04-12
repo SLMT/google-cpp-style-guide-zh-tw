@@ -21,4 +21,4 @@
 
 ------------------------------
 
-[附錄 A：中英文名詞對照](a_english_word_table.md)
+[附錄：中英文名詞對照](english-word-table.md)
