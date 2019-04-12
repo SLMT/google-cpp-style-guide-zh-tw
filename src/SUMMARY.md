@@ -6,7 +6,7 @@
 
 - [背景](background/README.md)
     - [風格指引的目標](background/goals-of-the-style-guide.md)
-- [🚧 C++ 版本](work-in-progress.md)
+- [C++ 版本](cpp-version.md)
 - [🚧 標頭檔 (Header Files)](work-in-progress.md)
 - [🚧 作用域 (Scoping)](work-in-progress.md)
 - [🚧 類別 (Classes)](work-in-progress.md)
