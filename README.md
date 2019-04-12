@@ -8,13 +8,13 @@
 
 ### 版本
 
-目前此文的版本為：release-20170126-001
+目前此文的版本為：release-20190412-001
 
 #### 對應的原文版本
 
 請注意原本的 Google C++ Style Guide 也會與時俱進，英文本的內容會不斷修改。 因此這裡標註出此書翻譯時對應的英文版原件：
 
-- 目前本書內容對應到的版本為 Google [官方 Repository][6] [2016/12/31 Commit 的版本][5]
+- 目前本書內容對應到的版本為 Google [官方 Repository][6] [2018/08/15 Commit 的版本][5]
 
 ### 需要支援
 
@@ -45,12 +45,12 @@
 ### 相關連結
 
 - 本書的 Github Repository：[https://github.com/SLMT/google-cpp-style-guide-zh-tw][1]
-- 本書的 GitBook 網址：[https://www.gitbook.com/book/slmt/google-cpp-style-guide-zh-tw][2]
-- Google 官方 C++ Style 說明文件 (英文)：[https://google-styleguide.googlecode.com/svn/trunk/cppguide.html][3]
+- 線上電子書網址：[http://www.slmt.tw/google-cpp-style-guide-zh-tw/][2]
+- Google 官方 C++ Style 說明文件 (英文)：[https://google.github.io/styleguide/cppguide.html][3]
 
 [1]: https://github.com/SLMT/google-cpp-style-guide-zh-tw
-[2]: https://www.gitbook.com/book/slmt/google-cpp-style-guide-zh-tw
-[3]: https://google-styleguide.googlecode.com/svn/trunk/cppguide.html
+[2]: http://www.slmt.tw/google-cpp-style-guide-zh-tw/
+[3]: https://google.github.io/styleguide/cppguide.html
 [4]: https://github.com/SLMT/google-cpp-style-guide-zh-tw/issues
-[5]: https://github.com/google/styleguide/blob/a33bdd6e3a0fffd7174a113536d95d134f34e77b/cppguide.html
+[5]: https://github.com/google/styleguide/blob/63107a12eb85a4da33e2585a912234e4794cea06/cppguide.html
 [6]: https://github.com/google/styleguide/
