@@ -1,0 +1,5 @@
+[book]
+authors = ["SLMT"]
+multilingual = false
+src = "src"
+title = "Google C++ Style Guide 繁體中文版"
