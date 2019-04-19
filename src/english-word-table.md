@@ -39,6 +39,7 @@
 | Output | 輸出值 |
 | Parameter | 參數 |
 | Pointer | 指標 |
+| Prefix | 前綴 |
 | Private | 私有的 |
 | Private Member | 私有成員 |
 | Public | 公用的 |
