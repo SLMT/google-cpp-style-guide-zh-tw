@@ -6,6 +6,12 @@
 
 不過可惜的是，Google 官方只有提供英文版的說明。為了讓不善英文，並使用中文的人能夠理解文件的內容，特別撰寫本書供大家閱讀。
 
+### 連結
+
+- 本書的 Github Repository：[https://github.com/SLMT/google-cpp-style-guide-zh-tw][1]
+- 線上電子書網址：[http://www.slmt.tw/google-cpp-style-guide-zh-tw/][2]
+- Google 官方 C++ Style 說明文件 (英文)：[https://google.github.io/styleguide/cppguide.html][3]
+
 ### 版本
 
 目前此文的版本為：release-20190412-001
@@ -41,12 +47,6 @@
 ### 回報與修正
 
 如果覺得哪裡翻譯有誤，或者覺得語句不通順，歡迎到 Github repository 的 [issue][4] 提出問題。 如果熟悉 Git 的話，也歡迎在 Github 上 fork 這個 repository 自行修改，並開啟 pull request 請求合併。
-
-### 相關連結
-
-- 本書的 Github Repository：[https://github.com/SLMT/google-cpp-style-guide-zh-tw][1]
-- 線上電子書網址：[http://www.slmt.tw/google-cpp-style-guide-zh-tw/][2]
-- Google 官方 C++ Style 說明文件 (英文)：[https://google.github.io/styleguide/cppguide.html][3]
 
 [1]: https://github.com/SLMT/google-cpp-style-guide-zh-tw
 [2]: http://www.slmt.tw/google-cpp-style-guide-zh-tw/
