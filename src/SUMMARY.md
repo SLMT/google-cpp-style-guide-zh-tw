@@ -18,7 +18,7 @@
     - [無名名稱空間與靜態變數](scoping/unnamed-namespace-and-static-variables.md)
     - [非成員、靜態成員、全域函式](scoping/nonmember-static-members.md)
     - [區域變數](scoping/local-variables.md)
-    - [🚧 靜態與全域變數](work-in-progress.md)
+    - [靜態與全域變數](scoping/static-and-global-variables.md)
     - [🚧 thread_local 的變數](work-in-progress.md)
 - [🚧 類別 (Classes)](work-in-progress.md)
 - [🚧 函式 (Functions)](work-in-progress.md)

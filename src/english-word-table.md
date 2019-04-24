@@ -18,6 +18,7 @@
 | Destructor | 解構函式 |
 | Directory | 資料夾、目錄 |
 | Entity | 實體 |
+| Expression | 表示式 |
 | External Linkage | 外部連結性 |
 | Forward Declaration | 前向宣告 |
 | Function | 函式 |
@@ -31,6 +32,7 @@
 | Library | 函式庫 |
 | Link | 連結 |
 | Linker | 連結器 |
+| Literal | 字面值 |
 | Local | 局部的 |
 | Loop | 迴圈 |
 | Namespace | 名稱空間 |
@@ -50,10 +52,12 @@
 | Statement | 陳述句 |
 | Static Data Member | 靜態資料成員 |
 | Static Member Function | 靜態成員函式 |
+| Storage Duration | 儲存期 |
 | Struct | 結構 |
 | Symbol | 符號 |
 | Template | 模板 |
 | Thread | 線程 |
 | Type | 型別 |
 | Unnamed Namespaces | 無名名稱空間 |
+| Virtual Destructor | 虛擬解構函式 |
 | Virtual Function | 虛擬函式 |
