@@ -19,7 +19,7 @@
     - [非成員、靜態成員、全域函式](scoping/nonmember-static-members.md)
     - [區域變數](scoping/local-variables.md)
     - [靜態與全域變數](scoping/static-and-global-variables.md)
-    - [🚧 thread_local 的變數](work-in-progress.md)
+    - [thread_local 的變數](scoping/thread-local-variables.md)
 - [🚧 類別 (Classes)](work-in-progress.md)
 - [🚧 函式 (Functions)](work-in-progress.md)
 - [🚧 Google 特有的魔術](work-in-progress.md)
