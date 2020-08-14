@@ -39,6 +39,7 @@
 | Object Code | 目的碼 |
 | Object File | 目的碼檔 |
 | Output | 輸出值 |
+| Overloading | 多載 |
 | Parameter | 參數 |
 | Pointer | 指標 |
 | Prefix | 前綴 |

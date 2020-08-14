@@ -22,7 +22,7 @@
     - [thread_local 的變數](scoping/thread-local-variables.md)
 - [類別 (Classes)](classes/README.md)
     - [在建構子內工作](classes/doing-work-in-constructor.md)
-    - [🚧 隱性轉換](work-in-progress.md)
+    - [隱性轉換](classes/implicit-conversions.md)
     - [🚧 可複製或可轉移的型別](work-in-progress.md)
     - [🚧 Struct 與 Class 的比較](work-in-progress.md)
     - [🚧 繼承](work-in-progress.md)
