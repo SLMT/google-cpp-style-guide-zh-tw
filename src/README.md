@@ -9,12 +9,12 @@
 ### 連結
 
 - 本書的 Github Repository：[https://github.com/SLMT/google-cpp-style-guide-zh-tw][1]
-- 線上電子書網址：[http://www.slmt.tw/google-cpp-style-guide-zh-tw/][2]
+- 線上電子書網址：[https://www.slmt.tw/google-cpp-style-guide-zh-tw/][2]
 - Google 官方 C++ Style 說明文件 (英文)：[https://google.github.io/styleguide/cppguide.html][3]
 
 ### 版本
 
-目前此文的版本為：release-20190412-001
+目前此文的版本為：release-20200815-001
 
 #### 對應的原文版本
 
@@ -42,14 +42,14 @@
 
 > 除非是非得使用英文的情況，不然程式的專有名詞一律翻譯成中文。 少見名詞第一次出現時，在旁標明英文。 常用的名詞則直接使用中文翻譯。
 
-為了方便只知道英文名詞的人能夠查閱看不懂翻譯的名詞，我在附錄列了一張[中英專有名詞的對照表](a_english_word_table.md)。 希望多少有點幫助。
+為了方便只知道英文名詞的人能夠查閱看不懂翻譯的名詞，我在附錄列了一張[中英專有名詞的對照表](src/english-word-table.md)。 希望多少有點幫助。
 
 ### 回報與修正
 
 如果覺得哪裡翻譯有誤，或者覺得語句不通順，歡迎到 Github repository 的 [issue][4] 提出問題。 如果熟悉 Git 的話，也歡迎在 Github 上 fork 這個 repository 自行修改，並開啟 pull request 請求合併。
 
 [1]: https://github.com/SLMT/google-cpp-style-guide-zh-tw
-[2]: http://www.slmt.tw/google-cpp-style-guide-zh-tw/
+[2]: https://www.slmt.tw/google-cpp-style-guide-zh-tw/
 [3]: https://google.github.io/styleguide/cppguide.html
 [4]: https://github.com/SLMT/google-cpp-style-guide-zh-tw/issues
 [5]: https://github.com/google/styleguide/blob/63107a12eb85a4da33e2585a912234e4794cea06/cppguide.html
