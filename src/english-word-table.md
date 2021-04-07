@@ -59,7 +59,7 @@
 | Struct | 結構 |
 | Symbol | 符號 |
 | Template | 模板 |
-| Thread | 線程 |
+| Thread | 執行緒 |
 | Type | 型別 |
 | Unnamed Namespaces | 無名名稱空間 |
 | Virtual Destructor | 虛擬解構函式 |

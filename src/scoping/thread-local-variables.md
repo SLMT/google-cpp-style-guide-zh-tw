@@ -1,6 +1,6 @@
 ## `thread_local` 變數
 
-> 對於不是在 function 內宣告的 `thread_local` 變數，一定要以編譯時期常數來初始化，而且一定要用 [ABSL_CONST_INIT](https://github.com/abseil/abseil-cpp/blob/master/absl/base/attributes.h) 屬性確保這件事。 偏好使用 `thread_local` 來定義線程內的區域變數。
+> 對於不是在 function 內宣告的 `thread_local` 變數，一定要以編譯時期常數來初始化，而且一定要用 [ABSL_CONST_INIT](https://github.com/abseil/abseil-cpp/blob/master/absl/base/attributes.h) 屬性確保這件事。 偏好使用 `thread_local` 來定義執行緒內的區域變數。
 
 ### 定義
 
@@ -10,22 +10,22 @@
 thread_local Foo foo = ...;
 ```
 
-這樣的變數其實是對應到一堆物件的集合。 當不同的線程在存取變數的時候，其實會存取到不同的物件。 `thread_local` 變數其實在很多方面與 [靜態儲存期變數](static-and-global-variables.md) 很接近。 舉例來說，它們可以被宣告在命名空間的作用域、函式內部、或是做為類別的靜態成員，但不能做為一般類別的成員。
+這樣的變數其實是對應到一堆物件的集合。 當不同的執行緒在存取變數的時候，其實會存取到不同的物件。 `thread_local` 變數其實在很多方面與 [靜態儲存期變數](static-and-global-variables.md) 很接近。 舉例來說，它們可以被宣告在命名空間的作用域、函式內部、或是做為類別的靜態成員，但不能做為一般類別的成員。
 
-`thread_local` 變數的實體的初始化很像靜態變數的作法，只差在它們必須在每個線程裡面分別初始化，而不是在程式啟動時一次初始化。 這代表著那些在函式內宣告的 `thread_local` 變數很安全，但是其他的 `thread_local` 變數則會像靜態變數一樣遭遇初始化順序的問題 (以及其他問題)。
+`thread_local` 變數的實體的初始化很像靜態變數的作法，只差在它們必須在每個執行緒裡面分別初始化，而不是在程式啟動時一次初始化。 這代表著那些在函式內宣告的 `thread_local` 變數很安全，但是其他的 `thread_local` 變數則會像靜態變數一樣遭遇初始化順序的問題 (以及其他問題)。
 
-`thread_local` 變數的實體在線程結束時被摧毀，所以他們沒有靜態變數的解構順序問題。
+`thread_local` 變數的實體在執行緒結束時被摧毀，所以他們沒有靜態變數的解構順序問題。
 
 ### 優點
 
-- 線程內資料從本質上來說不會受到 data races 影響 (因為只有一個線程可以存取)，這點讓 `thread_local` 對並行程式設計很有幫助。
-- `thread_local` 是唯一定義在標準內，用來建立線程內變數 (thread-local variables) 的方式。
+- 執行緒內資料從本質上來說不會受到 data races 影響 (因為只有一個執行緒可以存取)，這點讓 `thread_local` 對並行程式設計很有幫助。
+- `thread_local` 是唯一定義在標準內，用來建立執行緒內變數 (thread-local variables) 的方式。
 
 ### 缺點
 
 - 存取 `thread_local` 的變數可能會觸發執行一些無法預期或是無法控制的程式碼。
-- `thread_local` 變數其實就是一個有效的全域變數，所以具備除了線程安全之外的所有全域變數的缺點。
-- `thread_local` 變數帶來的記憶體消耗會隨著線程數量增加而增長，有可能會造成程式中很大的負擔。
+- `thread_local` 變數其實就是一個有效的全域變數，所以具備除了執行緒安全之外的所有全域變數的缺點。
+- `thread_local` 變數帶來的記憶體消耗會隨著執行緒數量增加而增長，有可能會造成程式中很大的負擔。
 - 一般類別的成員不能是 `thread_local`。
 - `thread_local` 可能不比某些編譯器的內建功能 (compiler intrinsics) 還要有效率。
 
@@ -46,4 +46,4 @@ Foo& MyThreadLocalFoo() {
 ABSL_CONST_INIT thread_local Foo foo = ...;
 ```
 
-在定義線程內變數 (thread-local variables) 時應優先使用 `thread_local`。
+在定義執行緒內變數 (thread-local variables) 時應優先使用 `thread_local`。
