@@ -1,0 +1,320 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>靜態與全域變數 - Google C++ Style Guide 繁體中文版</title>
+        
+        
+
+
+        <!-- Custom HTML head -->
+                <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-103835191-1"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'UA-103835191-1');
+        </script>
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        
+        <link rel="icon" href="../favicon.svg">
+        
+        
+        <link rel="shortcut icon" href="../favicon.png">
+        
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        
+        <link rel="stylesheet" href="../css/print.css" media="print">
+        
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item affix "><a href="../index.html">本書介紹</a></li><li class="spacer"></li><li class="chapter-item "><a href="../background/index.html">背景</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../background/goals-of-the-style-guide.html">風格指引的目標</a></li></ol></li><li class="chapter-item "><a href="../cpp-version.html">C++ 版本</a></li><li class="chapter-item "><a href="../header-files/index.html">標頭檔 (Header Files)</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../header-files/self-contained-headers.html">自給自足標頭檔</a></li><li class="chapter-item "><a href="../header-files/define-guard.html">#define 保護</a></li><li class="chapter-item "><a href="../header-files/forward-declarations.html">前向宣告</a></li><li class="chapter-item "><a href="../header-files/inline-functions.html">行內函式</a></li><li class="chapter-item "><a href="../header-files/names-and-order-of-includes.html">#include 時的名稱與順序</a></li></ol></li><li class="chapter-item expanded "><a href="../scoping/index.html">作用域 (Scoping)</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../scoping/namespaces.html">名稱空間</a></li><li class="chapter-item "><a href="../scoping/unnamed-namespace-and-static-variables.html">無名名稱空間與靜態變數</a></li><li class="chapter-item "><a href="../scoping/nonmember-static-members.html">非成員、靜態成員、全域函式</a></li><li class="chapter-item "><a href="../scoping/local-variables.html">區域變數</a></li><li class="chapter-item expanded "><a href="../scoping/static-and-global-variables.html" class="active">靜態與全域變數</a></li><li class="chapter-item "><a href="../scoping/thread-local-variables.html">thread_local 的變數</a></li></ol></li><li class="chapter-item "><a href="../classes/index.html">類別 (Classes)</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../classes/doing-work-in-constructor.html">在建構子內工作</a></li><li class="chapter-item "><a href="../classes/implicit-conversions.html">隱性轉換</a></li><li class="chapter-item "><a href="../work-in-progress.html">🚧 可複製或可轉移的型別</a></li><li class="chapter-item "><a href="../classes/structs-vs-classes.html">🚧 Struct 與 Class 的比較</a></li><li class="chapter-item "><a href="../work-in-progress.html">🚧 繼承</a></li><li class="chapter-item "><a href="../work-in-progress.html">🚧 運算子多載</a></li><li class="chapter-item "><a href="../work-in-progress.html">🚧 存取控制</a></li><li class="chapter-item "><a href="../work-in-progress.html">🚧 宣告順序</a></li></ol></li><li class="chapter-item "><a href="../work-in-progress.html">🚧 函式 (Functions)</a></li><li class="chapter-item "><a href="../work-in-progress.html">🚧 Google 特有的魔術</a></li><li class="chapter-item "><a href="../other-cpp-features/index.html">🚧 其他 C++ 特性</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../other-cpp-features/preprocessor-marcos.html">🚧 預處理器巨集</a></li></ol></li><li class="chapter-item "><a href="../naming/index.html">命名 (Naming)</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../naming/general-naming-rules.html">通用命名規則</a></li><li class="chapter-item "><a href="../naming/file-names.html">檔案名稱</a></li><li class="chapter-item "><a href="../naming/type-names.html">型別名稱</a></li><li class="chapter-item "><a href="../naming/variable-names.html">變數名稱</a></li><li class="chapter-item "><a href="../naming/constant-names.html">常數名稱</a></li><li class="chapter-item "><a href="../naming/function-names.html">函數名稱</a></li><li class="chapter-item "><a href="../naming/namespace-names.html">名稱空間名稱</a></li><li class="chapter-item "><a href="../naming/enumerator-names.html">列舉器名稱</a></li><li class="chapter-item "><a href="../naming/macro-names.html">巨集名稱</a></li><li class="chapter-item "><a href="../naming/exceptions-to-naming-rules.html">名稱規則的例外</a></li></ol></li><li class="chapter-item "><a href="../work-in-progress.html">🚧 註解</a></li><li class="chapter-item "><a href="../work-in-progress.html">🚧 排版</a></li><li class="chapter-item "><a href="../work-in-progress.html">🚧 規則中的例外</a></li><li class="chapter-item "><a href="../work-in-progress.html">🚧 結尾贈言</a></li><li class="spacer"></li><li class="chapter-item affix "><a href="../english-word-table.html">附錄：中英文名詞對照</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        
+                    </div>
+
+                    <h1 class="menu-title">Google C++ Style Guide 繁體中文版</h1>
+
+                    <div class="right-buttons">
+                        
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        
+                        
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h2 id="靜態與全域變數"><a class="header" href="#靜態與全域變數">靜態與全域變數</a></h2>
+<blockquote>
+<p>不允許使用有著靜態生存期 (<a href="http://en.cppreference.com/w/cpp/language/storage_duration#Storage_duration">static storage duration</a>) 的物件，除非他們是可平凡解構的 (<a href="http://en.cppreference.com/w/cpp/types/is_destructible">trivially destructible</a>)。 白話來說，這代表他的解構函式不做任何事情，包括他的成員與基底類別的解構函式在內。 更正式地說，這代表他的型別沒有使用者定義的或是虛擬解構函式 (virtual destructor)，而且他的基底類別跟非靜態成員都是可平凡解構的。 函式內的區域變數可以使用動態初始化。 不鼓勵對靜態類別成員變數與位於命名空間作用域的變數使用動態初始化，但是在某些限定的情況下允許。 請看以下說明。</p>
+</blockquote>
+<p>經驗法則：如果一個全域變數的宣告是 <code>constexpr</code> (常數表達式) 的話，他就符合這些要求。</p>
+<h3 id="定義"><a class="header" href="#定義">定義</a></h3>
+<p>每個物件都有儲存期 (storage duration)，這與他的存活期 (lifetime) 相關。 有著靜態儲存期 (static storage duration) 的物件從被初始化到程式結束都會存活。 這種物件出現在命名空間作用域作為一種全域變數、作為類別的靜態資料成員或是函式中帶有 <code>static</code> 字樣的區域變數。 函式區域靜態變數在執行經過他的宣告時被初始化；所有其他有著靜態儲存期的物件則作為程式啟動的一部分而同時被初始化。 所有有著靜態儲存期的物件在程式結束時被摧毀 (發生在所有尚未加入的執行緒終止之前)。</p>
+<p>初始化可以是<em>動態的</em>，也就是說在初始化時可以發生一些不平凡 (non-trivial) 的事情。 (例如：一個會分配記憶體的建構函式，或是需要現在程序的 ID 才能初始化的變數。) 其他類的初始化都算是靜態初始化，雖然這兩者並不是完全相反的： 有著靜態儲存期的物件<strong>總是</strong>會先靜態初始化 (用一個給定的常數或者全部都是零的表示法初始化變數)，然後需要的話才會動態初始化。</p>
+<h3 id="優點"><a class="header" href="#優點">優點</a></h3>
+<p>全域與靜態變數對於大量的應用來說非常好用： 命名的常數、一些轉換元件中的輔助資料結構、命令提示的旗標 (flag)、日誌、註冊機制、背景基礎設施等等。</p>
+<h3 id="缺點"><a class="header" href="#缺點">缺點</a></h3>
+<p>全域與靜態變數使用著動態初始化或者不平凡的解構函式產生的複雜度容易導致難以尋找的錯誤。 動態初始化在轉換元件之間或者解構時沒有被排序 (除了那種在反向初始化時的解構動作)。 當一個初始化指向另一個有著靜態儲存期的變數時，有可能會導致一個物件在他的存活期開始前 (或者結束之後) 被存取。 更甚者，當一個程式啟動了一些在結束時還沒加入的執行緒，這些執行緒可能會存取那些已經結束存活期的物件 (如果他的解構函式已經跑完的話)。</p>
+<h3 id="我們的決定"><a class="header" href="#我們的決定">我們的決定</a></h3>
+<h4 id="對於解構函式"><a class="header" href="#對於解構函式">對於解構函式</a></h4>
+<p>當解構函式是平凡的 (trivial)，他的執行完全並不會被順序所影響 (因為他們基本上不會執行)；不然的話，我們會暴露在某些物件的存活期結束之後存取他們的風險之中。 因此我們只允許可平凡解構的物件擁有靜態儲存期。 基礎型別 (像是指標或者 <code>int</code>) 都是可平凡解構的，這些型別的陣列也都是。 注意被標示 <code>constexpr</code> 的變數也是可平凡解構的。</p>
+<pre><code class="language-c++">const int kNum = 10;  // 允許
+
+struct X { int n; };
+const X kX[] = {{1}, {2}, {3}};  // 允許
+
+void foo() {
+  static const char* const kMessages[] = {&quot;hello&quot;, &quot;world&quot;};  // 允許
+}
+
+// 允許: constexpr 保證具備平凡的解構函式
+constexpr std::array&lt;int, 3&gt; kArray = {{1, 2, 3}};
+</code></pre>
+<pre><code class="language-c++">// 不好: 不是可平凡解構的
+const string kFoo = &quot;foo&quot;;
+
+// 雖然 kBar 只是一個參考 (reference)，但是因為相同原因所以不好。
+// 注意這個規則也適用於延長存活期的暫存物件中。
+const string&amp; kBar = StrCat(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;);
+
+void bar() {
+  // 不好: 非可平凡解構函式
+  static std::map&lt;int, int&gt; kData = {{1, 0}, {2, 0}, {3, 0}};
+}
+</code></pre>
+<p>注意參考並非物件，所以他們並不會被解構的限制所影響。 不過動態初始化的限制仍然適用。 特別是，一個具有 <code>static T&amp; t = *new T;</code> 形式的函式內區域靜態變數是允許的。</p>
+<h4 id="對於初始化"><a class="header" href="#對於初始化">對於初始化</a></h4>
+<p>初始化是一個更複雜的主題。 因為我們不只要考慮類別的建構式是否執行，也要考慮初始化時的計算：</p>
+<pre><code class="language-c++">int n = 5;    // 可以
+int m = f();  // ? (根據 f 的行為決定)
+Foo x;        // ? (根據 Foo::Foo 的行為決定)
+Bar y = g();  // ? (根據 g 與 Bar::Bar 的行為決定)
+</code></pre>
+<p>除了第一式之外都帶來不確定的初始化順序問題。</p>
+<p>我們這邊想要表達的概念在 C++ 標準的正式語言中稱為「常數初始化 (Constant Initialization)」。 這代表初始化的表示式 (expression) 是一個常數表示式，而且如果物件是使用建構函式初始化，那麼該建構函式也一定要標記 <code>constexpr</code>：</p>
+<pre><code class="language-c++">struct Foo { constexpr Foo(int) {} };
+
+int n = 5;  // 可以，5 是一個常數表示式
+Foo x(2);   // 可以，2 是一個常數表示式，而且選擇的建構函式也是 constexpr
+Foo a[] = { Foo(1), Foo(2), Foo(3) };  // 可以
+</code></pre>
+<p>我們允許使用常數初始化。 具有靜態儲存期的變數使用常數初始化的話，應該標上 <code>constexpr</code> 或是在可行的地方標上 <a href="https://github.com/abseil/abseil-cpp/blob/03c1513538584f4a04d666be5eb469e3979febba/absl/base/attributes.h#L540">ABSL_CONST_INIT</a> 屬性。 任何沒有依照這種方式標記的、而且是不是區域變數的靜態儲存期變數，應該要盡可能地使用動態初始化，並且要仔細檢查。</p>
+<p>作為反例，以下初始化是有問題的：</p>
+<pre><code class="language-c++">// 一些宣告
+time_t time(time_t*);      // 沒有使用 constexpr！
+int f();                   // 沒有使用 constexpr！
+struct Bar { Bar() {} };
+
+// 有問題的初始化
+time_t m = time(nullptr);  // 初始化的表示是並非常數表示式
+Foo y(f());                // 同上
+Bar b;                     // 選用的建構函數 Bar::Bar() 也不是 constexpr
+</code></pre>
+<p>我們不鼓勵對於非區域變數使用動態初始化，而且一般來說也不允許。 然而，如果程式中沒有任何層面依賴該初始化與其他初始化之間的順序的話，我們就允許這麼做。 在這樣的限制下，初始化間的順序並不會造成顯著差異。 例如：</p>
+<pre><code class="language-c++">int p = getpid();  // 允許，只要沒有其他靜態變數使用 p 來初始化就好
+</code></pre>
+<p>允許對區域靜態變數使用動態初始化 (而且很常用)。</p>
+<h4 id="常見模式"><a class="header" href="#常見模式">常見模式</a></h4>
+<ul>
+<li>全域字串： 如果你要求使用全域或靜態字串常數，請考慮使用簡單的字元陣列或者一個指向字串字面值 (literal) 之中第一個字的字元指標。 字串字面值已經具有靜態儲存期，通常已足夠使用。</li>
+<li>Map、Set、以及其他動態容器： 如果你要求使用靜態的、長度固定的資料集，像是一個 Set 或是一個查詢表，你不能把標準函式庫中的動態容器當成靜態變數使用，因為他們具有非平凡的解構函式。 反之，請考慮使用一個包含平凡型別的簡單陣列 (例如想要一個映射 int 到 int 的表，就建一個整數的陣列的陣列)，或是一個 pair 的陣列 (例如包含 <code>int</code> 跟 <code>const char*</code> 的 pair)。 對於小的資料集，線性搜尋就很夠了 (而且因為 memory locality 的關係，會很有效率)。 如果必要的話，保持資料集的順序性，並且使用二元搜尋法 (binary search)。 如果你真的比較想使用標準函式庫的動態容器，請考慮使用函式內的區域靜態指標，下面描述。</li>
+<li>智慧指標 (smart pointers)： 智慧指標會在解構時執行清理動作，因此在上述狀況中被禁止使用。 請考慮你的使用狀況是否符合這章節中描述的其他模式。 一種簡單的解法是對動態分配的物件使用一般指標，然後永遠不要刪除它 (請看最後一項)。</li>
+<li>自製型別的靜態變數： 如果你要求對你自己設計的型別使用靜態的常數資料，請給他一個平凡的解構函式以及 <code>constexpr</code> 的建構函數。</li>
+<li>如果這些方法都不能用，你可以動態建立一個物件並將該物件綁訂在一個函式內的區域靜態指標變數，並且永遠都不要刪除它：<code>static const auto* const impl = new T(args...);</code> (如果初始化更複雜，你可以把它移入一個函式或者寫成一個 Lambda 運算式。)</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="../scoping/local-variables.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="../scoping/thread-local-variables.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a rel="prev" href="../scoping/local-variables.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a rel="next" href="../scoping/thread-local-variables.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+
+        
+
+        
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>

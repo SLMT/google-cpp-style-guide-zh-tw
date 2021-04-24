@@ -1,0 +1,263 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>風格指引的目標 - Google C++ Style Guide 繁體中文版</title>
+        
+        
+
+
+        <!-- Custom HTML head -->
+                <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-103835191-1"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'UA-103835191-1');
+        </script>
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        
+        <link rel="icon" href="../favicon.svg">
+        
+        
+        <link rel="shortcut icon" href="../favicon.png">
+        
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        
+        <link rel="stylesheet" href="../css/print.css" media="print">
+        
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item affix "><a href="../index.html">本書介紹</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="../background/index.html">背景</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../background/goals-of-the-style-guide.html" class="active">風格指引的目標</a></li></ol></li><li class="chapter-item "><a href="../cpp-version.html">C++ 版本</a></li><li class="chapter-item "><a href="../header-files/index.html">標頭檔 (Header Files)</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../header-files/self-contained-headers.html">自給自足標頭檔</a></li><li class="chapter-item "><a href="../header-files/define-guard.html">#define 保護</a></li><li class="chapter-item "><a href="../header-files/forward-declarations.html">前向宣告</a></li><li class="chapter-item "><a href="../header-files/inline-functions.html">行內函式</a></li><li class="chapter-item "><a href="../header-files/names-and-order-of-includes.html">#include 時的名稱與順序</a></li></ol></li><li class="chapter-item "><a href="../scoping/index.html">作用域 (Scoping)</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../scoping/namespaces.html">名稱空間</a></li><li class="chapter-item "><a href="../scoping/unnamed-namespace-and-static-variables.html">無名名稱空間與靜態變數</a></li><li class="chapter-item "><a href="../scoping/nonmember-static-members.html">非成員、靜態成員、全域函式</a></li><li class="chapter-item "><a href="../scoping/local-variables.html">區域變數</a></li><li class="chapter-item "><a href="../scoping/static-and-global-variables.html">靜態與全域變數</a></li><li class="chapter-item "><a href="../scoping/thread-local-variables.html">thread_local 的變數</a></li></ol></li><li class="chapter-item "><a href="../classes/index.html">類別 (Classes)</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../classes/doing-work-in-constructor.html">在建構子內工作</a></li><li class="chapter-item "><a href="../classes/implicit-conversions.html">隱性轉換</a></li><li class="chapter-item "><a href="../work-in-progress.html">🚧 可複製或可轉移的型別</a></li><li class="chapter-item "><a href="../classes/structs-vs-classes.html">🚧 Struct 與 Class 的比較</a></li><li class="chapter-item "><a href="../work-in-progress.html">🚧 繼承</a></li><li class="chapter-item "><a href="../work-in-progress.html">🚧 運算子多載</a></li><li class="chapter-item "><a href="../work-in-progress.html">🚧 存取控制</a></li><li class="chapter-item "><a href="../work-in-progress.html">🚧 宣告順序</a></li></ol></li><li class="chapter-item "><a href="../work-in-progress.html">🚧 函式 (Functions)</a></li><li class="chapter-item "><a href="../work-in-progress.html">🚧 Google 特有的魔術</a></li><li class="chapter-item "><a href="../other-cpp-features/index.html">🚧 其他 C++ 特性</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../other-cpp-features/preprocessor-marcos.html">🚧 預處理器巨集</a></li></ol></li><li class="chapter-item "><a href="../naming/index.html">命名 (Naming)</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../naming/general-naming-rules.html">通用命名規則</a></li><li class="chapter-item "><a href="../naming/file-names.html">檔案名稱</a></li><li class="chapter-item "><a href="../naming/type-names.html">型別名稱</a></li><li class="chapter-item "><a href="../naming/variable-names.html">變數名稱</a></li><li class="chapter-item "><a href="../naming/constant-names.html">常數名稱</a></li><li class="chapter-item "><a href="../naming/function-names.html">函數名稱</a></li><li class="chapter-item "><a href="../naming/namespace-names.html">名稱空間名稱</a></li><li class="chapter-item "><a href="../naming/enumerator-names.html">列舉器名稱</a></li><li class="chapter-item "><a href="../naming/macro-names.html">巨集名稱</a></li><li class="chapter-item "><a href="../naming/exceptions-to-naming-rules.html">名稱規則的例外</a></li></ol></li><li class="chapter-item "><a href="../work-in-progress.html">🚧 註解</a></li><li class="chapter-item "><a href="../work-in-progress.html">🚧 排版</a></li><li class="chapter-item "><a href="../work-in-progress.html">🚧 規則中的例外</a></li><li class="chapter-item "><a href="../work-in-progress.html">🚧 結尾贈言</a></li><li class="spacer"></li><li class="chapter-item affix "><a href="../english-word-table.html">附錄：中英文名詞對照</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        
+                    </div>
+
+                    <h1 class="menu-title">Google C++ Style Guide 繁體中文版</h1>
+
+                    <div class="right-buttons">
+                        
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        
+                        
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h2 id="風格指引的目標"><a class="header" href="#風格指引的目標">風格指引的目標</a></h2>
+<p>為什麼會有這份文件？</p>
+<p>這邊有幾個核心目標是我們相信這份文件該提供的。 這些目標就是構成這些規定的主要原因。 藉由提出這些想法，我們希望能夠攤開來討論，並且讓大家理解為什麼會有這些規則，以及某些特別的規定是如何訂定出來的。 如果你能了解每個規則是為了甚麼目標而制定，那大家應該也能更容易了解某些規定被丟棄時，有哪些必要的考量以及反論。</p>
+<p>這份文件目前我們認為的目標有以下幾點：</p>
+<h3 id="規則需要具有足夠的份量"><a class="header" href="#規則需要具有足夠的份量">規則需要具有足夠的份量</a></h3>
+<p>一條風格規則所帶來的好處必須大到足夠合理來要求我們的工程師記住它。 它的好處是以沒有這份指南的情況下撰寫出的程式碼為準來衡量的。 有些規則可能在一些極端不好的程式碼中具有些微的好處，但是這種程式碼一般人不太可能會寫得出來的話，我們就不會寫進這份指引。 這個原則解釋了大多數我們沒有撰寫的規則，而不是我們會有寫出的規則。 舉例來說，<code>goto</code> 違反了下面很多條原則，但是基本上很少人會使用它，因此這份風格指引就不討論它。</p>
+<h3 id="並非為了撰寫者而是為了讀者來優化"><a class="header" href="#並非為了撰寫者而是為了讀者來優化">並非為了撰寫者，而是為了讀者來優化</a></h3>
+<p>我們預計我們的程式碼庫 (以及大多數提交到上面的各個組件) 會持續維護很長的一段時間。 因此大多數的時間會花在讀懂它，而非撰寫它。 我們明確地選擇優化我們平凡工程師在於讀、維護以及偵錯程式碼的體驗，而非撰寫的便利性。 「為讀者留下足跡」正是一種在這個原則之下常見的觀點：如果在一段程式碼中正在發生一些驚喜或者不尋常的事情 (例如：轉移一個指標的所有權)，在這裡留下一些文字上的提示將會非常有用。 (<code>std::unique_ptr</code> 明確地在呼叫處展示了所有權轉移)。</p>
+<h3 id="與現有的程式碼保持一致性"><a class="header" href="#與現有的程式碼保持一致性">與現有的程式碼保持一致性</a></h3>
+<p>在我們程式庫中使用一致的風格讓我們可以專注在其他 (更重要) 的問題。 一致性同時也允許了自動化：那些自動幫你調整格式或者 <code>#include</code> 位置的工具只在你的程式碼如它預期般地一致時才能正常運作。 在很多狀況下，那些標記為「保持一致性」的規則其實是肇因於「不要想太多，挑一個就好」。 在那些情形允許彈性的潛在好處其實大於大家在那邊爭論所花費的時間。</p>
+<h3 id="適當時與盡可能大多數的-c-社群保持一致性"><a class="header" href="#適當時與盡可能大多數的-c-社群保持一致性">適當時與盡可能大多數的 C++ 社群保持一致性</a></h3>
+<p>跟其他組織使用 C++ 的方式保持一致所帶來的價值與在我們自己的程式庫中保持一致性的理由是相同的。 如果一個 C++ 標準的特性可以解決一個問題，或者一個寫法被大眾所接受，那就可以當成使用它的理由。 然而，有時候這些特性與寫法可能具有某些缺陷，或者並不是我們的程式庫所需要的。 在這類情況下，其實更適合限制或者禁止這些特性。 在某些情形，如果我們無法感受到特別的好處，或者沒有足夠的價值，比起那些定義在 C++ 標準上的函式庫，我們更喜歡從頭到尾自己撰寫或者直接使用一個第三方的函式庫。</p>
+<h3 id="避免令人驚訝或者危險的結構"><a class="header" href="#避免令人驚訝或者危險的結構">避免令人驚訝或者危險的結構</a></h3>
+<p>C++ 有著一些比看起來更令人訝異或者危險的特性。 這份風格指引內的部分限制就是為了要避免掉入這種陷阱裡。 風格指引對於放棄那些限制具有很高的標準，因為放棄那些規則很有可能會對程式的正確性造成很大的危機。</p>
+<h3 id="避免那些讓我們的平凡-c-程式設計師認為詭異或者難以維護的結構"><a class="header" href="#避免那些讓我們的平凡-c-程式設計師認為詭異或者難以維護的結構">避免那些讓我們的平凡 C++ 程式設計師認為詭異或者難以維護的結構</a></h3>
+<p>有些 C++ 的特性可能一般來說不太適合被使用，因為它們可能常造成一些額外的複雜性。 在一些廣泛被使用的程式碼中可能會適合使用特別的語言結構，因為複雜實作所帶來的好處會被廣泛使用這點放大，而且了解這些複雜東西的代價不需要在寫新一塊程式碼時再度付出一次。 如果有疑問的話，可以向專案領導詢問是否可以拋棄這類的規則。 這對我們的程式庫特別重要，因為程式碼的管理團隊與團隊內部的成員會隨著時間改變：儘管現在正在使用某段程式碼的每個人都了解它，經過了幾年後也不能保證仍會是如此。</p>
+<h3 id="在我們的規模下要非常小心"><a class="header" href="#在我們的規模下要非常小心">在我們的規模下要非常小心</a></h3>
+<p>對於一個超過 1 億行以及有著數千位工程師管理的程式庫來說，一個工程師的一些錯誤或者過於簡化的程式碼可能會造成嚴重的後果。 舉例來說，要特別注意不能汙染全域命名空間：如果大家都把東西放在全域命名空間的話，對於這種具有數億行程式碼的程式庫來說可能會很難避免命名衝突，並使得程式庫難以維護。</p>
+<h3 id="承認必要的優化"><a class="header" href="#承認必要的優化">承認必要的優化</a></h3>
+<p>雖然有些效能上的優化可能會牴觸這份文件的一些原則，但是對於必要的情況來說還是可接受的。</p>
+<h3 id="結論"><a class="header" href="#結論">結論</a></h3>
+<p>這份文件的用意在於最大化地提供指引與適當的限制。 一如往常，我們的盡量使規則符合常識或看起來順眼。 我們特別參考了整個 Google C++ 社群建立起的傳統，而非單獨考量你個人的喜好或者你的團隊。 當你看到不尋常的結構時，請善用你的智慧並保持懷疑：沒有限制它們並不代表你可以忽略它們。 此時請你自行判斷，如果你不太確定，請不要猶豫，立即詢問你的專案領導來取得意見。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="../background/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="../cpp-version.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a rel="prev" href="../background/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a rel="next" href="../cpp-version.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+
+        
+
+        
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>

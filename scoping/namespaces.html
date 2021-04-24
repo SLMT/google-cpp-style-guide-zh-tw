@@ -1,0 +1,394 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>名稱空間 - Google C++ Style Guide 繁體中文版</title>
+        
+        
+
+
+        <!-- Custom HTML head -->
+                <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-103835191-1"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'UA-103835191-1');
+        </script>
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        
+        <link rel="icon" href="../favicon.svg">
+        
+        
+        <link rel="shortcut icon" href="../favicon.png">
+        
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        
+        <link rel="stylesheet" href="../css/print.css" media="print">
+        
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item affix "><a href="../index.html">本書介紹</a></li><li class="spacer"></li><li class="chapter-item "><a href="../background/index.html">背景</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../background/goals-of-the-style-guide.html">風格指引的目標</a></li></ol></li><li class="chapter-item "><a href="../cpp-version.html">C++ 版本</a></li><li class="chapter-item "><a href="../header-files/index.html">標頭檔 (Header Files)</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../header-files/self-contained-headers.html">自給自足標頭檔</a></li><li class="chapter-item "><a href="../header-files/define-guard.html">#define 保護</a></li><li class="chapter-item "><a href="../header-files/forward-declarations.html">前向宣告</a></li><li class="chapter-item "><a href="../header-files/inline-functions.html">行內函式</a></li><li class="chapter-item "><a href="../header-files/names-and-order-of-includes.html">#include 時的名稱與順序</a></li></ol></li><li class="chapter-item expanded "><a href="../scoping/index.html">作用域 (Scoping)</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../scoping/namespaces.html" class="active">名稱空間</a></li><li class="chapter-item "><a href="../scoping/unnamed-namespace-and-static-variables.html">無名名稱空間與靜態變數</a></li><li class="chapter-item "><a href="../scoping/nonmember-static-members.html">非成員、靜態成員、全域函式</a></li><li class="chapter-item "><a href="../scoping/local-variables.html">區域變數</a></li><li class="chapter-item "><a href="../scoping/static-and-global-variables.html">靜態與全域變數</a></li><li class="chapter-item "><a href="../scoping/thread-local-variables.html">thread_local 的變數</a></li></ol></li><li class="chapter-item "><a href="../classes/index.html">類別 (Classes)</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../classes/doing-work-in-constructor.html">在建構子內工作</a></li><li class="chapter-item "><a href="../classes/implicit-conversions.html">隱性轉換</a></li><li class="chapter-item "><a href="../work-in-progress.html">🚧 可複製或可轉移的型別</a></li><li class="chapter-item "><a href="../classes/structs-vs-classes.html">🚧 Struct 與 Class 的比較</a></li><li class="chapter-item "><a href="../work-in-progress.html">🚧 繼承</a></li><li class="chapter-item "><a href="../work-in-progress.html">🚧 運算子多載</a></li><li class="chapter-item "><a href="../work-in-progress.html">🚧 存取控制</a></li><li class="chapter-item "><a href="../work-in-progress.html">🚧 宣告順序</a></li></ol></li><li class="chapter-item "><a href="../work-in-progress.html">🚧 函式 (Functions)</a></li><li class="chapter-item "><a href="../work-in-progress.html">🚧 Google 特有的魔術</a></li><li class="chapter-item "><a href="../other-cpp-features/index.html">🚧 其他 C++ 特性</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../other-cpp-features/preprocessor-marcos.html">🚧 預處理器巨集</a></li></ol></li><li class="chapter-item "><a href="../naming/index.html">命名 (Naming)</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../naming/general-naming-rules.html">通用命名規則</a></li><li class="chapter-item "><a href="../naming/file-names.html">檔案名稱</a></li><li class="chapter-item "><a href="../naming/type-names.html">型別名稱</a></li><li class="chapter-item "><a href="../naming/variable-names.html">變數名稱</a></li><li class="chapter-item "><a href="../naming/constant-names.html">常數名稱</a></li><li class="chapter-item "><a href="../naming/function-names.html">函數名稱</a></li><li class="chapter-item "><a href="../naming/namespace-names.html">名稱空間名稱</a></li><li class="chapter-item "><a href="../naming/enumerator-names.html">列舉器名稱</a></li><li class="chapter-item "><a href="../naming/macro-names.html">巨集名稱</a></li><li class="chapter-item "><a href="../naming/exceptions-to-naming-rules.html">名稱規則的例外</a></li></ol></li><li class="chapter-item "><a href="../work-in-progress.html">🚧 註解</a></li><li class="chapter-item "><a href="../work-in-progress.html">🚧 排版</a></li><li class="chapter-item "><a href="../work-in-progress.html">🚧 規則中的例外</a></li><li class="chapter-item "><a href="../work-in-progress.html">🚧 結尾贈言</a></li><li class="spacer"></li><li class="chapter-item affix "><a href="../english-word-table.html">附錄：中英文名詞對照</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        
+                    </div>
+
+                    <h1 class="menu-title">Google C++ Style Guide 繁體中文版</h1>
+
+                    <div class="right-buttons">
+                        
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        
+                        
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h2 id="名稱空間-namespaces"><a class="header" href="#名稱空間-namespaces">名稱空間 (Namespaces)</a></h2>
+<blockquote>
+<p>除了某些特殊情況外，程式碼應當放在名稱空間中。 名稱空間應該要有個跟專案名稱有關、獨一無二的名字，最好也把路徑考慮進去。 不要使用 using 指示詞 (using-directive)，像是 <code>using namespace foo</code>。 不要使用行內名稱空間 (inline namespace)。 關於未被命名的名稱空間，請參考「<a href="unnamed-namespace-and-static-variables.html">無名名稱空間與靜態變數</a>」一章。</p>
+</blockquote>
+<h3 id="定義"><a class="header" href="#定義">定義</a></h3>
+<p>名稱空間將全域區分為多塊分開、各自命名的作用域，這可以有效避免在整個作用域中遇到名稱相同的狀況。</p>
+<h3 id="優點"><a class="header" href="#優點">優點</a></h3>
+<p>名稱空間提供了一種避免在大型程式中名稱相衝的同時，也能讓大部分程式碼使用較短名稱的方法。</p>
+<p>例如，兩個不同的專案在全域都具有 <code>Foo</code> 這個類別，這個符號可能會在編譯或執行時發生衝突。 如果這些專案能把他們的程式碼分別放在不同的名稱空間下，那麼 <code>project1::Foo</code> 跟 <code>project2::Foo</code> 就會被視為不同的符號，也不會有衝突的問題，而且在各自的專案中還能夠繼續使用 <code>foo</code> 這個名字同時不需加上前綴。</p>
+<p>行內名稱空間 (inline namespace) 會自動把它們的名稱放進作用域中。 例如，請參考以下程式碼：</p>
+<pre><code class="language-c++">namespace X {
+inline namespace Y {
+  void foo();
+} // namespace Y
+} // namespace X
+</code></pre>
+<p>這會產生 <code>X::Y::foo()</code> 等同於 <code>X::foo()</code> 的效果。 當初行內名稱空間的主要目標就是用來處理不同版本的 ABI (Application Binary Interface, 應用二進位介面) 的兼容問題。</p>
+<h3 id="缺點"><a class="header" href="#缺點">缺點</a></h3>
+<p>名稱空間可能容易造成混淆，因為它在類別存在的情況下，又額外提供了一種切分命名作用域的方式。</p>
+<p>行內名稱空間可能也會造成混淆，因為它的作用域有時並非如它當初宣告的那樣。 只有在某些需要分類不同版本的情況下才可能會有幫助。</p>
+<p>在某些程式碼中，可能會需要使用完整的名稱來指出所需的名稱空間。 對於深層的名稱空間來說，這樣的寫法可能會造成一些混亂。</p>
+<h3 id="我們的決定"><a class="header" href="#我們的決定">我們的決定</a></h3>
+<p>名稱空間應該如下列般使用：</p>
+<ul>
+<li>
+<p>遵從 <a href="#">名稱空間命名</a> 一章的規則。</p>
+</li>
+<li>
+<p>如同範例中在名稱空間的尾端加上註解。</p>
+</li>
+<li>
+<p>名稱空間必須將整個原始碼檔中，除了 <code>#include</code> 、<a href="https://gflags.github.io/gflags/">gflags</a> 定義和前向宣告其他名稱空間的類別之外的內容包裹起來。</p>
+<pre><code class="language-c++">// 在某個 .h 檔中
+namespace mynamespace {
+
+// 所有的定義都在名稱空間的作用域內
+// 注意沒有使用縮排
+class MyClass {
+public:
+  ...
+  void Foo();
+};
+
+}  // namespace mynamespace
+</code></pre>
+<pre><code class="language-c++">// 在某個 .cc 檔中
+namespace mynamespace {
+
+// 函式的定義也放在名稱空間的作用域內
+void MyClass::Foo() {
+  ...
+}
+
+}  // namespace mynamespace
+</code></pre>
+<p>一般的的 <code>.cc</code> 檔中可能會有更多複雜的細節，例如 flags 或者 using 指示詞。</p>
+<pre><code class="language-c++">#include &quot;a.h&quot;
+
+DEFINE_bool(someflag, false, &quot;dummy flag&quot;);
+
+namespace mynamespace {
+
+using ::foo::bar;
+
+...code for mynamespace...    // 程式碼左側不留空間
+
+}  // namespace mynamespace
+</code></pre>
+</li>
+<li>
+<p>如果想將產生的協議訊息 (Protocol Message) 的程式碼放在命名空間中，請在 <code>.proto</code> 中使用 <code>package</code> 來指定。 詳情請參考 <a href="https://developers.google.com/protocol-buffers/docs/reference/cpp-generated#package">Protocol Buffer Packages</a>。</p>
+</li>
+<li>
+<p>別在 <code>std</code> 名稱空間下宣告任何東西，甚至是標準函式庫的前向宣告。 宣告 <code>std</code> 名稱空間下的作法沒有一個統一的標準，也就是說，這並不是一個跨平台的作法。 如果想要宣告標準函式庫內的實體，請直接 <code>#include</code> 那些標頭檔。</p>
+</li>
+<li>
+<p>你不該為了要讓某個名稱空間中的名稱皆可直接呼叫而使用「using 指示詞 (using-directive)」</p>
+<pre><code class="language-c++">// 禁用 -- 這會汙染你的名稱空間
+using namespace foo;
+</code></pre>
+</li>
+<li>
+<p>別在標頭檔中的名稱空間中使用名稱空間別名 (Namespace Alias)，除非是在明確被標示為只給專案內部使用的名稱空間。 因為在一個被載入的標頭檔內的任何東西，都會被當作該檔的公共 API 對待。</p>
+<pre><code class="language-c++">// 在 `.cc` 檔中簡化存取某個常用名稱的動作
+namespace fbz = ::foo::bar::baz;
+</code></pre>
+<pre><code class="language-c++">// 在 `.h` 檔中簡化存取某個常用名稱的動作
+namespace librarian {
+namespace impl {  // 內部區域，不是公共 API 的一部份
+namespace sidetable = ::pipeline_diagnostics::sidetable;
+}  // namespace impl
+
+inline void my_inline_function() {
+  // 只在這個函式（或方法）內作用的命名空間別名
+  namespace baz = ::foo::bar::baz;
+  ...
+}
+}  // namespace librarian
+</code></pre>
+</li>
+<li>
+<p>別使用行內名稱空間</p>
+</li>
+</ul>
+<h3 id="譯註"><a class="header" href="#譯註">譯註</a></h3>
+<p>就我所知，行內名稱空間是非常鮮見的東西，至少從我學習 C/C++ 到現在都沒有在一個實際的專案中看過。 這邊稍微介紹一下這個功能。</p>
+<p>首先看下面這段範例：</p>
+<pre><code class="language-c++">namespace A {
+namespace B {
+void fun() {
+    // code
+}
+}
+}
+</code></pre>
+<p>一般來說，上面這段程式碼想要呼叫 <code>fun</code> 這個函式的話，就要使用 <code>A::B::fun()</code> 這個名稱。 但是如果此時引入了行內關鍵字，在 B 前面加上 <code>inline</code>，變成這樣：</p>
+<pre><code class="language-c++">namespace A {
+inline namespace B {
+void fun() {
+    // code
+}
+}
+}
+</code></pre>
+<p>這個時候你使用 <code>A::fun()</code> 這個名稱的話，就可以呼叫到 <code>fun</code> 這個函式。 當然，使用 <code>A::B::fun()</code> 也同樣可以呼叫得到 <code>fun</code>。 有興趣的話可以自己試試看。</p>
+<p>運作的原理很簡單，其實就是程式在編譯時將所有 <code>A::fun()</code> 的名稱代換為 <code>A::B::fun()</code> 而已。</p>
+<p>那這個技巧有甚麼用？ 既然我想讓其他人直接呼叫到 <code>fun</code>，那為什麼還要特別放一個 <code>namespace B</code>？</p>
+<p>這個技巧最常用到的地方，就像上面 Google 文件中所提到的，版本控管。</p>
+<p>如果今天我是在寫函式庫，此時我寫了兩種不同版本的 <code>fun</code>，可是有些人的程式已經連結到了舊版的 <code>fun</code>，那要怎麼樣在不重新編譯那些程式的狀況下保持連結？ 這個時候可以這樣做：</p>
+<p>假設原本的函式庫長這樣：</p>
+<pre><code class="language-c++">namespace SomeLib {
+inline namespace v1 {
+void fun() {
+    // code
+}
+}
+}
+</code></pre>
+<p>因此原本編譯的程式裡，呼叫到 <code>SomeLib::fun</code> 的地方都會連結到 <code>SomeLib::v1::fun</code>。 而此時我只要改成：</p>
+<pre><code class="language-c++">namespace SomeLib {
+namespace v1 {
+void fun() {
+    // code
+}
+}
+inline namespace v2 {
+void fun() {
+    // code
+}
+}
+}
+</code></pre>
+<p>這樣原本連結到 <code>SomeLib::v1::fun</code> 的程式仍然可以運作，而且新的程式呼叫 <code>SomeLib::fun</code> 時，也可以如我預期地使用到新的版本 (v2 版)。 因此行內名稱空間才常用於函式庫的版本控管。 但是如同 Google Style 所說，這樣的行為可能實在會導致預期外的結果，所以還是盡量避免使用。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="../scoping/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="../scoping/unnamed-namespace-and-static-variables.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a rel="prev" href="../scoping/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a rel="next" href="../scoping/unnamed-namespace-and-static-variables.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+
+        
+
+        
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>
