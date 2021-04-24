@@ -6,3 +6,6 @@ title = "Google C++ Style Guide 繁體中文版"
 
 [output.html]
 no-section-label = true
+
+[output.html.fold]
+enable = true
