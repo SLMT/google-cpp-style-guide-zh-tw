@@ -4,35 +4,33 @@
 
 如果程式碼都能夠遵照同一份標準來撰寫的話，就能夠大大地增加程式的可讀性。 Google 所訂定的 C++ 程式碼風格非常明確，也非常仔細。 我認為是一個很不錯的標準。
 
-不過可惜的是，Google 官方只有提供英文版的說明。為了讓不善英文，並使用中文的人能夠理解文件的內容，特別撰寫本書供大家閱讀。
+不過可惜的是，Google 官方只有提供英文版的說明。 為了讓不善英文，並使用中文的人能夠理解文件的內容，特別翻譯本書供大家閱讀。
 
-### 連結
+## 注意：本書正在更新到 2025 年版
+
+本書自從 2021 年之後因為作者的私人原因沒有把翻譯完成。 在這段期間 Google 風格指南又經歷了多次修改，特別是參照的 C++ 版本從 C++11 版直接跳躍到 C++20。 同時也在規則中加入了許多 Abseil Library 的 [C++ Tips of The Week][7] 作為參考資料。
+
+為了夠讓本中文版指南能夠跟上時代，作者正在積極校對與更新之前已翻譯的內容，同時也會盡快完成剩餘未完成的翻譯。
+
+如果想要瞭解本指南的翻譯更新進度，請參考 GitHub 上的 [這個 issue][8]。
+
+## 連結
 
 - 本書的 Github Repository：[https://github.com/SLMT/google-cpp-style-guide-zh-tw][1]
 - 線上電子書網址：[https://www.slmt.tw/google-cpp-style-guide-zh-tw/][2]
 - Google 官方 C++ Style 說明文件 (英文)：[https://google.github.io/styleguide/cppguide.html][3]
 
-### 版本
+## 回報與修正
 
-目前此文的版本為：release-20210424-001
+如果覺得哪裡翻譯有誤，或者覺得語句不通順，歡迎到 Github repository 的 [issue][4] 提出問題。 如果熟悉 Git 的話，也歡迎在 Github 上 fork 這個 repository 自行修改，並開啟 pull request 請求合併。
 
-#### 對應的原文版本
-
-請注意原本的 Google C++ Style Guide 也會與時俱進，英文本的內容會不斷修改。 因此這裡標註出此書翻譯時對應的英文版原件：
-
-- 目前本書內容對應到的版本為 Google [官方 Repository][6] [2018/08/15 Commit 的版本][5]
-
-### 需要支援
-
-有些部分我個人覺得翻譯仍不太準確，而且翻得很爛。 例如「背景」那章的「風格指引的目標」下的內容，普遍來說翻譯應該都不太好。 因此我需要大家提供意見幫我改進那邊的翻譯。 基本上就對照中英文看一下，然後開一個 [issue][4] 讓我知道一下怎麼修改會比較好。
-
-### 一些撰寫時的規則
+## 一些撰寫時的規則
 
 - 所有文句除標題外，一律以句號結尾。
 - 句號之後若還有其他語句在同一段，一律加上一個半形空白。
 - 英文單字與中文字詞的銜接處一律加上一個半形空白。
 
-### 英文專有名詞的處理
+## 英文專有名詞的處理
 
 這點我想了很久，有些程式中的關鍵字像是 class 或者 function 之類的，到底該使用中文的翻譯名詞呢？還是直接打英文名詞？
 
@@ -44,13 +42,11 @@
 
 為了方便只知道英文名詞的人能夠查閱看不懂翻譯的名詞，我在附錄列了一張[中英專有名詞的對照表](src/english-word-table.md)。 希望多少有點幫助。
 
-### 回報與修正
-
-如果覺得哪裡翻譯有誤，或者覺得語句不通順，歡迎到 Github repository 的 [issue][4] 提出問題。 如果熟悉 Git 的話，也歡迎在 Github 上 fork 這個 repository 自行修改，並開啟 pull request 請求合併。
-
 [1]: https://github.com/SLMT/google-cpp-style-guide-zh-tw
 [2]: https://www.slmt.tw/google-cpp-style-guide-zh-tw/
 [3]: https://google.github.io/styleguide/cppguide.html
 [4]: https://github.com/SLMT/google-cpp-style-guide-zh-tw/issues
 [5]: https://github.com/google/styleguide/blob/63107a12eb85a4da33e2585a912234e4794cea06/cppguide.html
 [6]: https://github.com/google/styleguide/
+[7]: https://abseil.io/tips/
+[8]: https://github.com/SLMT/google-cpp-style-guide-zh-tw/issues/7
