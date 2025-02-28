@@ -1,0 +1,25 @@
+name: Deploy
+on:
+  push:
+    branches:
+      - master
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v4
+      
+      - name: Setup mdbook 🦀
+        uses: peaceiris/actions-mdbook@v2
+        with:
+          mdbook-version: '0.4.45'
+      
+      - name: Build 📕
+        run: mdbook build
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4.6.1
+        with:
+          branch: gh-pages
+          folder: book
