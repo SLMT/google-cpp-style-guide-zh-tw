@@ -1,49 +1,36 @@
 <!DOCTYPE HTML>
-<html lang="en" class="sidebar-visible no-js light">
+<html lang="en" class="light sidebar-visible" dir="ltr">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
         <title>Google C++ Style Guide 繁體中文版</title>
-        
-        <meta name="robots" content="noindex" />
-        
-        
+        <meta name="robots" content="noindex">
 
 
         <!-- Custom HTML head -->
                 <!-- Global site tag (gtag.js) - Google Analytics -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-103835191-1"></script>
-        <script>
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-
-          gtag('config', 'UA-103835191-1');
-        </script>
-
-        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+                <script async src="https://www.googletagmanager.com/gtag/js?id=UA-103835191-1"></script>
+                <script>
+                  window.dataLayer = window.dataLayer || [];
+                  function gtag(){dataLayer.push(arguments);}
+                  gtag('js', new Date());
+        
+                  gtag('config', 'UA-103835191-1');
+                </script>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="theme-color" content="#ffffff" />
+        <meta name="theme-color" content="#ffffff">
 
-        
         <link rel="icon" href="favicon.svg">
-        
-        
         <link rel="shortcut icon" href="favicon.png">
-        
         <link rel="stylesheet" href="css/variables.css">
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/chrome.css">
-        
         <link rel="stylesheet" href="css/print.css" media="print">
-        
 
         <!-- Fonts -->
         <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
-        
         <link rel="stylesheet" href="fonts/fonts.css">
-        
 
         <!-- Highlight.js Stylesheets -->
         <link rel="stylesheet" href="highlight.css">
@@ -51,19 +38,20 @@
         <link rel="stylesheet" href="ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
-        
 
-        
-    </head>
-    <body>
+
         <!-- Provide site root to javascript -->
-        <script type="text/javascript">
+        <script>
             var path_to_root = "";
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
-
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
-        <script type="text/javascript">
+        <script>
             try {
                 var theme = localStorage.getItem('mdbook-theme');
                 var sidebar = localStorage.getItem('mdbook-sidebar');
@@ -79,79 +67,81 @@
         </script>
 
         <!-- Set the theme before any content is loaded, prevents flash -->
-        <script type="text/javascript">
+        <script>
             var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
-            var html = document.querySelector('html');
-            html.classList.remove('no-js')
+            const html = document.documentElement;
             html.classList.remove('light')
             html.classList.add(theme);
-            html.classList.add('js');
+            html.classList.add("js");
         </script>
 
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
         <!-- Hide / unhide sidebar before it is displayed -->
-        <script type="text/javascript">
-            var html = document.querySelector('html');
-            var sidebar = 'hidden';
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
             }
+            sidebar_toggle.checked = sidebar === 'visible';
             html.classList.remove('sidebar-visible');
             html.classList.add("sidebar-" + sidebar);
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item affix "><a href="index.html">本書介紹</a></li><li class="spacer"></li><li class="chapter-item "><a href="background/index.html">背景</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="background/goals-of-the-style-guide.html">風格指引的目標</a></li></ol></li><li class="chapter-item "><a href="cpp-version.html">C++ 版本</a></li><li class="chapter-item "><a href="header-files/index.html">標頭檔 (Header Files)</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="header-files/self-contained-headers.html">自給自足標頭檔</a></li><li class="chapter-item "><a href="header-files/define-guard.html">#define 保護</a></li><li class="chapter-item "><a href="header-files/forward-declarations.html">前向宣告</a></li><li class="chapter-item "><a href="header-files/inline-functions.html">行內函式</a></li><li class="chapter-item "><a href="header-files/names-and-order-of-includes.html">#include 時的名稱與順序</a></li></ol></li><li class="chapter-item "><a href="scoping/index.html">作用域 (Scoping)</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="scoping/namespaces.html">名稱空間</a></li><li class="chapter-item "><a href="scoping/unnamed-namespace-and-static-variables.html">無名名稱空間與靜態變數</a></li><li class="chapter-item "><a href="scoping/nonmember-static-members.html">非成員、靜態成員、全域函式</a></li><li class="chapter-item "><a href="scoping/local-variables.html">區域變數</a></li><li class="chapter-item "><a href="scoping/static-and-global-variables.html">靜態與全域變數</a></li><li class="chapter-item "><a href="scoping/thread-local-variables.html">thread_local 的變數</a></li></ol></li><li class="chapter-item "><a href="classes/index.html">類別 (Classes)</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="classes/doing-work-in-constructor.html">在建構子內工作</a></li><li class="chapter-item "><a href="classes/implicit-conversions.html">隱性轉換</a></li><li class="chapter-item "><a href="work-in-progress.html">🚧 可複製或可轉移的型別</a></li><li class="chapter-item "><a href="classes/structs-vs-classes.html">🚧 Struct 與 Class 的比較</a></li><li class="chapter-item "><a href="work-in-progress.html">🚧 繼承</a></li><li class="chapter-item "><a href="work-in-progress.html">🚧 運算子多載</a></li><li class="chapter-item "><a href="work-in-progress.html">🚧 存取控制</a></li><li class="chapter-item "><a href="work-in-progress.html">🚧 宣告順序</a></li></ol></li><li class="chapter-item "><a href="work-in-progress.html">🚧 函式 (Functions)</a></li><li class="chapter-item "><a href="work-in-progress.html">🚧 Google 特有的魔術</a></li><li class="chapter-item "><a href="other-cpp-features/index.html">🚧 其他 C++ 特性</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="other-cpp-features/preprocessor-marcos.html">🚧 預處理器巨集</a></li></ol></li><li class="chapter-item "><a href="naming/index.html">命名 (Naming)</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="naming/general-naming-rules.html">通用命名規則</a></li><li class="chapter-item "><a href="naming/file-names.html">檔案名稱</a></li><li class="chapter-item "><a href="naming/type-names.html">型別名稱</a></li><li class="chapter-item "><a href="naming/variable-names.html">變數名稱</a></li><li class="chapter-item "><a href="naming/constant-names.html">常數名稱</a></li><li class="chapter-item "><a href="naming/function-names.html">函數名稱</a></li><li class="chapter-item "><a href="naming/namespace-names.html">名稱空間名稱</a></li><li class="chapter-item "><a href="naming/enumerator-names.html">列舉器名稱</a></li><li class="chapter-item "><a href="naming/macro-names.html">巨集名稱</a></li><li class="chapter-item "><a href="naming/exceptions-to-naming-rules.html">名稱規則的例外</a></li></ol></li><li class="chapter-item "><a href="work-in-progress.html">🚧 註解</a></li><li class="chapter-item "><a href="work-in-progress.html">🚧 排版</a></li><li class="chapter-item "><a href="work-in-progress.html">🚧 規則中的例外</a></li><li class="chapter-item "><a href="work-in-progress.html">🚧 結尾贈言</a></li><li class="spacer"></li><li class="chapter-item affix "><a href="english-word-table.html">附錄：中英文名詞對照</a></li></ol>
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
             </div>
-            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
 
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                
                 <div id="menu-bar-hover-placeholder"></div>
-                <div id="menu-bar" class="menu-bar sticky bordered">
+                <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
-                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
                             <i class="fa fa-bars"></i>
-                        </button>
+                        </label>
                         <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        
                         <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
-                        
                     </div>
 
                     <h1 class="menu-title">Google C++ Style Guide 繁體中文版</h1>
 
                     <div class="right-buttons">
-                        
                         <a href="print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
-                        
-                        
+
                     </div>
                 </div>
 
-                
                 <div id="search-wrapper" class="hidden">
                     <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
                     </form>
                     <div id="searchresults-outer" class="searchresults-outer hidden">
                         <div id="searchresults-header" class="searchresults-header"></div>
@@ -159,10 +149,9 @@
                         </ul>
                     </div>
                 </div>
-                
 
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
-                <script type="text/javascript">
+                <script>
                     document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
                     document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
                     Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
@@ -207,42 +196,43 @@
 <p>為了方便只知道英文名詞的人能夠查閱看不懂翻譯的名詞，我在附錄列了一張<a href="src/english-word-table.html">中英專有名詞的對照表</a>。 希望多少有點幫助。</p>
 <h3 id="回報與修正"><a class="header" href="#回報與修正">回報與修正</a></h3>
 <p>如果覺得哪裡翻譯有誤，或者覺得語句不通順，歡迎到 Github repository 的 <a href="https://github.com/SLMT/google-cpp-style-guide-zh-tw/issues">issue</a> 提出問題。 如果熟悉 Git 的話，也歡迎在 Github 上 fork 這個 repository 自行修改，並開啟 pull request 請求合併。</p>
-<h1 id="背景"><a class="header" href="#背景">背景</a></h1>
-<p>C++ 是許多 Google 開源專案 (Open Source Project) 中常用的程式語言。 如同許多 C++ 程式設計師所知，C++ 具有許多強大的特性，但是這也帶來許多複雜性，使得程式碼容易產生各種錯誤 (Bug)，並且也難以閱讀及維護。</p>
-<p>本指南的目標在於藉由說明那些東西該寫、哪些不該寫，來控制 C++ 程式碼的複雜度。 指南中提及的規則可以讓程式碼易於維護，同時也讓程式設計師能夠好好發揮 C++ 帶來的強大生產力。</p>
-<p>Style (風格) 也稱作 Readability (可讀性)，可以說是一種管理 C++ 程式碼的約定。 事實上，用 Style 這個字眼可能不太精確。 因為這類約定並非只有著墨在程式碼檔內的排版與格式。</p>
-<p>幾乎所有 Google 開發的開源專案皆遵守著本指南。</p>
-<p>注意：這份指引並非教你如何寫 C++，我們假設了讀者已經非常熟悉這個程式語言。</p>
-<h2 id="風格指引的目標"><a class="header" href="#風格指引的目標">風格指引的目標</a></h2>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="背景"><a class="header" href="#背景">背景</a></h1>
+<p>C++ 是許多 Google 開源專案中主要使用的程式語言之一。 如同許多 C++ 程式設計師所知，C++ 具有許多強大的特性，但這種強大也帶來了複雜性，使得程式碼容易產生各種錯誤 (Bug)，並且也難以閱讀及維護。</p>
+<p>本指南的目標在於藉由詳細說明哪些東西該寫、哪些不該寫，來管理 C++ 程式碼的複雜度。 這些規則存在的目的即是讓程式碼保持易於維護的同時，也讓開發者能有效地發揮 C++ 的特性。</p>
+<p>風格 (Style)，也稱作可讀性 (Readability)，即是我們用來管理 C++ 程式碼中遵循的慣例。 事實上，用 Style 這個字眼可能不太精確，因為這類約定並非只有著墨在程式碼的排版。</p>
+<p>Google 開發的絕大多數開源專案都遵循本指南。</p>
+<p>請注意：本指南並非 C++ 教學，我們假設讀者已熟悉這門程式語言。</p>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="風格指引的目標"><a class="header" href="#風格指引的目標">風格指引的目標</a></h2>
 <p>為什麼會有這份文件？</p>
-<p>這邊有幾個核心目標是我們相信這份文件該提供的。 這些目標就是構成這些規定的主要原因。 藉由提出這些想法，我們希望能夠攤開來討論，並且讓大家理解為什麼會有這些規則，以及某些特別的規定是如何訂定出來的。 如果你能了解每個規則是為了甚麼目標而制定，那大家應該也能更容易了解某些規定被丟棄時，有哪些必要的考量以及反論。</p>
-<p>這份文件目前我們認為的目標有以下幾點：</p>
+<p>這邊有幾個核心目標是我們相信這份文件該提供的。 這些目標是所有規則的根本依據。 藉由提出這些想法，我們希望透過明確呈現這些理念，讓大家理解這些規則存在的原因，以及某些決策背後的考量。 如果你能了解每個規則是為了甚麼目標而制定，那大家應該也應該更清楚何時某些規定可以豁免（確實有些可以），以及要修改本指南的一條規定時該做出哪些爭論與考量。</p>
+<p>這份文件的目標目前我們認為有以下幾點：</p>
 <h3 id="規則需要具有足夠的份量"><a class="header" href="#規則需要具有足夠的份量">規則需要具有足夠的份量</a></h3>
-<p>一條風格規則所帶來的好處必須大到足夠合理來要求我們的工程師記住它。 它的好處是以沒有這份指南的情況下撰寫出的程式碼為準來衡量的。 有些規則可能在一些極端不好的程式碼中具有些微的好處，但是這種程式碼一般人不太可能會寫得出來的話，我們就不會寫進這份指引。 這個原則解釋了大多數我們沒有撰寫的規則，而不是我們會有寫出的規則。 舉例來說，<code>goto</code> 違反了下面很多條原則，但是基本上很少人會使用它，因此這份風格指引就不討論它。</p>
-<h3 id="並非為了撰寫者而是為了讀者來優化"><a class="header" href="#並非為了撰寫者而是為了讀者來優化">並非為了撰寫者，而是為了讀者來優化</a></h3>
-<p>我們預計我們的程式碼庫 (以及大多數提交到上面的各個組件) 會持續維護很長的一段時間。 因此大多數的時間會花在讀懂它，而非撰寫它。 我們明確地選擇優化我們平凡工程師在於讀、維護以及偵錯程式碼的體驗，而非撰寫的便利性。 「為讀者留下足跡」正是一種在這個原則之下常見的觀點：如果在一段程式碼中正在發生一些驚喜或者不尋常的事情 (例如：轉移一個指標的所有權)，在這裡留下一些文字上的提示將會非常有用。 (<code>std::unique_ptr</code> 明確地在呼叫處展示了所有權轉移)。</p>
-<h3 id="與現有的程式碼保持一致性"><a class="header" href="#與現有的程式碼保持一致性">與現有的程式碼保持一致性</a></h3>
-<p>在我們程式庫中使用一致的風格讓我們可以專注在其他 (更重要) 的問題。 一致性同時也允許了自動化：那些自動幫你調整格式或者 <code>#include</code> 位置的工具只在你的程式碼如它預期般地一致時才能正常運作。 在很多狀況下，那些標記為「保持一致性」的規則其實是肇因於「不要想太多，挑一個就好」。 在那些情形允許彈性的潛在好處其實大於大家在那邊爭論所花費的時間。</p>
-<h3 id="適當時與盡可能大多數的-c-社群保持一致性"><a class="header" href="#適當時與盡可能大多數的-c-社群保持一致性">適當時與盡可能大多數的 C++ 社群保持一致性</a></h3>
-<p>跟其他組織使用 C++ 的方式保持一致所帶來的價值與在我們自己的程式庫中保持一致性的理由是相同的。 如果一個 C++ 標準的特性可以解決一個問題，或者一個寫法被大眾所接受，那就可以當成使用它的理由。 然而，有時候這些特性與寫法可能具有某些缺陷，或者並不是我們的程式庫所需要的。 在這類情況下，其實更適合限制或者禁止這些特性。 在某些情形，如果我們無法感受到特別的好處，或者沒有足夠的價值，比起那些定義在 C++ 標準上的函式庫，我們更喜歡從頭到尾自己撰寫或者直接使用一個第三方的函式庫。</p>
+<p>一條風格規則所帶來的好處必須大到足夠合理來要求我們的工程師記住它。 它的好處是以沒有這份指南的情況下撰寫出的程式碼為準來衡量的。 有些規則可能在一些極端不好的程式碼中具有些微的好處，但是這種程式碼一般人不太可能會寫得出來的話，我們就不會寫進這份指引。 這個原則解釋了大多數我們沒有寫進的規則。 舉例來說，<code>goto</code> 違反了下面很多條原則，但是現在已經很少見了，因此這份風格指引就不討論它。</p>
+<h3 id="優化的對象應該是程式碼的讀者而非撰寫者"><a class="header" href="#優化的對象應該是程式碼的讀者而非撰寫者">優化的對象應該是程式碼的讀者，而非撰寫者</a></h3>
+<p>我們預計我們的程式碼庫 (以及大多數提交到上面的各個組件) 會持續維護很長的一段時間。 因此大多數的時間會花在讀懂它，而非撰寫它。 我們明確選擇優先考量工程師在閱讀、維護與除錯程式碼時的體驗，而非撰寫的便利性。 「為讀者留下足跡」正是一種在這個原則之下常見的觀點：如果在一段程式碼中正在發生一些驚喜或者不尋常的事情 (例如：轉移一個指標的所有權)，在這裡留下一些文字上的提示將會非常有價值。 (<code>std::unique_ptr</code> 明確地在呼叫處提示了所有權轉移的行為)。</p>
+<h3 id="與現有的程式碼保持一致"><a class="header" href="#與現有的程式碼保持一致">與現有的程式碼保持一致</a></h3>
+<p>在我們程式庫中使用一致的風格讓我們可以專注在其他 (更重要) 的問題。 一致性也促進了自動化：例如格式化工具或 <code>#include</code> 調整工具，只有在程式碼符合預期的一致性時才能正常運作。 在許多情況下，那些被歸類為「保持一致性」的規則，實際上是在說「選一個標準並遵循它，別再糾結」。 在那些情形允許彈性的潛在好處其實大於大家在那邊爭論所花費的時間。 然而，一致性也有其局限性：當沒有明確的技術論點，或缺乏長期發展方向時，它可以作為決策的參考，但也僅限於應用在局部範圍內（例如單個檔案，或一組緊密相關的介面）。 要注意一致性不應成為忽視新風格優勢或阻礙程式碼轉向新風格的理由。</p>
+<h3 id="適時與更大的-c-社群保持一致"><a class="header" href="#適時與更大的-c-社群保持一致">適時與更大的 C++ 社群保持一致</a></h3>
+<p>跟其他組織使用 C++ 的方式保持一致所帶來的價值與在我們自己的程式庫中保持一致的理由是相同的。 如果一個 C++ 標準的特性可以解決一個問題，或者一個寫法被廣泛所知且接受，那就是一個使用它的有力理由。 然而，有時候這些特性與寫法可能具有某些缺陷，或者並不是我們的程式庫所需要的。 在這類情況下，其實更適合限制或者禁止這些特性。 在某些情形，沒有特別的好處或者足夠的價值讓我們轉換到標準介面上，我們會更傾向於使用我們自己撰寫或者第三方的函式庫。</p>
 <h3 id="避免令人驚訝或者危險的結構"><a class="header" href="#避免令人驚訝或者危險的結構">避免令人驚訝或者危險的結構</a></h3>
-<p>C++ 有著一些比看起來更令人訝異或者危險的特性。 這份風格指引內的部分限制就是為了要避免掉入這種陷阱裡。 風格指引對於放棄那些限制具有很高的標準，因為放棄那些規則很有可能會對程式的正確性造成很大的危機。</p>
-<h3 id="避免那些讓我們的平凡-c-程式設計師認為詭異或者難以維護的結構"><a class="header" href="#避免那些讓我們的平凡-c-程式設計師認為詭異或者難以維護的結構">避免那些讓我們的平凡 C++ 程式設計師認為詭異或者難以維護的結構</a></h3>
-<p>有些 C++ 的特性可能一般來說不太適合被使用，因為它們可能常造成一些額外的複雜性。 在一些廣泛被使用的程式碼中可能會適合使用特別的語言結構，因為複雜實作所帶來的好處會被廣泛使用這點放大，而且了解這些複雜東西的代價不需要在寫新一塊程式碼時再度付出一次。 如果有疑問的話，可以向專案領導詢問是否可以拋棄這類的規則。 這對我們的程式庫特別重要，因為程式碼的管理團隊與團隊內部的成員會隨著時間改變：儘管現在正在使用某段程式碼的每個人都了解它，經過了幾年後也不能保證仍會是如此。</p>
+<p>C++ 有著一些比看起來更令人訝異或者危險的特性。 這份風格指引內的部分限制就是為了要避免掉入這種陷阱裡。 風格指引對於豁免那些限制具有很高的標準，因為放棄那些規則很有可能會對程式的正確性造成很大的風險。</p>
+<h3 id="避免那些讓我們的一般-c-程式設計師認為詭異或者難以維護的結構"><a class="header" href="#避免那些讓我們的一般-c-程式設計師認為詭異或者難以維護的結構">避免那些讓我們的一般 C++ 程式設計師認為詭異或者難以維護的結構</a></h3>
+<p>有些 C++ 的特性可能一般來說不太適合被使用，因為它們可能常造成一些額外的複雜性。 在一些廣泛被使用的程式碼中可能會適合使用這種特別的結構，因為複雜實作所帶來的好處會被廣泛使用這點放大，而且了解這些複雜東西的代價不需要在寫新一塊程式碼時再度付出一次。 如果有疑問的話，可以向專案領導詢問是否可以豁免這類的規則。 這對我們的程式庫來說尤其重要，因為程式碼的擁有者與團隊成員會隨時間變動，使得長期維護變得更具挑戰性：儘管現在正在使用某段程式碼的每個人都了解它，經過了幾年後也不能保證仍會是如此。</p>
 <h3 id="在我們的規模下要非常小心"><a class="header" href="#在我們的規模下要非常小心">在我們的規模下要非常小心</a></h3>
-<p>對於一個超過 1 億行以及有著數千位工程師管理的程式庫來說，一個工程師的一些錯誤或者過於簡化的程式碼可能會造成嚴重的後果。 舉例來說，要特別注意不能汙染全域命名空間：如果大家都把東西放在全域命名空間的話，對於這種具有數億行程式碼的程式庫來說可能會很難避免命名衝突，並使得程式庫難以維護。</p>
-<h3 id="承認必要的優化"><a class="header" href="#承認必要的優化">承認必要的優化</a></h3>
+<p>對於一個超過 1 億行以及有著數千位工程師管理的程式庫來說，一個工程師的一些錯誤或者過於簡化的程式碼可能會對許多人造成極大的負擔。 舉例來說，要特別注意不能汙染全域命名空間 (global namespace)：如果大家都把東西放在全域命名空間的話，對於這種具有數億行程式碼的程式庫來說可能會很難避免命名衝突，並使得程式庫難以維護。</p>
+<h3 id="在必要時優先考量效能優化"><a class="header" href="#在必要時優先考量效能優化">在必要時優先考量效能優化</a></h3>
 <p>雖然有些效能上的優化可能會牴觸這份文件的一些原則，但是對於必要的情況來說還是可接受的。</p>
 <h3 id="結論"><a class="header" href="#結論">結論</a></h3>
-<p>這份文件的用意在於最大化地提供指引與適當的限制。 一如往常，我們的盡量使規則符合常識或看起來順眼。 我們特別參考了整個 Google C++ 社群建立起的傳統，而非單獨考量你個人的喜好或者你的團隊。 當你看到不尋常的結構時，請善用你的智慧並保持懷疑：沒有限制它們並不代表你可以忽略它們。 此時請你自行判斷，如果你不太確定，請不要猶豫，立即詢問你的專案領導來取得意見。</p>
-<h1 id="c-版本"><a class="header" href="#c-版本">C++ 版本</a></h1>
-<p>程式碼現在應該鎖定於 C++ 11 版。換句話說，不該使用 C++ 14 版與 C++ 17 版的功能。 這份指南鎖定的版本會 (積極地) 隨著時間跟進。</p>
-<p>程式碼應該避免使用那些在最新版中 (目前是 C++ 17 版) 被移除的特性，以及那些少數在最新版中具有不同意義的特性。 某些 C++ 的特性是被限制或者不允許被使用的。 不要使用<a href="cpp-version.html#">非標準的擴充套件 (Non-standard Extensions)</a>。</p>
-<h1 id="標頭檔-header-files"><a class="header" href="#標頭檔-header-files">標頭檔 (Header Files)</a></h1>
+<p>這份文件的用意在於最大化地提供指引與適當的限制。 一如往常，我們盡量讓這些規則符合常識並維持良好的程式風格。 我們特別參考了整個 Google C++ 社群建立起的傳統，而非單獨考量你個人的喜好或者你的團隊。 當你遇到不尋常的結構時，請保持懷疑並謹慎使用：沒有限制它們並不代表你可以忽略它們。 此時請你自行判斷，如果你不太確定，請不要猶豫，立即詢問你的專案領導來取得意見。</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="c-版本"><a class="header" href="#c-版本">C++ 版本</a></h1>
+<p>目前程式碼應以 C++20 版為目標，這也代表不應該使用 C++23 的特性。 本指南作為目標的 C++ 版本會隨時間快速更新。</p>
+<p>不要使用非標準的擴充功能 (Non-standard Extensions) (TODO: 加入到該章節的連結)。</p>
+<p>在你的專案使用 C++17 與 C++20 的特性以前應考慮不同環境的可攜性 (Portability)。</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="標頭檔-header-files"><a class="header" href="#標頭檔-header-files">標頭檔 (Header Files)</a></h1>
 <p>一般來說，每一個 <code>.cc</code> 檔都應該要有一個對應的 <code>.h</code> 檔。 不過也有一些常見的例外，像是單元測試 (Unit Test) 跟一些只包含著 <code>main()</code> 的小型 <code>.cc</code> 檔就不需要有。</p>
 <p>正確地使用標頭檔可以對可讀性、程式碼大小與效能帶來巨大的影響。</p>
 <p>以下這些原則會引領你克服標頭檔中各式各樣的陷阱。</p>
-<h2 id="自給自足標頭檔-self-contained-headers"><a class="header" href="#自給自足標頭檔-self-contained-headers">自給自足標頭檔 (Self-contained Headers)</a></h2>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="自給自足標頭檔-self-contained-headers"><a class="header" href="#自給自足標頭檔-self-contained-headers">自給自足標頭檔 (Self-contained Headers)</a></h2>
 <blockquote>
 <p>標頭檔應該要自給自足 (self-contained)，而且副檔名必須是 <code>.h</code>。 其他具有插入目的，但不是標頭檔者，則應該要使用 <code>.inc</code> 作為副檔名，並且應該盡少使用。</p>
 </blockquote>
@@ -250,7 +240,7 @@
 <p>建議將模板與行內函式的定義放在同樣的檔案作為宣告。 所有使用到這些東西的 <code>.cc</code> 檔都應該要載入這些結構，不然在某些建置設定下會造成程式無法連結。 如果將定義與宣告分別在不同檔案，載入宣告的話也應該要能夠同時載入其定義。 不要將這些定義移至額外的 <code>-inl.h</code> 檔中。 這種作法在過去很常見，但是從現在開始不允許這麼做。</p>
 <p>有一個例外是，函式模板的顯式實體化 (explicitly instantiated) 或者該模板是一個類別的私有成員的話，可以只定義在實體化該模板的 <code>.cc</code> 檔中。</p>
 <p>在某些極少數的狀況下，標頭檔可以不用是自給自足的。 這些特殊的標頭檔通常是用來載入程式碼到做一些不尋常的位置，例如載入到另一個檔案的中間。 他們可以不使用 <a href="header-files/define-guard.html">標頭檔保護</a>，而且可能沒有載入他們所需的檔案。 這種類型的檔案應該使用 <code>.inc</code> 作為副檔名。 盡量別使用這種檔案，可能的話還是盡量用自給自足的標頭檔。</p>
-<h2 id="define-保護-the-define-guard-a-namedefine_guarda"><a class="header" href="#define-保護-the-define-guard-a-namedefine_guarda"><code>#define</code> 保護 (The <code>#define</code> Guard) <a name="define_guard"></a></a></h2>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="define-保護-the-define-guard"><a class="header" href="#define-保護-the-define-guard"><code>#define</code> 保護 (The <code>#define</code> Guard) <a name="define_guard"></a></a></h2>
 <blockquote>
 <p>所有的標頭檔應該要包含 <code>#define</code> 保護，以防止多重載入。 其名稱的格式為 <code>&lt;專案名稱&gt;_&lt;路徑&gt;_&lt;檔名&gt;_H_</code>。</p>
 </blockquote>
@@ -262,7 +252,7 @@
 
 #endif  // FOO_BAR_BAZ_H_
 </code></pre>
-<h2 id="前向宣告-forward-declarations-a-nameforward_declarationa"><a class="header" href="#前向宣告-forward-declarations-a-nameforward_declarationa">前向宣告 (Forward Declarations) <a name="forward_declaration"></a></a></h2>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="前向宣告-forward-declarations"><a class="header" href="#前向宣告-forward-declarations">前向宣告 (Forward Declarations) <a name="forward_declaration"></a></a></h2>
 <blockquote>
 <p>盡可能地避免使用前向宣告。 只要 <code>#include</code> 你需要的標頭檔就好。</p>
 </blockquote>
@@ -291,7 +281,7 @@ struct B {};
 struct D : B {};
 
 // good_user.cc:
-#include &quot;b.h&quot;
+#include "b.h"
 void f(B*);
 void f(void*);
 void test(D* x) { f(x); } // calls f(B*)
@@ -323,7 +313,7 @@ void test(D* x) { f(x); } // calls f(B*)
 <pre><code class="language-c++">class A;
 </code></pre>
 <p>這樣就可以不用使用 <code>#include</code> 來載入相關的標頭檔。 但是這個使用有個限制，就是程式碼中使用到 <code>class A</code> 的地方，都只能使用指標或參考，而不能直接使用像是 <code>A a</code> 這樣的變數。 使用類別的前向宣告要注意的事情相對比較多，所以上面的建議才會提到大部份的情況還是直接 <code>#include</code> 比較好。</p>
-<h2 id="行內函式-inline-functions"><a class="header" href="#行內函式-inline-functions">行內函式 (Inline Functions)</a></h2>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="行內函式-inline-functions"><a class="header" href="#行內函式-inline-functions">行內函式 (Inline Functions)</a></h2>
 <blockquote>
 <p>只有在函式程式碼少於或等於 10 行時才將它宣告為行內函式。</p>
 </blockquote>
@@ -343,12 +333,12 @@ void test(D* x) { f(x); } // calls f(B*)
 	return a + b;
 }
 </code></pre>
-<h2 id="include-時的名稱與順序"><a class="header" href="#include-時的名稱與順序"><code>#include</code> 時的名稱與順序</a></h2>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="include-時的名稱與順序"><a class="header" href="#include-時的名稱與順序"><code>#include</code> 時的名稱與順序</a></h2>
 <blockquote>
 <p>利用右列順序 <code>#include</code> 標頭檔，避免隱藏的依賴關係：直屬的標頭檔、C 函式庫、C++ 函式庫、其他函式庫 <code>.h</code> 檔、你的專案的 <code>.h</code> 檔。</p>
 </blockquote>
 <p>所有標頭檔的路徑應該都要以專案的程式碼目錄為起點，並且不要使用 UNIX 資料夾簡稱，像是 <code>.</code> (現在) 跟 <code>..</code> (上一個目錄)。 舉例來說，<code>google-awesome-project/src/base/logging.h</code> 檔案應該要被這樣載入：</p>
-<pre><code class="language-c++">#include &quot;base/logging.h&quot;
+<pre><code class="language-c++">#include "base/logging.h"
 </code></pre>
 <p>假設現在有 <code>dir/foo.cc</code> 或 <code>dir/foo_test.cc</code> 檔案，其目標在於實作或測試 <code>dir2/foo2.h</code> 檔內的東西，那麼 <code>#include</code> 的順序應該這樣寫：</p>
 <ol>
@@ -364,29 +354,29 @@ void test(D* x) { f(x); } // calls f(B*)
 <p>每個區塊中的檔案應該要依照字母順序排列。 要注意一些比較老的專案中可能沒有遵照這個規則，這些錯誤都應該要等方便的時候修改過來。</p>
 <p>你應該要 <code>#include</code> 所有包含你使用到任何符號的標頭檔 (除非你在一些不尋常的狀況中使用了<a href="header-files/forward-declarations.html">前向宣告</a>)。 如果你使用了 <code>bar.h</code> 中的符號，別期待你 <code>#include</code> 了 <code>foo.h</code> 之後，<code>foo.h</code> 裡面會包含著 <code>bar.h</code>，此時你應該也要 <code>#include</code> <code>bar.h</code>。 除非 <code>foo.h</code> 有明顯地展現出它提供了 <code>bar.h</code> 中的符號。 另外，已經在直屬的標頭檔中 <code>#include</code> 過的東西，可以不用在 <code>cc</code> 檔中 <code>#include</code> (像是 <code>foo.cc</code> 可以依賴在 <code>foo.h</code> 上)。</p>
 <p>舉個範例，<code>google-awesome-project/src/foo/internal/fooserver.cc</code> 檔中的 <code>#include</code> 可能長這樣：</p>
-<pre><code class="language-c++">#include &quot;foo/server/fooserver.h&quot;
+<pre><code class="language-c++">#include "foo/server/fooserver.h"
 
 #include &lt;sys/types.h&gt;
 #include &lt;unistd.h&gt;
 #include &lt;hash_map&gt;
 #include &lt;vector&gt;
 
-#include &quot;base/basictypes.h&quot;
-#include &quot;base/commandlineflags.h&quot;
-#include &quot;foo/server/bar.h&quot;
+#include "base/basictypes.h"
+#include "base/commandlineflags.h"
+#include "foo/server/bar.h"
 </code></pre>
 <h3 id="特例"><a class="header" href="#特例">特例</a></h3>
 <p>有時候，只能在某些系統中使用的程式碼需要有條件地 <code>#include</code>，這種就可以程式碼就可以放在所有 <code>#include</code> 之後。 當然，盡可能地讓這種程式碼越少且影響範圍越小越好。 例子：</p>
-<pre><code class="language-c++">#include &quot;foo/public/fooserver.h&quot;
+<pre><code class="language-c++">#include "foo/public/fooserver.h"
 
-#include &quot;base/port.h&quot;  // For LANG_CXX11.
+#include "base/port.h"  // For LANG_CXX11.
 
 #ifdef LANG_CXX11
 #include &lt;initializer_list&gt;
 #endif  // LANG_CXX11
 </code></pre>
-<h1 id="作用域-scoping"><a class="header" href="#作用域-scoping">作用域 (Scoping)</a></h1>
-<h2 id="名稱空間-namespaces"><a class="header" href="#名稱空間-namespaces">名稱空間 (Namespaces)</a></h2>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="作用域-scoping"><a class="header" href="#作用域-scoping">作用域 (Scoping)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="名稱空間-namespaces"><a class="header" href="#名稱空間-namespaces">名稱空間 (Namespaces)</a></h2>
 <blockquote>
 <p>除了某些特殊情況外，程式碼應當放在名稱空間中。 名稱空間應該要有個跟專案名稱有關、獨一無二的名字，最好也把路徑考慮進去。 不要使用 using 指示詞 (using-directive)，像是 <code>using namespace foo</code>。 不要使用行內名稱空間 (inline namespace)。 關於未被命名的名稱空間，請參考「<a href="scoping/unnamed-namespace-and-static-variables.html">無名名稱空間與靜態變數</a>」一章。</p>
 </blockquote>
@@ -442,9 +432,9 @@ void MyClass::Foo() {
 }  // namespace mynamespace
 </code></pre>
 <p>一般的的 <code>.cc</code> 檔中可能會有更多複雜的細節，例如 flags 或者 using 指示詞。</p>
-<pre><code class="language-c++">#include &quot;a.h&quot;
+<pre><code class="language-c++">#include "a.h"
 
-DEFINE_bool(someflag, false, &quot;dummy flag&quot;);
+DEFINE_bool(someflag, false, "dummy flag");
 
 namespace mynamespace {
 
@@ -539,7 +529,7 @@ void fun() {
 }
 </code></pre>
 <p>這樣原本連結到 <code>SomeLib::v1::fun</code> 的程式仍然可以運作，而且新的程式呼叫 <code>SomeLib::fun</code> 時，也可以如我預期地使用到新的版本 (v2 版)。 因此行內名稱空間才常用於函式庫的版本控管。 但是如同 Google Style 所說，這樣的行為可能實在會導致預期外的結果，所以還是盡量避免使用。</p>
-<h2 id="無名名稱空間與靜態變數"><a class="header" href="#無名名稱空間與靜態變數">無名名稱空間與靜態變數</a></h2>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="無名名稱空間與靜態變數"><a class="header" href="#無名名稱空間與靜態變數">無名名稱空間與靜態變數</a></h2>
 <blockquote>
 <p>當你需要在 <code>.cc</code> 檔內放一些不會被其他檔案參考的的定義，請將這些東西放在一個無名名稱空間中，或者將他們全部宣告為 <code>static</code>。 不要在 <code>.h</code> 檔內使用任何這種結構。</p>
 </blockquote>
@@ -554,7 +544,7 @@ void fun() {
 </code></pre>
 <h3 id="譯註-3"><a class="header" href="#譯註-3">譯註</a></h3>
 <p>內部連結性 (Internal Linkage) 這個詞不常見，因此稍微解釋一下。 當今天有多個目的檔 (Object Files) 要合併成單一執行檔時，連結器 (Linker) 就會出動，並把這些檔案連結在一起。 具有內部連結性的變數或定義，具有可以在同一專案內被隨處使用，但是在專案外就無法使用的特性。 想要更深入了解可以參考這篇 <a href="https://www.geeksforgeeks.org/internal-linkage-external-linkage-c/">說明文件(英文)</a>。</p>
-<h2 id="非成員靜態成員全域函式"><a class="header" href="#非成員靜態成員全域函式">非成員、靜態成員、全域函式</a></h2>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="非成員靜態成員全域函式"><a class="header" href="#非成員靜態成員全域函式">非成員、靜態成員、全域函式</a></h2>
 <blockquote>
 <p>盡量將非成員函式放在名稱空間中；少用完全的全域函式 (也就是說，不包含在任何名稱空間中)。 請不要把靜態函式包裝成一個類別。 類別的靜態成員一般來說應該要與類別的實例或者靜態資料有高度相關。</p>
 </blockquote>
@@ -565,7 +555,7 @@ void fun() {
 <h3 id="我們的決定-4"><a class="header" href="#我們的決定-4">我們的決定</a></h3>
 <p>有時候定義一個不受類別實例限制的函式很有用。 這樣的函式可以是非成員或者靜態成員函式。 非成員函式不應該依賴在某個外部變數上，而且應該放在某個名稱空間內。 不要特別為了一群函式建立一個類別，這與直接在函式前面加上前綴 (Prefix) 沒甚麼兩樣，而且這種包裝通常都不是必要的。</p>
 <p>如果你定義了一個非成員函式，而且它只需要用在它所屬的 <code>.cc</code> 檔中，請使用 <a href="scoping/unnamed-namespace-and-static-variables.html">內部連結性</a> 來限制它的作用域。</p>
-<h2 id="區域變數"><a class="header" href="#區域變數">區域變數</a></h2>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="區域變數"><a class="header" href="#區域變數">區域變數</a></h2>
 <blockquote>
 <p>將函式的變數盡可能地放在最小的作用域內，並在宣告變數的同時初始化</p>
 </blockquote>
@@ -597,7 +587,7 @@ for (int i = 0; i &lt; 1000000; ++i) {
   f.DoSomething(i);
 }
 </code></pre>
-<h2 id="靜態與全域變數"><a class="header" href="#靜態與全域變數">靜態與全域變數</a></h2>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="靜態與全域變數"><a class="header" href="#靜態與全域變數">靜態與全域變數</a></h2>
 <blockquote>
 <p>不允許使用有著靜態生存期 (<a href="http://en.cppreference.com/w/cpp/language/storage_duration#Storage_duration">static storage duration</a>) 的物件，除非他們是可平凡解構的 (<a href="http://en.cppreference.com/w/cpp/types/is_destructible">trivially destructible</a>)。 白話來說，這代表他的解構函式不做任何事情，包括他的成員與基底類別的解構函式在內。 更正式地說，這代表他的型別沒有使用者定義的或是虛擬解構函式 (virtual destructor)，而且他的基底類別跟非靜態成員都是可平凡解構的。 函式內的區域變數可以使用動態初始化。 不鼓勵對靜態類別成員變數與位於命名空間作用域的變數使用動態初始化，但是在某些限定的情況下允許。 請看以下說明。</p>
 </blockquote>
@@ -618,18 +608,18 @@ struct X { int n; };
 const X kX[] = {{1}, {2}, {3}};  // 允許
 
 void foo() {
-  static const char* const kMessages[] = {&quot;hello&quot;, &quot;world&quot;};  // 允許
+  static const char* const kMessages[] = {"hello", "world"};  // 允許
 }
 
 // 允許: constexpr 保證具備平凡的解構函式
 constexpr std::array&lt;int, 3&gt; kArray = {{1, 2, 3}};
 </code></pre>
 <pre><code class="language-c++">// 不好: 不是可平凡解構的
-const string kFoo = &quot;foo&quot;;
+const string kFoo = "foo";
 
 // 雖然 kBar 只是一個參考 (reference)，但是因為相同原因所以不好。
 // 注意這個規則也適用於延長存活期的暫存物件中。
-const string&amp; kBar = StrCat(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;);
+const string&amp; kBar = StrCat("a", "b", "c");
 
 void bar() {
   // 不好: 非可平凡解構函式
@@ -676,7 +666,7 @@ Bar b;                     // 選用的建構函數 Bar::Bar() 也不是 constex
 <li>自製型別的靜態變數： 如果你要求對你自己設計的型別使用靜態的常數資料，請給他一個平凡的解構函式以及 <code>constexpr</code> 的建構函數。</li>
 <li>如果這些方法都不能用，你可以動態建立一個物件並將該物件綁訂在一個函式內的區域靜態指標變數，並且永遠都不要刪除它：<code>static const auto* const impl = new T(args...);</code> (如果初始化更複雜，你可以把它移入一個函式或者寫成一個 Lambda 運算式。)</li>
 </ul>
-<h2 id="thread_local-變數"><a class="header" href="#thread_local-變數"><code>thread_local</code> 變數</a></h2>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="thread_local-變數"><a class="header" href="#thread_local-變數"><code>thread_local</code> 變數</a></h2>
 <blockquote>
 <p>對於不是在 function 內宣告的 <code>thread_local</code> 變數，一定要以編譯時期常數來初始化，而且一定要用 <a href="https://github.com/abseil/abseil-cpp/blob/master/absl/base/attributes.h">ABSL_CONST_INIT</a> 屬性確保這件事。 偏好使用 <code>thread_local</code> 來定義執行緒內的區域變數。</p>
 </blockquote>
@@ -711,9 +701,9 @@ Bar b;                     // 選用的建構函數 Bar::Bar() 也不是 constex
 <pre><code class="language-cpp">ABSL_CONST_INIT thread_local Foo foo = ...;
 </code></pre>
 <p>在定義執行緒內變數 (thread-local variables) 時應優先使用 <code>thread_local</code>。</p>
-<h1 id="類別-classes"><a class="header" href="#類別-classes">類別 (Classes)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="類別-classes"><a class="header" href="#類別-classes">類別 (Classes)</a></h1>
 <p>類別是 C++ 程式碼中的基本元件。 我們平常會廣泛地使用它。 這章列出了你在撰寫類別的時候，應該以及不應該做的事情。</p>
-<h2 id="在建構函式內的工作"><a class="header" href="#在建構函式內的工作">在建構函式內的工作</a></h2>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="在建構函式內的工作"><a class="header" href="#在建構函式內的工作">在建構函式內的工作</a></h2>
 <blockquote>
 <p>避免在建構函式內呼叫虛擬函式，而且避免在你無法送出錯誤訊號的時候進行一些可能失敗的初始化工作。</p>
 </blockquote>
@@ -733,7 +723,7 @@ Bar b;                     // 選用的建構函數 Bar::Bar() 也不是 constex
 </ul>
 <h3 id="我們的決定-7"><a class="header" href="#我們的決定-7">我們的決定</a></h3>
 <p>建構函式內部應該永遠不要呼叫虛擬函式。 如果你覺得合適的話，也許可以終止程式可以當作一種回報錯誤的方式。 除此之外，可以考慮像 <a href="https://abseil.io/tips/42">TotW #42</a> 所述那樣建立工廠方法 (Factory Method) 或者 <code>Init()</code> 方法。 避免在那些沒有儲存任何會影響到公用方法 (Public Methods) 的變數的物件中使用 <code>Init()</code> 方法 (有這種半建構式的物件存在時很難把程式寫對)。</p>
-<h2 id="隱性轉換-implicit-conversions"><a class="header" href="#隱性轉換-implicit-conversions">隱性轉換 (Implicit Conversions)</a></h2>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="隱性轉換-implicit-conversions"><a class="header" href="#隱性轉換-implicit-conversions">隱性轉換 (Implicit Conversions)</a></h2>
 <blockquote>
 <p>不要定義隱性轉換。 在轉換運算子與接受單一引數的建構子上標註 <code>explicit</code> 關鍵字。</p>
 </blockquote>
@@ -769,20 +759,20 @@ void Func(Foo f);
 <h3 id="我們的決定-8"><a class="header" href="#我們的決定-8">我們的決定</a></h3>
 <p>型別轉換運算子與接受單一引數的建構子必須在類別的定義中標註 <code>explicit</code>。 一個例外是，複製與轉移建構子不應該是 <code>explicit</code>，因為他們並不會進行型別轉換。 隱性轉換在某些時候可以是必要的且對設計為透明包裝其他型別的型別來說是適當的。 對於這種情況請聯絡你的專案領導人來請求免去這個限制。</p>
 <p>對於無法使用單一引數呼叫的建構子來說可以省略 <code>explicit</code>。 只接受單一 <code>std::initializer_list</code> 引數的建構子也應該省略 <code>explicit</code>，這樣才能支援複製初始化 (copy-initalization, 例如：<code>MyType m = {1, 2}'</code>)。</p>
-<h1 id="建置中"><a class="header" href="#建置中">建置中...</a></h1>
-<h1 id="-struct-與-class-的比較"><a class="header" href="#-struct-與-class-的比較">🚧 Struct 與 Class 的比較</a></h1>
-<h1 id="建置中-1"><a class="header" href="#建置中-1">建置中...</a></h1>
-<h1 id="建置中-2"><a class="header" href="#建置中-2">建置中...</a></h1>
-<h1 id="建置中-3"><a class="header" href="#建置中-3">建置中...</a></h1>
-<h1 id="建置中-4"><a class="header" href="#建置中-4">建置中...</a></h1>
-<h1 id="建置中-5"><a class="header" href="#建置中-5">建置中...</a></h1>
-<h1 id="建置中-6"><a class="header" href="#建置中-6">建置中...</a></h1>
-<h1 id="-其他-c-特性"><a class="header" href="#-其他-c-特性">🚧 其他 C++ 特性</a></h1>
-<h1 id="-預處理器巨集"><a class="header" href="#-預處理器巨集">🚧 預處理器巨集</a></h1>
-<h1 id="命名-naming"><a class="header" href="#命名-naming">命名 (Naming)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="建置中"><a class="header" href="#建置中">建置中...</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="-struct-與-class-的比較"><a class="header" href="#-struct-與-class-的比較">🚧 Struct 與 Class 的比較</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="建置中-1"><a class="header" href="#建置中-1">建置中...</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="建置中-2"><a class="header" href="#建置中-2">建置中...</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="建置中-3"><a class="header" href="#建置中-3">建置中...</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="建置中-4"><a class="header" href="#建置中-4">建置中...</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="建置中-5"><a class="header" href="#建置中-5">建置中...</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="建置中-6"><a class="header" href="#建置中-6">建置中...</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="-其他-c-特性"><a class="header" href="#-其他-c-特性">🚧 其他 C++ 特性</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="-預處理器巨集"><a class="header" href="#-預處理器巨集">🚧 預處理器巨集</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="命名-naming"><a class="header" href="#命名-naming">命名 (Naming)</a></h1>
 <p>最重要的一致性規則是那些管理命名的規則。 一個名稱的風格可以讓我們在不需要搜尋一個實體的宣告的情況下，立即告知我們被命名的實體是哪種類型的東西：一個型別、一個變數、一個函數、一個常數、一個巨集等等。 我們大腦中的模式匹配 (Pattern-Matching) 引擎很高程度地仰賴這些命名規則。</p>
 <p>命名的規則相當隨意，但是我們覺得在這個領域一致性比起個人的喜好更為重要，因此無論你發現這些規則是否明智，規則就是規則。</p>
-<h2 id="通用命名規則-general-naming-rules"><a class="header" href="#通用命名規則-general-naming-rules">通用命名規則 (General Naming Rules)</a></h2>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="通用命名規則-general-naming-rules"><a class="header" href="#通用命名規則-general-naming-rules">通用命名規則 (General Naming Rules)</a></h2>
 <blockquote>
 <p>命名應該要具有敘述的能力；避免使用縮寫。</p>
 </blockquote>
@@ -805,7 +795,7 @@ FooBarRequestInfo fbri;    // 這根本不是一個字
 <p>注意有些普遍知道的縮寫是可以接受的，像是 <code>i</code> 代表疊代 (iteration) 次數以及 <code>T</code> 代表模板 (template) 參數。</p>
 <p>對於某些符號，這份指引建議對應的名稱以大寫字母作為開頭，並在每一個單詞的首字都使用大寫字母 (也就是所謂的<a href="https://zh.wikipedia.org/wiki/%E9%A7%9D%E5%B3%B0%E5%BC%8F%E5%A4%A7%E5%B0%8F%E5%AF%AB">駝峰式命名法</a>)。 在這種名稱中如果出現縮寫或者首字型縮寫 (acronyms, 譯註：指的是用每個單字的第一個字母組成的縮寫) 的話，偏好將該縮寫或首字型縮寫視為一個單詞來處理 (像是 <code>StartRpc()</code>，而不是 <code>StartRPC()</code>)。</p>
 <p>模板參數應該要遵從所屬種類的命名風格：型別模板參數應該遵從<a href="naming/type-names.html">型別名稱</a>的規則，以及非型別模板參數應該要遵從<a href="naming/variable-names.html">變數名稱</a>的規則。</p>
-<h1 id="檔案名稱"><a class="header" href="#檔案名稱">檔案名稱</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="檔案名稱"><a class="header" href="#檔案名稱">檔案名稱</a></h1>
 <blockquote>
 <p>檔案名稱應該完全使用小寫，並可以包含底線 (<code>_</code>) 或是橫槓 (<code>-</code>)。 關於這點請遵循各專案的慣例。 如果沒有可以遵循且一致的本地模式，偏好使用 <code>_</code>。</p>
 </blockquote>
@@ -819,7 +809,7 @@ FooBarRequestInfo fbri;    // 這根本不是一個字
 <p>C++ 檔案應該以 <code>.cc</code> 結尾，同時標頭檔應該以 <code>.h</code> 結尾。 依賴於在某個特定位置被文字引入的檔案應該以 <code>.inc</code> 結尾 (更多請看<a href="naming/../header-files/self-contained-headers.html">自給自足標頭檔</a>的章節)。</p>
 <p>不要使用已經存在於 <code>/usr/include</code> 的檔名，像是 <code>db.h</code>。</p>
 <p>一般來說，應該要讓你的檔案名稱非常精確。 例如，使用 <code>http_server_logs.h</code> 而不是 <code>logs.h</code>。 一個常見的狀況是使用相同名稱為一對檔案命名，像是 <code>foo_bar.h</code> 與 <code>foo_bar.cc</code> 定義了名為 <code>FooBar</code> 的類別。</p>
-<h2 id="型別名稱-type-names"><a class="header" href="#型別名稱-type-names">型別名稱 (Type Names)</a></h2>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="型別名稱-type-names"><a class="header" href="#型別名稱-type-names">型別名稱 (Type Names)</a></h2>
 <blockquote>
 <p>型別名稱始於一個大寫字母，並且每個單字的開頭皆為大寫字母，同時不包含底線：<code>MyExcitingClass</code>、<code>MyExcitingEnum</code>。</p>
 </blockquote>
@@ -838,7 +828,7 @@ using PropertiesMap = hash_map&lt;UrlTableProperties *, string&gt;;
 // 列舉
 enum UrlTableErrors { ...
 </code></pre>
-<h2 id="變數名稱-variable-names"><a class="header" href="#變數名稱-variable-names">變數名稱 (Variable Names)</a></h2>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="變數名稱-variable-names"><a class="header" href="#變數名稱-variable-names">變數名稱 (Variable Names)</a></h2>
 <blockquote>
 <p>變數 (包含函式的參數) 與資料成員的名稱全部都使用小寫，並使用底線隔開單字。 類別 (但不包含結構) 的資料成員要另外在尾部加上底線。 例如，區域變數：<code>a_local_variable</code>、結構資料成員：<code>a_struct_data_member</code>、類別資料成員：<code>a_class_data_member_</code>。</p>
 </blockquote>
@@ -869,7 +859,7 @@ string tablename;   // 可以 - 全部小寫
 };
 </code></pre>
 <p>請看<a href="naming/../classes/structs-vs-classes.html">結構與類別</a>章節的討論來瞭解何時該使用結構而不是類別。</p>
-<h1 id="常數名稱"><a class="header" href="#常數名稱">常數名稱</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="常數名稱"><a class="header" href="#常數名稱">常數名稱</a></h1>
 <blockquote>
 <p>使用 <code>constexpr</code> 或 <code>const</code> 宣告的變數，以及在程式全期數值皆是固定的變數，其名稱應該以「k」為開頭，並使用大小寫混和的寫法。 底線可以用在少數無法使用大小寫明確分開的場合。例如：</p>
 <pre><code class="language-c++">const int kDaysInAWeek = 7;
@@ -877,7 +867,7 @@ const int kAndroid8_0_0 = 24;  // Android 8.0.0
 </code></pre>
 <p>所有具備以上性質同時有靜態儲存期 (例如靜態變數與全域變數，詳情請參照<a href="http://en.cppreference.com/w/cpp/language/storage_duration#Storage_duration">儲存期</a>) 的變數都應該這樣命名。 這項慣例對其他儲存種類的變數來說是選擇性的 (例如自動變數)，其他情況應使用一般的變數命名規則。</p>
 </blockquote>
-<h1 id="函數名稱"><a class="header" href="#函數名稱">函數名稱</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="函數名稱"><a class="header" href="#函數名稱">函數名稱</a></h1>
 <blockquote>
 <p>一般函式應使用大小寫混和；存取子 (Accessor) 與修改子 (Mutator) 可以使用變數的方式命名。</p>
 </blockquote>
@@ -888,7 +878,7 @@ OpenFileOrDie()
 </code></pre>
 <p>(相同的命名規則也適用於類別與名稱空間範圍之中，那些作為 API 的一部分釋出的、或是意圖使人看起來像是函數的常數。 因為這些常數其實是物件而不是函式這點算是不重要的實作細節。)</p>
 <p>存取子與修改子 (get 與 set 函式) 可以用變數的方式命名。 他們的命名通常與實際的成員變數有關，但這並非必要。 例如：<code>int count()</code> 與 <code>void set_count(int count)</code>。</p>
-<h1 id="名稱空間名稱"><a class="header" href="#名稱空間名稱">名稱空間名稱</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="名稱空間名稱"><a class="header" href="#名稱空間名稱">名稱空間名稱</a></h1>
 <blockquote>
 <p>名稱空間全部使用小寫。 最頂層的名稱空間應使用基於專案名稱的名字。 避免巢狀名稱空間以及與知名頂層名稱空間的命名碰撞。</p>
 </blockquote>
@@ -896,7 +886,7 @@ OpenFileOrDie()
 <p>注意<a href="naming/general-naming-rules.html">針對縮寫名稱的規則</a>也如同變數一樣適用於名稱空間。 名稱空間中的程式碼很少會需要提及名稱空間的名稱，所以通常沒有使用縮寫的必要。</p>
 <p>避免使用名稱與知名頂層名稱空間衝突的巢狀名稱空間。 名稱空間的命名衝突可能因為命名查詢規則造成意外的建置錯誤。 特別是不要建立任何命名為 <code>std</code> 的巢狀名稱空間。 優先使用獨特的專案 ID (<code>websearch::index</code>、<code>websearch::index_util</code>)，而不是容易發生衝突的名稱，像是 <code>websearch::util</code>。</p>
 <p>對於 <code>internal</code> 名稱空間，請注意將其他程式碼加入同樣的 <code>internal</code> 名稱空間中會導致衝突 (團隊內部的輔助函式 (Helper Functions) 傾向於且可能導致衝突)。 在這種情況下，使用檔名來建立一個獨特的內部名稱很有用 (像是對 <code>frobber.h</code> 中的程式使用 <code>websearch::index::frobber_internal</code>)。</p>
-<h1 id="列舉器名稱"><a class="header" href="#列舉器名稱">列舉器名稱</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="列舉器名稱"><a class="header" href="#列舉器名稱">列舉器名稱</a></h1>
 <blockquote>
 <p>列舉器的值 (無論是否有限定範圍) 都應該要以<a href="naming/constant-names.html">常數</a>或者<a href="naming/macro-names.html">巨集</a>的方式命名：像是 <code>kEnumName</code> 或 <code>ENUM_NAME</code>。</p>
 </blockquote>
@@ -913,7 +903,7 @@ enum AlternateUrlTableErrors {
 };
 </code></pre>
 <p>到 2009 年一月前，這個指引寫著應該要以<a href="naming/macro-names.html">巨集</a>的方式命名。 這造成了列舉器的值與巨集的名稱衝突問題。 因此才改成了建議使用常數命名法。 新的程式碼應該在可以的時候皆使用常數命名法。 然而目前也沒有理由要把舊程式碼也改成常數命名法，除非舊程式碼造成了編譯時期的問題。</p>
-<h1 id="巨集名稱"><a class="header" href="#巨集名稱">巨集名稱</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="巨集名稱"><a class="header" href="#巨集名稱">巨集名稱</a></h1>
 <blockquote>
 <p>你不是真要定義一個<a href="naming/../other-cpp-features/preprocessor-marcos.html">巨集</a>吧？ 如果真的要做的話，他們應該長這樣：<code>MY_MACRO_THAT_SCARES_SMALL_CHILDREN_AND_ADULTS_ALIKE</code>。</p>
 </blockquote>
@@ -921,7 +911,7 @@ enum AlternateUrlTableErrors {
 <pre><code class="language-c++">#define ROUND(x) ...
 #define PI_ROUNDED 3.0
 </code></pre>
-<h1 id="名稱規則的例外"><a class="header" href="#名稱規則的例外">名稱規則的例外</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="名稱規則的例外"><a class="header" href="#名稱規則的例外">名稱規則的例外</a></h1>
 <blockquote>
 <p>如果你正在為類似於 C 或 C++ 內已經存在的實體進行命名，那麼你可以遵循他們慣例的命名規則。</p>
 </blockquote>
@@ -952,82 +942,80 @@ enum AlternateUrlTableErrors {
 </ul>
 </li>
 </ul>
-<h1 id="建置中-7"><a class="header" href="#建置中-7">建置中...</a></h1>
-<h1 id="建置中-8"><a class="header" href="#建置中-8">建置中...</a></h1>
-<h1 id="建置中-9"><a class="header" href="#建置中-9">建置中...</a></h1>
-<h1 id="建置中-10"><a class="header" href="#建置中-10">建置中...</a></h1>
-<h1 id="附錄常用專有名詞中英對照表"><a class="header" href="#附錄常用專有名詞中英對照表">附錄：常用專有名詞中英對照表</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="建置中-7"><a class="header" href="#建置中-7">建置中...</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="建置中-8"><a class="header" href="#建置中-8">建置中...</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="建置中-9"><a class="header" href="#建置中-9">建置中...</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="建置中-10"><a class="header" href="#建置中-10">建置中...</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="附錄常用專有名詞中英對照表"><a class="header" href="#附錄常用專有名詞中英對照表">附錄：常用專有名詞中英對照表</a></h1>
 <p>下表以英文名詞按照字母順序排序</p>
-<table><thead><tr><th align="left">英文 (English)</th><th align="left">繁體中文 (Traditional Chinese)</th></tr></thead><tbody>
-<tr><td align="left">Alias</td><td align="left">別名</td></tr>
-<tr><td align="left">Array</td><td align="left">陣列</td></tr>
-<tr><td align="left">Base Class</td><td align="left">基底類別</td></tr>
-<tr><td align="left">Bug</td><td align="left">錯誤</td></tr>
-<tr><td align="left">Class</td><td align="left">類別</td></tr>
-<tr><td align="left">Compile</td><td align="left">編譯</td></tr>
-<tr><td align="left">Compiler</td><td align="left">編譯器</td></tr>
-<tr><td align="left">Constructor</td><td align="left">建構函式</td></tr>
-<tr><td align="left">Declaration</td><td align="left">宣告</td></tr>
-<tr><td align="left">Define, Definition</td><td align="left">定義</td></tr>
-<tr><td align="left">Dependency</td><td align="left">依賴關係</td></tr>
-<tr><td align="left">Destructor</td><td align="left">解構函式</td></tr>
-<tr><td align="left">Directory</td><td align="left">資料夾、目錄</td></tr>
-<tr><td align="left">Entity</td><td align="left">實體</td></tr>
-<tr><td align="left">Enumerator</td><td align="left">列舉器</td></tr>
-<tr><td align="left">Expression</td><td align="left">表示式</td></tr>
-<tr><td align="left">External Linkage</td><td align="left">外部連結性</td></tr>
-<tr><td align="left">Forward Declaration</td><td align="left">前向宣告</td></tr>
-<tr><td align="left">Function</td><td align="left">函式</td></tr>
-<tr><td align="left">Global Scope</td><td align="left">全域</td></tr>
-<tr><td align="left">Handler</td><td align="left">(尚無翻譯)</td></tr>
-<tr><td align="left">Header, Header File</td><td align="left">標頭檔</td></tr>
-<tr><td align="left">Inline Function</td><td align="left">行內函式</td></tr>
-<tr><td align="left">Instance</td><td align="left">實例</td></tr>
-<tr><td align="left">Internal Linkage</td><td align="left">內部連結性</td></tr>
-<tr><td align="left">Input</td><td align="left">輸入值</td></tr>
-<tr><td align="left">Iteration</td><td align="left">疊代</td></tr>
-<tr><td align="left">Library</td><td align="left">函式庫</td></tr>
-<tr><td align="left">Link</td><td align="left">連結</td></tr>
-<tr><td align="left">Linker</td><td align="left">連結器</td></tr>
-<tr><td align="left">Literal</td><td align="left">字面值</td></tr>
-<tr><td align="left">Local</td><td align="left">局部的</td></tr>
-<tr><td align="left">Loop</td><td align="left">迴圈</td></tr>
-<tr><td align="left">Namespace</td><td align="left">名稱空間</td></tr>
-<tr><td align="left">Object Code</td><td align="left">目的碼</td></tr>
-<tr><td align="left">Object File</td><td align="left">目的碼檔</td></tr>
-<tr><td align="left">Output</td><td align="left">輸出值</td></tr>
-<tr><td align="left">Overloading</td><td align="left">多載</td></tr>
-<tr><td align="left">Parameter</td><td align="left">參數</td></tr>
-<tr><td align="left">Pointer</td><td align="left">指標</td></tr>
-<tr><td align="left">Prefix</td><td align="left">前綴</td></tr>
-<tr><td align="left">Private</td><td align="left">私有的</td></tr>
-<tr><td align="left">Private Member</td><td align="left">私有成員</td></tr>
-<tr><td align="left">Public</td><td align="left">公用的</td></tr>
-<tr><td align="left">Public Member</td><td align="left">公用成員</td></tr>
-<tr><td align="left">Raw Pointer</td><td align="left">原始指標</td></tr>
-<tr><td align="left">Reference</td><td align="left">參考</td></tr>
-<tr><td align="left">Smart Pointer</td><td align="left">智慧指標</td></tr>
-<tr><td align="left">Statement</td><td align="left">陳述句</td></tr>
-<tr><td align="left">Static Data Member</td><td align="left">靜態資料成員</td></tr>
-<tr><td align="left">Static Member Function</td><td align="left">靜態成員函式</td></tr>
-<tr><td align="left">Storage Duration</td><td align="left">儲存期</td></tr>
-<tr><td align="left">Struct</td><td align="left">結構</td></tr>
-<tr><td align="left">Symbol</td><td align="left">符號</td></tr>
-<tr><td align="left">Template</td><td align="left">模板</td></tr>
-<tr><td align="left">Thread</td><td align="left">執行緒</td></tr>
-<tr><td align="left">Type</td><td align="left">型別</td></tr>
-<tr><td align="left">Unnamed Namespaces</td><td align="left">無名名稱空間</td></tr>
-<tr><td align="left">Virtual Destructor</td><td align="left">虛擬解構函式</td></tr>
-<tr><td align="left">Virtual Function</td><td align="left">虛擬函式</td></tr>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: left">英文 (English)</th><th style="text-align: left">繁體中文 (Traditional Chinese)</th></tr></thead><tbody>
+<tr><td style="text-align: left">Alias</td><td style="text-align: left">別名</td></tr>
+<tr><td style="text-align: left">Array</td><td style="text-align: left">陣列</td></tr>
+<tr><td style="text-align: left">Base Class</td><td style="text-align: left">基底類別</td></tr>
+<tr><td style="text-align: left">Bug</td><td style="text-align: left">錯誤</td></tr>
+<tr><td style="text-align: left">Class</td><td style="text-align: left">類別</td></tr>
+<tr><td style="text-align: left">Compile</td><td style="text-align: left">編譯</td></tr>
+<tr><td style="text-align: left">Compiler</td><td style="text-align: left">編譯器</td></tr>
+<tr><td style="text-align: left">Constructor</td><td style="text-align: left">建構函式</td></tr>
+<tr><td style="text-align: left">Declaration</td><td style="text-align: left">宣告</td></tr>
+<tr><td style="text-align: left">Define, Definition</td><td style="text-align: left">定義</td></tr>
+<tr><td style="text-align: left">Dependency</td><td style="text-align: left">依賴關係</td></tr>
+<tr><td style="text-align: left">Destructor</td><td style="text-align: left">解構函式</td></tr>
+<tr><td style="text-align: left">Directory</td><td style="text-align: left">資料夾、目錄</td></tr>
+<tr><td style="text-align: left">Entity</td><td style="text-align: left">實體</td></tr>
+<tr><td style="text-align: left">Enumerator</td><td style="text-align: left">列舉器</td></tr>
+<tr><td style="text-align: left">Expression</td><td style="text-align: left">表示式</td></tr>
+<tr><td style="text-align: left">External Linkage</td><td style="text-align: left">外部連結性</td></tr>
+<tr><td style="text-align: left">Forward Declaration</td><td style="text-align: left">前向宣告</td></tr>
+<tr><td style="text-align: left">Function</td><td style="text-align: left">函式</td></tr>
+<tr><td style="text-align: left">Global Scope</td><td style="text-align: left">全域</td></tr>
+<tr><td style="text-align: left">Handler</td><td style="text-align: left">(尚無翻譯)</td></tr>
+<tr><td style="text-align: left">Header, Header File</td><td style="text-align: left">標頭檔</td></tr>
+<tr><td style="text-align: left">Inline Function</td><td style="text-align: left">行內函式</td></tr>
+<tr><td style="text-align: left">Instance</td><td style="text-align: left">實例</td></tr>
+<tr><td style="text-align: left">Internal Linkage</td><td style="text-align: left">內部連結性</td></tr>
+<tr><td style="text-align: left">Input</td><td style="text-align: left">輸入值</td></tr>
+<tr><td style="text-align: left">Iteration</td><td style="text-align: left">疊代</td></tr>
+<tr><td style="text-align: left">Library</td><td style="text-align: left">函式庫</td></tr>
+<tr><td style="text-align: left">Link</td><td style="text-align: left">連結</td></tr>
+<tr><td style="text-align: left">Linker</td><td style="text-align: left">連結器</td></tr>
+<tr><td style="text-align: left">Literal</td><td style="text-align: left">字面值</td></tr>
+<tr><td style="text-align: left">Local</td><td style="text-align: left">局部的</td></tr>
+<tr><td style="text-align: left">Loop</td><td style="text-align: left">迴圈</td></tr>
+<tr><td style="text-align: left">Namespace</td><td style="text-align: left">命名空間</td></tr>
+<tr><td style="text-align: left">Object Code</td><td style="text-align: left">目的碼</td></tr>
+<tr><td style="text-align: left">Object File</td><td style="text-align: left">目的碼檔</td></tr>
+<tr><td style="text-align: left">Output</td><td style="text-align: left">輸出值</td></tr>
+<tr><td style="text-align: left">Overloading</td><td style="text-align: left">多載</td></tr>
+<tr><td style="text-align: left">Parameter</td><td style="text-align: left">參數</td></tr>
+<tr><td style="text-align: left">Pointer</td><td style="text-align: left">指標</td></tr>
+<tr><td style="text-align: left">Prefix</td><td style="text-align: left">前綴</td></tr>
+<tr><td style="text-align: left">Private</td><td style="text-align: left">私有的</td></tr>
+<tr><td style="text-align: left">Private Member</td><td style="text-align: left">私有成員</td></tr>
+<tr><td style="text-align: left">Public</td><td style="text-align: left">公用的</td></tr>
+<tr><td style="text-align: left">Public Member</td><td style="text-align: left">公用成員</td></tr>
+<tr><td style="text-align: left">Raw Pointer</td><td style="text-align: left">原始指標</td></tr>
+<tr><td style="text-align: left">Reference</td><td style="text-align: left">參考</td></tr>
+<tr><td style="text-align: left">Smart Pointer</td><td style="text-align: left">智慧指標</td></tr>
+<tr><td style="text-align: left">Statement</td><td style="text-align: left">陳述句</td></tr>
+<tr><td style="text-align: left">Static Data Member</td><td style="text-align: left">靜態資料成員</td></tr>
+<tr><td style="text-align: left">Static Member Function</td><td style="text-align: left">靜態成員函式</td></tr>
+<tr><td style="text-align: left">Storage Duration</td><td style="text-align: left">儲存期</td></tr>
+<tr><td style="text-align: left">Struct</td><td style="text-align: left">結構</td></tr>
+<tr><td style="text-align: left">Symbol</td><td style="text-align: left">符號</td></tr>
+<tr><td style="text-align: left">Template</td><td style="text-align: left">模板</td></tr>
+<tr><td style="text-align: left">Thread</td><td style="text-align: left">執行緒</td></tr>
+<tr><td style="text-align: left">Type</td><td style="text-align: left">型別</td></tr>
+<tr><td style="text-align: left">Unnamed Namespaces</td><td style="text-align: left">無名名稱空間</td></tr>
+<tr><td style="text-align: left">Virtual Destructor</td><td style="text-align: left">虛擬解構函式</td></tr>
+<tr><td style="text-align: left">Virtual Function</td><td style="text-align: left">虛擬函式</td></tr>
 </tbody></table>
-
+</div>
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                        
 
-                        
 
                         <div style="clear: both"></div>
                     </nav>
@@ -1035,49 +1023,35 @@ enum AlternateUrlTableErrors {
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                
 
-                
             </nav>
 
         </div>
 
-        
 
-        
 
-        
 
-        
-        <script type="text/javascript">
+        <script>
             window.playground_copyable = true;
         </script>
-        
 
-        
 
-        
-        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
-        
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
 
-        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
-        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
 
         <!-- Custom JS scripts -->
-        
 
-        
-        
-        <script type="text/javascript">
+        <script>
         window.addEventListener('load', function() {
             window.setTimeout(window.print, 100);
         });
         </script>
-        
-        
 
+    </div>
     </body>
 </html>
