@@ -19,6 +19,7 @@
 | Directory              | 資料夾、目錄                   |
 | Entity                 | 實體                           |
 | Enumerator             | 列舉器                         |
+| Explicit Instantiation | 顯式實例化                     |
 | Expression             | 表示式                         |
 | External Linkage       | 外部連結性                     |
 | Forward Declaration    | 前向宣告                       |
@@ -26,6 +27,7 @@
 | Global Scope           | 全域                           |
 | Handler                | (尚無翻譯)                     |
 | Header, Header File    | 標頭檔                         |
+| Implicit Instantiation | 隱性實例化                     |
 | Inline Function        | 行內函式                       |
 | Instance               | 實例                           |
 | Internal Linkage       | 內部連結性                     |
