@@ -226,7 +226,7 @@
 <div style="break-before: page; page-break-before: always;"></div><h1 id="標頭檔-header-files"><a class="header" href="#標頭檔-header-files">標頭檔 (Header Files)</a></h1>
 <p>一般來說，每一個 <code>.cc</code> 檔都應該要有一個對應的 <code>.h</code> 檔。 不過也有一些常見的例外，像是單元測試 (Unit Test) 跟一些只包含著 <code>main()</code> 的小型 <code>.cc</code> 檔就不需要有。</p>
 <p>正確地使用標頭檔可以對可讀性、程式碼大小與效能帶來巨大的影響。</p>
-<p>以下這些原則會引領你克服標頭檔中各式各樣的陷阱。</p>
+<p>本章中的規則會引領你克服標頭檔中各式各樣的陷阱。</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="自給自足標頭檔-self-contained-headers"><a class="header" href="#自給自足標頭檔-self-contained-headers">自給自足標頭檔 (Self-contained Headers)</a></h2>
 <blockquote>
 <p>標頭檔應該要自給自足 (self-contained)，而且副檔名必須是 <code>.h</code>。 其他具有插入目的，但不是標頭檔者，則應該要使用 <code>.inc</code> 作為副檔名，並且應該盡少使用。</p>
