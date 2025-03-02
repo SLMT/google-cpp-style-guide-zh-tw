@@ -1,5 +1,7 @@
 # Google C++ Style Guide 繁體中文版
 
+[![Deploy](https://github.com/SLMT/google-cpp-style-guide-zh-tw/actions/workflows/deploy.yaml/badge.svg)](https://github.com/SLMT/google-cpp-style-guide-zh-tw/actions/workflows/deploy.yaml)
+
 本書翻譯了 Google 官方訂定的 Coding Style (程式碼風格) 標準。
 
 如果程式碼都能夠遵照同一份標準來撰寫的話，就能夠大大地增加程式的可讀性。 Google 所訂定的 C++ 程式碼風格非常明確，也非常仔細。 我認為是一個很不錯的標準。
