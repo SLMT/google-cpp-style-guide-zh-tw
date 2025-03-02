@@ -229,12 +229,39 @@
 <p>本章中的規則會引領你克服標頭檔中各式各樣的陷阱。</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="自給自足標頭檔-self-contained-headers"><a class="header" href="#自給自足標頭檔-self-contained-headers">自給自足標頭檔 (Self-contained Headers)</a></h2>
 <blockquote>
-<p>標頭檔應該要自給自足 (self-contained)，而且副檔名必須是 <code>.h</code>。 其他具有插入目的，但不是標頭檔者，則應該要使用 <code>.inc</code> 作為副檔名，並且應該盡少使用。</p>
+<p>標頭檔應該要自給自足 (self-contained)，也就是說，應該能夠單獨被引入並正確編譯，而且副檔名必須是 <code>.h</code>。 其他具有插入目的，但不是標頭檔者，則應該要使用 <code>.inc</code> 作為副檔名，並且應該盡少使用。</p>
 </blockquote>
-<p>所有標頭檔都應該要自給自足。 換句話說，使用者或者重構工具 (Refractoring Tool) 並不需要依賴任何額外的條件才能夠插入標頭檔。 更精確地說，標頭檔應該要包含 <a href="header-files/define-guard.html">標頭檔保護</a>，而且應該要自己插入所有需要的其他標頭檔。</p>
-<p>建議將模板與行內函式的定義放在同樣的檔案作為宣告。 所有使用到這些東西的 <code>.cc</code> 檔都應該要載入這些結構，不然在某些建置設定下會造成程式無法連結。 如果將定義與宣告分別在不同檔案，載入宣告的話也應該要能夠同時載入其定義。 不要將這些定義移至額外的 <code>-inl.h</code> 檔中。 這種作法在過去很常見，但是從現在開始不允許這麼做。</p>
-<p>有一個例外是，函式模板的顯式實體化 (explicitly instantiated) 或者該模板是一個類別的私有成員的話，可以只定義在實體化該模板的 <code>.cc</code> 檔中。</p>
-<p>在某些極少數的狀況下，標頭檔可以不用是自給自足的。 這些特殊的標頭檔通常是用來載入程式碼到做一些不尋常的位置，例如載入到另一個檔案的中間。 他們可以不使用 <a href="header-files/define-guard.html">標頭檔保護</a>，而且可能沒有載入他們所需的檔案。 這種類型的檔案應該使用 <code>.inc</code> 作為副檔名。 盡量別使用這種檔案，可能的話還是盡量用自給自足的標頭檔。</p>
+<p>所有標頭檔都應該要自給自足。 換句話說，使用者或者重構工具 (Refactoring Tool) 並不需要依賴任何額外的條件才能夠引入標頭檔。 更精確地說，標頭檔應該要包含 <a href="header-files/define-guard.html">標頭檔保護</a>，而且應該要自己插入所有需要的其他標頭檔。</p>
+<p>如果一個標頭檔內宣告了行內函式 (Inline Functions) 或模板 (Templates)，並且這些函式或模板將由標頭檔的使用者進行實例化的話，那麼它們的定義必須直接出現在標頭檔內，或是出現在該標頭檔所包含的其他檔案中。 不要將這些定義移至單獨的 <code>-inl.h</code> 文件。 這種作法以前很常見，但現在我們不允許這樣做。 如果某個模板的實例化僅發生在同一個 <code>.cc</code> 檔案中，無論是因為它被 <a href="https://en.cppreference.com/w/cpp/language/class_template#Explicit_instantiation">顯示實例化 (Explicit Instantiation)</a> (註一)，或是因為其定義只有該 <code>.cc</code> 檔案可以存取，那麼該模板的定義可以放在 <code>.cc</code> 檔案內。</p>
+<p>在某些極少數的狀況下，標頭檔可以不用是自給自足的。 這些特殊的標頭檔通常是用來載入程式碼到一些不尋常的位置，例如引入到另一個檔案的中間某個部位。 他們可以不使用 <a href="header-files/define-guard.html">標頭檔保護</a>，而且可以不載入他們所需的檔案。 這種類型的檔案應該使用 <code>.inc</code> 作為副檔名。 應盡量避免使用這類檔案，並優先考慮使用自給自足的標頭檔。</p>
+<h4 id="註一顯示實例化-explicit-instantiation-說明"><a class="header" href="#註一顯示實例化-explicit-instantiation-說明">註一：顯示實例化 (Explicit Instantiation) 說明</a></h4>
+<p>顯示實例化指的是在使用模板時，直接指示編譯器應該針對哪些型別生成對應的模板。 例如下面例子：</p>
+<p><code>my_class.h</code>:</p>
+<pre><code class="language-cpp">#ifndef MY_CLASS_H
+#define MY_CLASS_H
+
+template &lt;typename T&gt;
+class MyClass {
+ public:
+  void DoSomething();
+};
+
+extern template class MyClass&lt;int&gt;;  // 宣告：MyClass&lt;int&gt; 會被顯式實例化（但不在這裡）
+
+#endif  // MY_CLASS_H
+</code></pre>
+<p><code>my_class.cc</code>:</p>
+<pre><code class="language-cpp">#include "my_class.h"
+
+template &lt;typename T&gt;
+void MyClass&lt;T&gt;::DoSomething() {
+  // 實作內容
+}
+
+// 顯式實例化
+template class MyClass&lt;int&gt;;   // 只會在這個 `.cc` 檔案內產生 MyClass&lt;int&gt; 的實例
+</code></pre>
+<p>這個有別於一般常見的隱性實例化 (Implicit Instantiation) 的作法，也就是只有單純宣告模板，然後在真正要使用時才指定型別變數 <code>T</code> 對應的型別。 顯性實例化可以大幅提升編譯速度，因為它會確保整個程式編譯時模板只對指定的型別各生成一份類別的程式碼。</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="define-保護-the-define-guard"><a class="header" href="#define-保護-the-define-guard"><code>#define</code> 保護 (The <code>#define</code> Guard) <a name="define_guard"></a></a></h2>
 <blockquote>
 <p>所有的標頭檔應該要包含 <code>#define</code> 保護，以防止多重載入。 其名稱的格式為 <code>&lt;專案名稱&gt;_&lt;路徑&gt;_&lt;檔名&gt;_H_</code>。</p>
@@ -959,6 +986,7 @@ enum AlternateUrlTableErrors {
 <tr><td style="text-align: left">Directory</td><td style="text-align: left">資料夾、目錄</td></tr>
 <tr><td style="text-align: left">Entity</td><td style="text-align: left">實體</td></tr>
 <tr><td style="text-align: left">Enumerator</td><td style="text-align: left">列舉器</td></tr>
+<tr><td style="text-align: left">Explicit Instantiation</td><td style="text-align: left">顯式實例化</td></tr>
 <tr><td style="text-align: left">Expression</td><td style="text-align: left">表示式</td></tr>
 <tr><td style="text-align: left">External Linkage</td><td style="text-align: left">外部連結性</td></tr>
 <tr><td style="text-align: left">Forward Declaration</td><td style="text-align: left">前向宣告</td></tr>
@@ -966,6 +994,7 @@ enum AlternateUrlTableErrors {
 <tr><td style="text-align: left">Global Scope</td><td style="text-align: left">全域</td></tr>
 <tr><td style="text-align: left">Handler</td><td style="text-align: left">(尚無翻譯)</td></tr>
 <tr><td style="text-align: left">Header, Header File</td><td style="text-align: left">標頭檔</td></tr>
+<tr><td style="text-align: left">Implicit Instantiation</td><td style="text-align: left">隱性實例化</td></tr>
 <tr><td style="text-align: left">Inline Function</td><td style="text-align: left">行內函式</td></tr>
 <tr><td style="text-align: left">Instance</td><td style="text-align: left">實例</td></tr>
 <tr><td style="text-align: left">Internal Linkage</td><td style="text-align: left">內部連結性</td></tr>
