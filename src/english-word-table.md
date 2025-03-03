@@ -60,6 +60,7 @@
 | Storage Duration       | 儲存期                         |
 | Struct                 | 結構                           |
 | Symbol                 | 符號                           |
+| Transitive Inclusion   | 傳遞式引入                     |
 | Template               | 模板                           |
 | Thread                 | 執行緒                         |
 | Type                   | 型別                           |
