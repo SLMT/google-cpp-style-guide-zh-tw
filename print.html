@@ -233,9 +233,9 @@
 <p>標頭檔應該要自給自足 (self-contained)，也就是說，應該能夠單獨被引入並正確編譯，而且副檔名必須是 <code>.h</code>。 其他具有插入目的，但不是標頭檔者，則應該要使用 <code>.inc</code> 作為副檔名，並且應該盡少使用。</p>
 </blockquote>
 <p>所有標頭檔都應該要自給自足。 換句話說，使用者或者重構工具 (Refactoring Tool) 並不需要依賴任何額外的條件才能夠引入標頭檔。 更精確地說，標頭檔應該要包含 <a href="header-files/define-guard.html">標頭檔保護</a>，而且應該要自己插入所有需要的其他標頭檔。</p>
-<p>如果一個標頭檔內宣告了行內函式 (Inline Functions) 或模板 (Templates)，並且這些函式或模板將由標頭檔的使用者進行實例化的話，那麼它們的定義必須直接出現在標頭檔內，或是出現在該標頭檔所包含的其他檔案中。 不要將這些定義移至單獨的 <code>-inl.h</code> 文件。 這種作法以前很常見，但現在我們不允許這樣做。 如果某個模板的實例化僅發生在同一個 <code>.cc</code> 檔案中，無論是因為它被 <a href="https://en.cppreference.com/w/cpp/language/class_template#Explicit_instantiation">顯示實例化 (Explicit Instantiation)</a> (註一)，或是因為其定義只有該 <code>.cc</code> 檔案可以存取，那麼該模板的定義可以放在 <code>.cc</code> 檔案內。</p>
+<p>如果一個標頭檔內宣告了行內函式 (Inline Functions) 或模板 (Templates)，並且這些函式或模板將由標頭檔的使用者進行實例化的話，那麼它們的定義必須直接出現在標頭檔內，或是出現在該標頭檔所包含的其他檔案中。 不要將這些定義移至單獨的 <code>-inl.h</code> 文件。 這種作法以前很常見，但現在我們不允許這樣做。 如果某個模板的實例化僅發生在同一個 <code>.cc</code> 檔案中，無論是因為它被 <a href="https://en.cppreference.com/w/cpp/language/class_template#Explicit_instantiation">顯示實例化 (Explicit Instantiation)</a> (譯註一)，或是因為其定義只有該 <code>.cc</code> 檔案可以存取，那麼該模板的定義可以放在 <code>.cc</code> 檔案內。</p>
 <p>在某些極少數的狀況下，標頭檔可以不用是自給自足的。 這些特殊的標頭檔通常是用來載入程式碼到一些不尋常的位置，例如引入到另一個檔案的中間某個部位。 他們可以不使用 <a href="header-files/define-guard.html">標頭檔保護</a>，而且可以不載入他們所需的檔案。 這種類型的檔案應該使用 <code>.inc</code> 作為副檔名。 應盡量避免使用這類檔案，並優先考慮使用自給自足的標頭檔。</p>
-<h4 id="註一顯示實例化-explicit-instantiation-說明"><a class="header" href="#註一顯示實例化-explicit-instantiation-說明">註一：顯示實例化 (Explicit Instantiation) 說明</a></h4>
+<h4 id="譯註一顯示實例化-explicit-instantiation-說明"><a class="header" href="#譯註一顯示實例化-explicit-instantiation-說明">譯註一：顯示實例化 (Explicit Instantiation) 說明</a></h4>
 <p>顯示實例化指的是在使用模板時，直接指示編譯器應該針對哪些型別生成對應的模板。 例如下面例子：</p>
 <p><code>my_class.h</code>:</p>
 <pre><code class="language-cpp">#ifndef MY_CLASS_H
@@ -275,6 +275,40 @@ template class MyClass&lt;int&gt;;   // 只會在這個 `.cc` 檔案內產生 My
 
 #endif  // FOO_BAR_BAZ_H_
 </code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="引入你需要的"><a class="header" href="#引入你需要的">引入你需要的</a></h2>
+<blockquote>
+<p>如果一份原始碼檔或者標頭檔使用了一個定義在其他地方的符號，該檔應該要直接引入明確提供該符號的宣告或者定義的標頭檔。 它不應該為了其他目的引入標頭檔。</p>
+</blockquote>
+<p>不要依賴傳遞式引入 (Transitive Inclusions) (譯註二)。 這讓大家可以放心移除自己標頭檔中不需要的 <code>#include</code>，而不會影響使用該標頭檔案的程式碼。 這項原則同樣適用於相關標頭檔： <code>foo.cc</code> 如果使用了 <code>bar.h</code> 的符號，那就該直接引入。 即使 <code>foo.h</code> 已經引入了 <code>bar.h</code>，<code>foo.cc</code> 仍應直接引入 <code>bar.h</code>。</p>
+<h4 id="譯註二傳遞式引入-transitive-inclusion-說明"><a class="header" href="#譯註二傳遞式引入-transitive-inclusion-說明">譯註二：傳遞式引入 (Transitive Inclusion) 說明</a></h4>
+<p>假設有以下兩個標頭檔：</p>
+<p><code>a_class.h</code>:</p>
+<pre><code class="language-cpp">#ifndef A_CLASS_H
+#define A_CLASS_H
+
+class A {
+ public:
+  void DoSomethingA();
+};
+
+#endif  // A_CLASS_H
+</code></pre>
+<p><code>b_class.h</code>:</p>
+<pre><code class="language-cpp">#ifndef B_CLASS_H
+#define B_CLASS_H
+
+#include "a_class.h"
+
+class B {
+ public:
+  void DoSomethingB(A a);
+};
+
+#endif  // B_CLASS_H
+</code></pre>
+<p>此時若 <code>class B</code> 的實作 <code>b_class.cc</code> 沒有引入 <code>a_class.h</code>，而是依賴 <code>b_class.h</code> 的引入的話，就叫做傳遞式引入。 但 Google 的風格指南是鼓勵不要依賴這種引入。</p>
+<p>我正在進行翻譯工作，以下是原文與我翻譯的譯文，請幫我校對內容，主要是檢查是否有翻譯不精確的地方。可以將所有建議修改的地方以條列的方式列出。盡可能地更著重於是否有反映出內文的含義，而不是在每個用字上斤斤計較。</p>
+<p>原文：</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="前向宣告-forward-declarations"><a class="header" href="#前向宣告-forward-declarations">前向宣告 (Forward Declarations) <a name="forward_declaration"></a></a></h2>
 <blockquote>
 <p>盡可能地避免使用前向宣告。 只要 <code>#include</code> 你需要的標頭檔就好。</p>
@@ -1028,6 +1062,7 @@ enum AlternateUrlTableErrors {
 <tr><td style="text-align: left">Storage Duration</td><td style="text-align: left">儲存期</td></tr>
 <tr><td style="text-align: left">Struct</td><td style="text-align: left">結構</td></tr>
 <tr><td style="text-align: left">Symbol</td><td style="text-align: left">符號</td></tr>
+<tr><td style="text-align: left">Transitive Inclusion</td><td style="text-align: left">傳遞式引入</td></tr>
 <tr><td style="text-align: left">Template</td><td style="text-align: left">模板</td></tr>
 <tr><td style="text-align: left">Thread</td><td style="text-align: left">執行緒</td></tr>
 <tr><td style="text-align: left">Type</td><td style="text-align: left">型別</td></tr>
