@@ -162,29 +162,38 @@
                     <main>
                         <h2 id="前向宣告-forward-declarations"><a class="header" href="#前向宣告-forward-declarations">前向宣告 (Forward Declarations) <a name="forward_declaration"></a></a></h2>
 <blockquote>
-<p>盡可能地避免使用前向宣告。 只要 <code>#include</code> 你需要的標頭檔就好。</p>
+<p>盡可能地避免使用前向宣告。 <a href="./include-what-you-use.html">只要 <code>#include</code> 你需要的標頭檔就好</a>。</p>
 </blockquote>
 <h3 id="定義"><a class="header" href="#定義">定義</a></h3>
-<p>類別、函式與模板的前向宣告指的就是在沒有定義其內容的情況下，預先宣告名稱的程式碼。</p>
+<p>前向宣告是指在沒有提供完整定義的情況下，預先宣告某個實體的存在：</p>
+<pre><code class="language-cpp">// 在 C++ 程式碼中：
+class B;
+void FuncInB();
+extern int variable_in_b;
+ABSL_DECLARE_FLAG(flag_in_b);  // 譯註：這是 Abseil 函式庫中一個用於宣告旗標（flag）的巨集。
+</code></pre>
 <h3 id="優點"><a class="header" href="#優點">優點</a></h3>
 <ul>
-<li>前向宣告可以節省編譯時間。 <code>#include</code> 會使得編譯器處理時必須要開啟更多檔案而且處理更多資料。</li>
-<li>前向宣告可以避免不必要的重新編譯。 <code>#include</code> 有可能在標頭檔做了些無關的修改時，使得其他相關的程式碼就得需要被重新編譯。</li>
+<li>前向宣告可以節省編譯時間。 <code>#include</code> 會迫使編譯器開啟更多檔案與處理更多輸入。</li>
+<li>前向宣告可以避免不必要的重編譯。 <code>#include</code> 在標頭檔做了一些無關的改動時，也會迫使編譯器重新編譯你的程式碼。</li>
 </ul>
 <h3 id="缺點"><a class="header" href="#缺點">缺點</a></h3>
 <ul>
 <li>
-<p>前向宣告會隱藏某些依賴關係，可能會造成使用者的程式碼在標頭檔修改後略過了必要的重新編譯過程。</p>
+<p>前向宣告會隱藏依賴，這會讓使用者的程式碼在標頭檔被修改後略過了可能必要的重新編譯過程。</p>
 </li>
 <li>
-<p>一個前向宣告可能會因為其函式庫內部的修改而損壞。 函式與模板的前向宣告會造成撰寫標頭檔的人無法更改 API，像是增加函式的參數，給模板增加一個預設數值，或者轉移到一個新的名稱空間。</p>
+<p>前向宣告相較於 <code>#include</code> 會讓自動化工具更難找出定義一個符號的模組為何。</p>
 </li>
 <li>
-<p>前向宣告 <code>std::</code> 名稱空間內的符號時常產生一些未定義的行為。</p>
+<p>一個前向宣告可能會被函式庫後續的修改搞壞。 函式與模板的前向宣告可能會限制標頭檔維護者對 API 進行變更，例如擴大參數型別、為模板新增預設參數，或遷移至新的命名空間。</p>
 </li>
 <li>
-<p>有時候很難界定到底是否該在程式碼中使用前向宣告，或者全部使用 <code>#include</code>。 有時候替換掉 <code>#include</code> 可能會大幅改變程式碼的意義：</p>
-<pre><code class="language-c++">// b.h:
+<p>前向宣告 <code>std::</code> 名稱空間內的符號可能會導致未定義行為。</p>
+</li>
+<li>
+<p>有時候難以判斷應該使用前向宣告還是完整的 <code>#include</code>。 甚至有時替換掉 <code>#include</code> 可能會無聲無息地改變程式碼的意義：</p>
+<pre><code class="language-cpp">// b.h:
 struct B {};
 struct D : B {};
 
@@ -192,35 +201,19 @@ struct D : B {};
 #include "b.h"
 void f(B*);
 void f(void*);
-void test(D* x) { f(x); } // calls f(B*)
+void test(D* x) { f(x); } // 這裡會呼叫 f(B*)
 </code></pre>
-<p>如果上面的程式碼中，將 <code>#include</code> 替換成 <code>B</code> 跟 <code>D</code> 的前向宣告的話，<code>test()</code> 就會呼叫 <code>f(void*)</code>。</p>
+<p>如果上面的程式碼中，將 <code>#include</code> 替換成 <code>B</code> 跟 <code>D</code> 的前向宣告的話，<code>test()</code> 就會變成呼叫 <code>f(void*)</code>。</p>
 </li>
 <li>
-<p>從一個標頭檔前向宣告多個符號比單純地 <code>#include</code> 更難在發生錯誤時除錯。</p>
+<p>從標頭檔前向宣告多個符號，通常比直接 <code>#include</code> 更繁瑣且難以維護。</p>
 </li>
 <li>
-<p>為了使用前向宣告而重構程式碼（像是把把物件成員換成指標），可能會造成程式變慢或者更加複雜。</p>
+<p>為了使用前向宣告而調整程式架構（例如將物件成員改為指標成員），可能會使程式變慢或增加複雜度。</p>
 </li>
 </ul>
-<h3 id="我們的決定"><a class="header" href="#我們的決定">我們的決定</a></h3>
-<ul>
-<li>盡量避免前向宣告其他專案中的實體。</li>
-<li>當使用一個宣告在標頭檔內的函式時，總是 <code>#include</code> 那個標頭檔。</li>
-<li>當你要使用類別模板時，盡量使用 <code>#include</code>。</li>
-</ul>
-<p>請參考 <a href="#"><code>#include</code> 時的名稱與順序</a> 來參考何時應該插入標頭檔</p>
-<h3 id="譯註"><a class="header" href="#譯註">譯註</a></h3>
-<p>老實說我也是第一次看到「前向宣告」這個詞，因此我花了點時間研究這到底是什麼東西。 我稍微閱讀了<a href="https://en.wikipedia.org/wiki/Forward_declaration">維基百科</a>上的資料之後，在此寫下我對這個這個詞的理解。</p>
-<p>事實上，前向宣告這個詞簡單來說就是「在定義之前先宣告」。 相信應該不少人有宣告過函式吧？像是：</p>
-<pre><code class="language-c++">int sum(int, int);
-</code></pre>
-<p>這裏你可以看到我們並沒有寫說 <code>sum</code> 這個函式代表著什麼意思，只說他接受兩個整數參數，回傳一個整數值，而實際上 <code>sum</code> 的內容則定義在別的地方。 這個目的就是在告訴編譯器：「有個叫做 <code>sum</code> 的函式存在，等下使用時，請把 <code>sum</code> 這個符號當成一個接受兩個整數參數，回傳一個整數的函式處理。」</p>
-<p>其實這就是一個「前向宣告」，也就是預先告知這個東西的存在，然後再另外定義內容。</p>
-<p>前向宣告除了函式之外，也可以用在類別與模板上。 假設現在其他檔案中定義了 <code>class A</code>，而你的檔案需要用到它，你可以單純地宣告：</p>
-<pre><code class="language-c++">class A;
-</code></pre>
-<p>這樣就可以不用使用 <code>#include</code> 來載入相關的標頭檔。 但是這個使用有個限制，就是程式碼中使用到 <code>class A</code> 的地方，都只能使用指標或參考，而不能直接使用像是 <code>A a</code> 這樣的變數。 使用類別的前向宣告要注意的事情相對比較多，所以上面的建議才會提到大部份的情況還是直接 <code>#include</code> 比較好。</p>
+<h3 id="決定"><a class="header" href="#決定">決定</a></h3>
+<p>盡量避免前向宣告其他專案中的實體。</p>
 
                     </main>
 
