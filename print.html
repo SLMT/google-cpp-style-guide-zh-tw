@@ -560,7 +560,7 @@ void fun() {
 }  // namespace b
 }  // namespace a
 </code></pre>
-<p>一般來說，上面這段程式碼想要呼叫 <code>fun</code> 這個函式的話，就要使用 <code>A::B::fun()</code> 這個名稱。 但是如果此時引入了行內關鍵字，在 B 前面加上 <code>inline</code>，變成這樣：</p>
+<p>一般來說，上面這段程式碼想要呼叫 <code>fun</code> 這個函式的話，就要使用 <code>a::b::fun()</code> 這個名稱。 但是如果此時引入了行內關鍵字，在 <code>namespace b</code> 前面加上 <code>inline</code>，變成這樣：</p>
 <pre><code class="language-cpp">namespace a {
 inline namespace b {
 void fun() {
@@ -569,9 +569,9 @@ void fun() {
 }  // namespace b
 }  // namespace a
 </code></pre>
-<p>這個時候你使用 <code>A::fun()</code> 這個名稱的話，就可以呼叫到 <code>fun</code> 這個函式。 當然，使用 <code>A::B::fun()</code> 也同樣可以呼叫得到 <code>fun</code>。 有興趣的話可以自己試試看。</p>
-<p>運作的原理很簡單，其實就是程式在編譯將 <code>A::fun()</code> 解析成 <code>A::B::fun()</code> 而已。</p>
-<p>那這個技巧有甚麼用？ 既然我想讓其他人直接呼叫到 <code>fun</code>，那為什麼還要特別放一個 <code>namespace B</code>？</p>
+<p>這個時候你使用 <code>a::fun()</code> 這個名稱的話，就可以呼叫到 <code>fun</code> 這個函式。 當然，使用 <code>a::b::fun()</code> 也同樣可以呼叫得到 <code>fun</code>。 有興趣的話可以自己試試看。</p>
+<p>運作的原理很簡單，其實就是程式在編譯將 <code>a::fun()</code> 解析成 <code>a::b::fun()</code> 而已。</p>
+<p>那這個技巧有甚麼用？ 既然我想讓其他人直接呼叫到 <code>fun</code>，那為什麼還要特別放一個 <code>namespace b</code>？</p>
 <p>這個技巧最常用到的地方，就像上面 Google 文件中所提到的，版本控管。</p>
 <p>如果今天我是在寫函式庫，此時我寫了兩種不同版本的 <code>fun</code>，可是有些人的程式已經連結到了舊版的 <code>fun</code>，那要怎麼樣在不重新編譯那些程式的狀況下保持連結？ 這個時候可以這樣做：</p>
 <p>假設原本的函式庫長這樣：</p>
@@ -583,7 +583,7 @@ void fun() {
 }  // namespace v1
 }  // namespace some_lib
 </code></pre>
-<p>因此原本編譯的程式裡，呼叫到 <code>SomeLib::fun</code> 的地方都會連結到 <code>SomeLib::v1::fun</code>。 而此時我只要改成：</p>
+<p>因此原本編譯的程式裡，呼叫到 <code>some_lib::fun</code> 的地方都會連結到 <code>some_lib::v1::fun</code>。 而此時我只要改成：</p>
 <pre><code class="language-cpp">namespace some_lib {
 namespace v1 {
 void fun() {
@@ -597,7 +597,7 @@ void fun() {
 }  // namespace v2
 }  // namespace some_lib
 </code></pre>
-<p>這樣原本連結到 <code>SomeLib::v1::fun</code> 的程式仍然可以運作，而且新的程式呼叫 <code>SomeLib::fun</code> 時，也可以如我預期地使用到新的版本 (v2 版)。 因此行內名稱空間才常用於函式庫的版本控管。 但是如同 Google 風格指南所說，這樣的行為可能實在會導致預期外的結果，所以還是盡量避免使用。</p>
+<p>這樣原本連結到 <code>some_lib::v1::fun</code> 的程式仍然可以運作，而且新的程式呼叫 <code>some_lib::fun</code> 時，也可以如我預期地使用到新的版本 (v2 版)。 因此行內名稱空間才常用於函式庫的版本控管。 但是如同 Google 風格指南所說，這樣的行為可能實在會導致預期外的結果，所以還是盡量避免使用。</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="內部連結性"><a class="header" href="#內部連結性">內部連結性</a></h2>
 <blockquote>
 <p>當你需要在 <code>.cc</code> 檔內放一些不會被其他檔案參考的的定義，請將這些東西放在一個無名名稱空間中，或者將他們全部宣告為 <code>static</code>。 不要在 <code>.h</code> 檔內使用任何這種結構。</p>
