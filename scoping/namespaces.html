@@ -162,50 +162,50 @@
                     <main>
                         <h2 id="名稱空間-namespaces"><a class="header" href="#名稱空間-namespaces">名稱空間 (Namespaces)</a></h2>
 <blockquote>
-<p>除了某些特殊情況外，程式碼應當放在名稱空間中。 名稱空間應該要有個跟專案名稱有關、獨一無二的名字，最好也把路徑考慮進去。 不要使用 using 指示詞 (using-directive)，像是 <code>using namespace foo</code>。 不要使用行內名稱空間 (inline namespace)。 關於未被命名的名稱空間，請參考「<a href="unnamed-namespace-and-static-variables.html">無名名稱空間與靜態變數</a>」一章。</p>
+<p>除了某些特殊情況外，程式碼應當放在名稱空間中。 名稱空間應該具有基於專案名稱的獨特名稱，可能也包含其路徑。 不要使用 using 指示詞 (using-directive)，像是 <code>using namespace foo</code>。 不要使用行內名稱空間 (inline namespace)。 關於未命名的名稱空間，請參考  「<a href="internal-linkage.html">內部連結性</a>」 一節。</p>
 </blockquote>
 <h3 id="定義"><a class="header" href="#定義">定義</a></h3>
-<p>名稱空間將全域區分為多塊分開、各自命名的作用域，這可以有效避免在整個作用域中遇到名稱相同的狀況。</p>
+<p>名稱空間將全域作用域細分為彼此獨立且具名的子作用域，這可以有效避免在整個作用域中遇到名稱相衝的狀況。</p>
 <h3 id="優點"><a class="header" href="#優點">優點</a></h3>
 <p>名稱空間提供了一種避免在大型程式中名稱相衝的同時，也能讓大部分程式碼使用較短名稱的方法。</p>
-<p>例如，兩個不同的專案在全域都具有 <code>Foo</code> 這個類別，這個符號可能會在編譯或執行時發生衝突。 如果這些專案能把他們的程式碼分別放在不同的名稱空間下，那麼 <code>project1::Foo</code> 跟 <code>project2::Foo</code> 就會被視為不同的符號，也不會有衝突的問題，而且在各自的專案中還能夠繼續使用 <code>foo</code> 這個名字同時不需加上前綴。</p>
+<p>例如，兩個不同的專案在全域都具有 <code>Foo</code> 這個類別，這個符號可能會在編譯或執行時發生衝突。 如果這些專案能把他們的程式碼分別放在各自的名稱空間下，那麼 <code>project1::Foo</code> 跟 <code>project2::Foo</code> 就會被視為不同的符號，也不會有衝突的問題，而且在各自的專案中還能夠繼續使用 <code>Foo</code> 這個名字同時不需加上前綴。</p>
 <p>行內名稱空間 (inline namespace) 會自動把它們的名稱放進作用域中。 例如，請參考以下程式碼：</p>
-<pre><code class="language-c++">namespace X {
+<pre><code class="language-cpp">namespace X {
 inline namespace Y {
   void foo();
-} // namespace Y
-} // namespace X
+}  // namespace Y
+}  // namespace X
 </code></pre>
-<p>這會產生 <code>X::Y::foo()</code> 等同於 <code>X::foo()</code> 的效果。 當初行內名稱空間的主要目標就是用來處理不同版本的 ABI (Application Binary Interface, 應用二進位介面) 的兼容問題。</p>
+<p>這會使 <code>X::Y::foo()</code> 與 <code>X::foo()</code> 可以互相交換使用。 當初行內名稱空間的主要目標就是用來處理不同版本的 ABI (Application Binary Interface, 應用二進位介面) 的兼容問題。</p>
 <h3 id="缺點"><a class="header" href="#缺點">缺點</a></h3>
-<p>名稱空間可能容易造成混淆，因為它在類別存在的情況下，又額外提供了一種切分命名作用域的方式。</p>
-<p>行內名稱空間可能也會造成混淆，因為它的作用域有時並非如它當初宣告的那樣。 只有在某些需要分類不同版本的情況下才可能會有幫助。</p>
-<p>在某些程式碼中，可能會需要使用完整的名稱來指出所需的名稱空間。 對於深層的名稱空間來說，這樣的寫法可能會造成一些混亂。</p>
-<h3 id="我們的決定"><a class="header" href="#我們的決定">我們的決定</a></h3>
+<p>名稱空間可能容易造成混淆，因為它們將找出一個名稱指向的實際東西這個機制複雜化。</p>
+<p>行內名稱空間可能會造成混淆，因為名稱實際上不會受限於它們被宣告的名稱空間內。 它們只在某些需要分類不同版本的情況下才可能會有幫助。</p>
+<p>在某些狀況中，可能會需要持續使用完整的名稱來指出正確的符號。 對於多層的名稱空間來說，這樣的寫法可能會造成雜亂。</p>
+<h3 id="決定"><a class="header" href="#決定">決定</a></h3>
 <p>名稱空間應該如下列般使用：</p>
 <ul>
 <li>
-<p>遵從 <a href="#">名稱空間命名</a> 一章的規則。</p>
+<p>遵從 <a href="../naming/namespace-names.html">名稱空間命名</a> 一章的規則。</p>
 </li>
 <li>
-<p>如同範例中在名稱空間的尾端加上註解。</p>
+<p>如同這章節的範例中在名稱空間的收尾處加上註解。</p>
 </li>
 <li>
-<p>名稱空間必須將整個原始碼檔中，除了 <code>#include</code> 、<a href="https://gflags.github.io/gflags/">gflags</a> 定義和前向宣告其他名稱空間的類別之外的內容包裹起來。</p>
-<pre><code class="language-c++">// 在某個 .h 檔中
+<p>名稱空間必須將整個原始碼檔中，在 <code>#include</code> 、<a href="https://gflags.github.io/gflags/">gflags</a> 定義和前向宣告其他名稱空間的類別之後的內容全部包裹起來。</p>
+<pre><code class="language-cpp">// 在某個 .h 檔中
 namespace mynamespace {
 
 // 所有的定義都在名稱空間的作用域內
-// 注意沒有使用縮排
+// 注意這裡沒有縮排
 class MyClass {
-public:
+ public:
   ...
   void Foo();
 };
 
 }  // namespace mynamespace
 </code></pre>
-<pre><code class="language-c++">// 在某個 .cc 檔中
+<pre><code class="language-cpp">// 在某個 .cc 檔中
 namespace mynamespace {
 
 // 函式的定義也放在名稱空間的作用域內
@@ -215,10 +215,10 @@ void MyClass::Foo() {
 
 }  // namespace mynamespace
 </code></pre>
-<p>一般的的 <code>.cc</code> 檔中可能會有更多複雜的細節，例如 flags 或者 using 指示詞。</p>
-<pre><code class="language-c++">#include "a.h"
+<p>較複雜的 <code>.cc</code> 檔可能包含額外細節，例如 flags 或者 using 指示詞。</p>
+<pre><code class="language-cpp">#include "a.h"
 
-DEFINE_bool(someflag, false, "dummy flag");
+ABSL_FLAG(bool, someflag, false, "a flag");
 
 namespace mynamespace {
 
@@ -230,30 +230,30 @@ using ::foo::bar;
 </code></pre>
 </li>
 <li>
-<p>如果想將產生的協議訊息 (Protocol Message) 的程式碼放在命名空間中，請在 <code>.proto</code> 中使用 <code>package</code> 來指定。 詳情請參考 <a href="https://developers.google.com/protocol-buffers/docs/reference/cpp-generated#package">Protocol Buffer Packages</a>。</p>
+<p>如果想將自動產生的協議訊息 (Protocol Message) 的程式碼放在命名空間中，請在 <code>.proto</code> 中使用 <code>package</code> 來指定。 詳情請參考 <a href="https://protobuf.dev/reference/cpp/cpp-generated/#package">Protocol Buffer Packages</a>。</p>
 </li>
 <li>
-<p>別在 <code>std</code> 名稱空間下宣告任何東西，甚至是標準函式庫的前向宣告。 宣告 <code>std</code> 名稱空間下的作法沒有一個統一的標準，也就是說，這並不是一個跨平台的作法。 如果想要宣告標準函式庫內的實體，請直接 <code>#include</code> 那些標頭檔。</p>
+<p>別在 <code>std</code> 名稱空間下宣告任何東西，包括標準函式庫的前向宣告。 宣告 <code>std</code> 名稱空間下的實體可能導致未定義的行為，也就是說，這並不是一個跨平台的作法。 如果想要宣告標準函式庫內的實體，請直接 <code>#include</code> 那些標頭檔。</p>
 </li>
 <li>
-<p>你不該為了要讓某個名稱空間中的名稱皆可直接呼叫而使用「using 指示詞 (using-directive)」</p>
-<pre><code class="language-c++">// 禁用 -- 這會汙染你的名稱空間
+<p>你不該為了要讓某個名稱空間中的名稱皆可直接呼叫而使用 「using 指示詞 (using-directive)」。</p>
+<pre><code class="language-cpp">// 禁用 -- 這會汙染名稱空間
 using namespace foo;
 </code></pre>
 </li>
 <li>
-<p>別在標頭檔中的名稱空間中使用名稱空間別名 (Namespace Alias)，除非是在明確被標示為只給專案內部使用的名稱空間。 因為在一個被載入的標頭檔內的任何東西，都會被當作該檔的公共 API 對待。</p>
-<pre><code class="language-c++">// 在 `.cc` 檔中簡化存取某個常用名稱的動作
+<p>別在標頭檔中的名稱空間中使用名稱空間別名 (Namespace Alias)，除非是在明確被標示為只給專案內部使用的名稱空間。 因為在一個被載入的標頭檔內的任何東西，都會被當作該檔的公開 API 對待。</p>
+<pre><code class="language-cpp">// 在 `.cc` 檔中簡化存取某個常用名稱的動作
 namespace fbz = ::foo::bar::baz;
 </code></pre>
-<pre><code class="language-c++">// 在 `.h` 檔中簡化存取某個常用名稱的動作
+<pre><code class="language-cpp">// 在 `.h` 檔中簡化存取某個常用名稱的動作
 namespace librarian {
-namespace impl {  // 內部區域，不是公共 API 的一部份
+namespace internal {  // 內部區域，不是公共 API 的一部份
 namespace sidetable = ::pipeline_diagnostics::sidetable;
-}  // namespace impl
+}  // namespace internal
 
 inline void my_inline_function() {
-  // 只在這個函式（或方法）內作用的命名空間別名
+  // 只在這個函式（或方法）內才有作用的命名空間別名
   namespace baz = ::foo::bar::baz;
   ...
 }
@@ -263,11 +263,20 @@ inline void my_inline_function() {
 <li>
 <p>別使用行內名稱空間</p>
 </li>
+<li>
+<p>在名稱空間的命名中加入 <code>internal</code> 字樣來標註這個名稱空間不該被 API 的使用者所用。</p>
+<pre><code class="language-cpp">// 我們不該在非 `absl` 的名稱空間中使用向下面這種內部 API。
+using ::absl::container_internal::ImplementationDetail;
+</code></pre>
+</li>
+<li>
+<p>我們推薦在新程式碼中使用單行巢狀名稱空間，但不是必須的。</p>
+</li>
 </ul>
-<h3 id="譯註"><a class="header" href="#譯註">譯註</a></h3>
-<p>就我所知，行內名稱空間是非常鮮見的東西，至少從我學習 C/C++ 到現在都沒有在一個實際的專案中看過。 這邊稍微介紹一下這個功能。</p>
+<h3 id="譯註四行內名稱空間介紹"><a class="header" href="#譯註四行內名稱空間介紹">譯註四：行內名稱空間介紹</a></h3>
+<p>因為行內名稱空間並非常見的 C++ 特性，以下稍微介紹一下這個功能。</p>
 <p>首先看下面這段範例：</p>
-<pre><code class="language-c++">namespace A {
+<pre><code class="language-cpp">namespace A {
 namespace B {
 void fun() {
     // code
@@ -276,7 +285,7 @@ void fun() {
 }
 </code></pre>
 <p>一般來說，上面這段程式碼想要呼叫 <code>fun</code> 這個函式的話，就要使用 <code>A::B::fun()</code> 這個名稱。 但是如果此時引入了行內關鍵字，在 B 前面加上 <code>inline</code>，變成這樣：</p>
-<pre><code class="language-c++">namespace A {
+<pre><code class="language-cpp">namespace A {
 inline namespace B {
 void fun() {
     // code
@@ -285,12 +294,12 @@ void fun() {
 }
 </code></pre>
 <p>這個時候你使用 <code>A::fun()</code> 這個名稱的話，就可以呼叫到 <code>fun</code> 這個函式。 當然，使用 <code>A::B::fun()</code> 也同樣可以呼叫得到 <code>fun</code>。 有興趣的話可以自己試試看。</p>
-<p>運作的原理很簡單，其實就是程式在編譯時將所有 <code>A::fun()</code> 的名稱代換為 <code>A::B::fun()</code> 而已。</p>
+<p>運作的原理很簡單，其實就是程式在編譯將 <code>A::fun()</code> 解析成 <code>A::B::fun()</code> 而已。</p>
 <p>那這個技巧有甚麼用？ 既然我想讓其他人直接呼叫到 <code>fun</code>，那為什麼還要特別放一個 <code>namespace B</code>？</p>
 <p>這個技巧最常用到的地方，就像上面 Google 文件中所提到的，版本控管。</p>
 <p>如果今天我是在寫函式庫，此時我寫了兩種不同版本的 <code>fun</code>，可是有些人的程式已經連結到了舊版的 <code>fun</code>，那要怎麼樣在不重新編譯那些程式的狀況下保持連結？ 這個時候可以這樣做：</p>
 <p>假設原本的函式庫長這樣：</p>
-<pre><code class="language-c++">namespace SomeLib {
+<pre><code class="language-cpp">namespace SomeLib {
 inline namespace v1 {
 void fun() {
     // code
@@ -299,7 +308,7 @@ void fun() {
 }
 </code></pre>
 <p>因此原本編譯的程式裡，呼叫到 <code>SomeLib::fun</code> 的地方都會連結到 <code>SomeLib::v1::fun</code>。 而此時我只要改成：</p>
-<pre><code class="language-c++">namespace SomeLib {
+<pre><code class="language-cpp">namespace SomeLib {
 namespace v1 {
 void fun() {
     // code
@@ -312,7 +321,7 @@ void fun() {
 }
 }
 </code></pre>
-<p>這樣原本連結到 <code>SomeLib::v1::fun</code> 的程式仍然可以運作，而且新的程式呼叫 <code>SomeLib::fun</code> 時，也可以如我預期地使用到新的版本 (v2 版)。 因此行內名稱空間才常用於函式庫的版本控管。 但是如同 Google Style 所說，這樣的行為可能實在會導致預期外的結果，所以還是盡量避免使用。</p>
+<p>這樣原本連結到 <code>SomeLib::v1::fun</code> 的程式仍然可以運作，而且新的程式呼叫 <code>SomeLib::fun</code> 時，也可以如我預期地使用到新的版本 (v2 版)。 因此行內名稱空間才常用於函式庫的版本控管。 但是如同 Google 風格指南所說，這樣的行為可能實在會導致預期外的結果，所以還是盡量避免使用。</p>
 
                     </main>
 
@@ -322,7 +331,7 @@ void fun() {
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../scoping/unnamed-namespace-and-static-variables.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../scoping/internal-linkage.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -336,7 +345,7 @@ void fun() {
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../scoping/unnamed-namespace-and-static-variables.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../scoping/internal-linkage.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
