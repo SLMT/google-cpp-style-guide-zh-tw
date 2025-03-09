@@ -16,7 +16,7 @@
     - [#include 時的名稱與順序](header-files/names-and-order-of-includes.md)
 - [作用域 (Scoping)](scoping/README.md)
     - [名稱空間](scoping/namespaces.md)
-    - [無名名稱空間與靜態變數](scoping/unnamed-namespace-and-static-variables.md)
+    - [內部連結性](scoping/internal-linkage.md)
     - [非成員、靜態成員、全域函式](scoping/nonmember-static-members.md)
     - [區域變數](scoping/local-variables.md)
     - [靜態與全域變數](scoping/static-and-global-variables.md)
