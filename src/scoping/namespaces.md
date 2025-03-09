@@ -131,25 +131,25 @@ inline namespace Y {
 首先看下面這段範例：
 
 ```cpp
-namespace A {
-namespace B {
+namespace a {
+namespace b {
 void fun() {
     // code
 }
-}
-}
+}  // namespace b
+}  // namespace a
 ```
 
 一般來說，上面這段程式碼想要呼叫 `fun` 這個函式的話，就要使用 `A::B::fun()` 這個名稱。 但是如果此時引入了行內關鍵字，在 B 前面加上 `inline`，變成這樣：
 
 ```cpp
-namespace A {
-inline namespace B {
+namespace a {
+inline namespace b {
 void fun() {
     // code
 }
-}
-}
+}  // namespace b
+}  // namespace a
 ```
 
 這個時候你使用 `A::fun()` 這個名稱的話，就可以呼叫到 `fun` 這個函式。 當然，使用 `A::B::fun()` 也同樣可以呼叫得到 `fun`。 有興趣的話可以自己試試看。
@@ -165,30 +165,30 @@ void fun() {
 假設原本的函式庫長這樣：
 
 ```cpp
-namespace SomeLib {
+namespace some_lib {
 inline namespace v1 {
 void fun() {
     // code
 }
-}
-}
+}  // namespace v1
+}  // namespace some_lib
 ```
 
 因此原本編譯的程式裡，呼叫到 `SomeLib::fun` 的地方都會連結到 `SomeLib::v1::fun`。 而此時我只要改成：
 
 ```cpp
-namespace SomeLib {
+namespace some_lib {
 namespace v1 {
 void fun() {
     // code
 }
-}
+}  // namespace v1
 inline namespace v2 {
 void fun() {
     // code
 }
-}
-}
+}  // namespace v2
+}  // namespace some_lib
 ```
 
 這樣原本連結到 `SomeLib::v1::fun` 的程式仍然可以運作，而且新的程式呼叫 `SomeLib::fun` 時，也可以如我預期地使用到新的版本 (v2 版)。 因此行內名稱空間才常用於函式庫的版本控管。 但是如同 Google 風格指南所說，這樣的行為可能實在會導致預期外的結果，所以還是盡量避免使用。
