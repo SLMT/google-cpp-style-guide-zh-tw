@@ -438,7 +438,7 @@ void test(D* x) { f(x); } // 這裡會呼叫 f(B*)
 <div style="break-before: page; page-break-before: always;"></div><h1 id="作用域-scoping"><a class="header" href="#作用域-scoping">作用域 (Scoping)</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="名稱空間-namespaces"><a class="header" href="#名稱空間-namespaces">名稱空間 (Namespaces)</a></h2>
 <blockquote>
-<p>除了某些特殊情況外，程式碼應當放在名稱空間中。 名稱空間應該具有基於專案名稱的獨特名稱，可能也包含其路徑。 不要使用 using 指示詞 (using-directive)，像是 <code>using namespace foo</code>。 不要使用行內名稱空間 (inline namespace)。 關於未命名的名稱空間，請參考  「<a href="scoping/internal-linkage.html">內部連結性</a>」 一節。</p>
+<p>除了某些特殊情況外，程式碼應當放在名稱空間中。 名稱空間應該具有基於專案名稱的獨特名稱，可能也包含其路徑。 不要使用 using 指示詞 (using-directive)，像是 <code>using namespace foo</code>。 不要使用行內名稱空間 (inline namespace)。 關於未命名的名稱空間，請參考  「<a href="scoping/internal-linkage.html">內部鏈結</a>」 一節。</p>
 </blockquote>
 <h3 id="定義-2"><a class="header" href="#定義-2">定義</a></h3>
 <p>名稱空間將全域作用域細分為彼此獨立且具名的子作用域，這可以有效避免在整個作用域中遇到名稱相衝的狀況。</p>
@@ -598,21 +598,19 @@ void fun() {
 }  // namespace some_lib
 </code></pre>
 <p>這樣原本連結到 <code>some_lib::v1::fun</code> 的程式仍然可以運作，而且新的程式呼叫 <code>some_lib::fun</code> 時，也可以如我預期地使用到新的版本 (v2 版)。 因此行內名稱空間才常用於函式庫的版本控管。 但是如同 Google 風格指南所說，這樣的行為可能實在會導致預期外的結果，所以還是盡量避免使用。</p>
-<div style="break-before: page; page-break-before: always;"></div><h2 id="內部連結性"><a class="header" href="#內部連結性">內部連結性</a></h2>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="內部鏈結-internal-linkage"><a class="header" href="#內部鏈結-internal-linkage">內部鏈結 (Internal Linkage)</a></h2>
 <blockquote>
-<p>當你需要在 <code>.cc</code> 檔內放一些不會被其他檔案參考的的定義，請將這些東西放在一個無名名稱空間中，或者將他們全部宣告為 <code>static</code>。 不要在 <code>.h</code> 檔內使用任何這種結構。</p>
+<p>當 <code>.cc</code> 檔中的定義不需要被外部檔案參考時，請透過將其放入無名名稱空間或宣告為 <code>static</code> 來使其具有內部鏈結，但不要在 <code>.h</code> 檔內使用任何這種結構。</p>
 </blockquote>
 <h3 id="定義-3"><a class="header" href="#定義-3">定義</a></h3>
-<p>無名名稱空間可以對所有宣告給予內部連結性 (Internal Linkage)。 函數與變數則可以透過宣告為 <code>static</code> 來給予內部連結性。 這代表你宣告的東西不能被其他檔案內的東西給存取。 如果其他檔案中宣告了同樣名稱的東西，那麼這兩者會被視為獨立的個體。</p>
-<h3 id="我們的決定"><a class="header" href="#我們的決定">我們的決定</a></h3>
-<p>我們鼓勵在 <code>.cc</code> 檔中對那些不需要被其他檔案參考的程式碼使用內部連結性，但不要在 <code>.h</code> 檔中使用。</p>
-<p>無名名稱空間的格式與一般名稱空間相同。 結尾註解的部分，名稱空間的名稱留白即可：</p>
+<p>所有的宣告都可以透過放入無名名稱空間來使其具有內部鏈結。 函數與變數也可以透過宣告為 <code>static</code> 來實現內部鏈結。 這表示所宣告的內容無法被其他檔案存取。 如果其他檔案中宣告了同樣名稱的東西，那麼這兩者會被視為獨立的個體。</p>
+<h3 id="決定-3"><a class="header" href="#決定-3">決定</a></h3>
+<p>我們鼓勵在 <code>.cc</code> 檔中對不需要外部引用的程式碼使用內部鏈結，但不要在 <code>.h</code> 檔中使用。</p>
+<p>無名名稱空間的格式與具名名稱空間相同。 對於這種名稱空間的結尾註解，只要在名稱的部分留白即可：</p>
 <pre><code class="language-c++">namespace {
 ...
 } // namespace
 </code></pre>
-<h3 id="譯註"><a class="header" href="#譯註">譯註</a></h3>
-<p>內部連結性 (Internal Linkage) 這個詞不常見，因此稍微解釋一下。 當今天有多個目的檔 (Object Files) 要合併成單一執行檔時，連結器 (Linker) 就會出動，並把這些檔案連結在一起。 具有內部連結性的變數或定義，具有可以在同一專案內被隨處使用，但是在專案外就無法使用的特性。 想要更深入了解可以參考這篇 <a href="https://www.geeksforgeeks.org/internal-linkage-external-linkage-c/">說明文件(英文)</a>。</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="非成員靜態成員全域函式"><a class="header" href="#非成員靜態成員全域函式">非成員、靜態成員、全域函式</a></h2>
 <blockquote>
 <p>盡量將非成員函式放在名稱空間中；少用完全的全域函式 (也就是說，不包含在任何名稱空間中)。 請不要把靜態函式包裝成一個類別。 類別的靜態成員一般來說應該要與類別的實例或者靜態資料有高度相關。</p>
@@ -621,9 +619,9 @@ void fun() {
 <p>非成員及靜態成員函式在某些狀況下很有用。 將非成員函式放在名稱空間中可以避免汙染全域的名稱空間。</p>
 <h3 id="缺點-3"><a class="header" href="#缺點-3">缺點</a></h3>
 <p>非成員及靜態成員函式也許作為某個類別中的成員會更合理，特別是這些函式會存取一些外部資源或者有高度相關時。</p>
-<h3 id="我們的決定-1"><a class="header" href="#我們的決定-1">我們的決定</a></h3>
+<h3 id="我們的決定"><a class="header" href="#我們的決定">我們的決定</a></h3>
 <p>有時候定義一個不受類別實例限制的函式很有用。 這樣的函式可以是非成員或者靜態成員函式。 非成員函式不應該依賴在某個外部變數上，而且應該放在某個名稱空間內。 不要特別為了一群函式建立一個類別，這與直接在函式前面加上前綴 (Prefix) 沒甚麼兩樣，而且這種包裝通常都不是必要的。</p>
-<p>如果你定義了一個非成員函式，而且它只需要用在它所屬的 <code>.cc</code> 檔中，請使用 <a href="scoping/unnamed-namespace-and-static-variables.html">內部連結性</a> 來限制它的作用域。</p>
+<p>如果你定義了一個非成員函式，而且它只需要用在它所屬的 <code>.cc</code> 檔中，請使用 <a href="scoping/internal-linkage.html">內部鏈結</a> 來限制它的作用域。</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="區域變數"><a class="header" href="#區域變數">區域變數</a></h2>
 <blockquote>
 <p>將函式的變數盡可能地放在最小的作用域內，並在宣告變數的同時初始化</p>
@@ -668,7 +666,7 @@ for (int i = 0; i &lt; 1000000; ++i) {
 <p>全域與靜態變數對於大量的應用來說非常好用： 命名的常數、一些轉換元件中的輔助資料結構、命令提示的旗標 (flag)、日誌、註冊機制、背景基礎設施等等。</p>
 <h3 id="缺點-4"><a class="header" href="#缺點-4">缺點</a></h3>
 <p>全域與靜態變數使用著動態初始化或者不平凡的解構函式產生的複雜度容易導致難以尋找的錯誤。 動態初始化在轉換元件之間或者解構時沒有被排序 (除了那種在反向初始化時的解構動作)。 當一個初始化指向另一個有著靜態儲存期的變數時，有可能會導致一個物件在他的存活期開始前 (或者結束之後) 被存取。 更甚者，當一個程式啟動了一些在結束時還沒加入的執行緒，這些執行緒可能會存取那些已經結束存活期的物件 (如果他的解構函式已經跑完的話)。</p>
-<h3 id="我們的決定-2"><a class="header" href="#我們的決定-2">我們的決定</a></h3>
+<h3 id="我們的決定-1"><a class="header" href="#我們的決定-1">我們的決定</a></h3>
 <h4 id="對於解構函式"><a class="header" href="#對於解構函式">對於解構函式</a></h4>
 <p>當解構函式是平凡的 (trivial)，他的執行完全並不會被順序所影響 (因為他們基本上不會執行)；不然的話，我們會暴露在某些物件的存活期結束之後存取他們的風險之中。 因此我們只允許可平凡解構的物件擁有靜態儲存期。 基礎型別 (像是指標或者 <code>int</code>) 都是可平凡解構的，這些型別的陣列也都是。 注意被標示 <code>constexpr</code> 的變數也是可平凡解構的。</p>
 <pre><code class="language-c++">const int kNum = 10;  // 允許
@@ -759,7 +757,7 @@ Bar b;                     // 選用的建構函數 Bar::Bar() 也不是 constex
 <li>一般類別的成員不能是 <code>thread_local</code>。</li>
 <li><code>thread_local</code> 可能不比某些編譯器的內建功能 (compiler intrinsics) 還要有效率。</li>
 </ul>
-<h3 id="我們的決定-3"><a class="header" href="#我們的決定-3">我們的決定</a></h3>
+<h3 id="我們的決定-2"><a class="header" href="#我們的決定-2">我們的決定</a></h3>
 <p>定義在函式內的 <code>thread_local</code> 變數沒有安全疑慮，因此可以被無限制的使用。 注意你可以利用定義一個會回傳 <code>thread_local</code> 變數的函式或靜態方法，來使用函式作用域等級的 <code>thread_local</code> 以模擬類別或是命名空間作用域等級的 <code>thread_local</code>：</p>
 <pre><code class="language-cpp">Foo&amp; MyThreadLocalFoo() {
   thread_local Foo result = ComplicatedInitialization(); // 函式名稱：很複雜的初始化
@@ -790,7 +788,7 @@ Bar b;                     // 選用的建構函數 Bar::Bar() 也不是 constex
 <li>如果工作失敗了，那我們此時就會有個初始化失敗的物件。 這個時候我們可能會需要一個像是 <code>bool IsValid()</code> 的方法來檢查狀態，但是大家常會忘記要呼叫它。</li>
 <li>你無法取得建構函式的記憶體位址，所以建構函式中的工作無法簡單地被移交，例如交給另一個執行緒。</li>
 </ul>
-<h3 id="我們的決定-4"><a class="header" href="#我們的決定-4">我們的決定</a></h3>
+<h3 id="我們的決定-3"><a class="header" href="#我們的決定-3">我們的決定</a></h3>
 <p>建構函式內部應該永遠不要呼叫虛擬函式。 如果你覺得合適的話，也許可以終止程式可以當作一種回報錯誤的方式。 除此之外，可以考慮像 <a href="https://abseil.io/tips/42">TotW #42</a> 所述那樣建立工廠方法 (Factory Method) 或者 <code>Init()</code> 方法。 避免在那些沒有儲存任何會影響到公用方法 (Public Methods) 的變數的物件中使用 <code>Init()</code> 方法 (有這種半建構式的物件存在時很難把程式寫對)。</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="隱性轉換-implicit-conversions"><a class="header" href="#隱性轉換-implicit-conversions">隱性轉換 (Implicit Conversions)</a></h2>
 <blockquote>
@@ -825,7 +823,7 @@ void Func(Foo f);
 <li>總是難以搞清楚到底該讓來源型別或目的型別提供轉換，如果兩邊都提供了轉換方式，程式碼就變的曖昧不明。</li>
 <li>List 初始化在目的型別不明確時也會遭遇相同問題，特別是在 list 中只有一個元素的時候。</li>
 </ul>
-<h3 id="我們的決定-5"><a class="header" href="#我們的決定-5">我們的決定</a></h3>
+<h3 id="我們的決定-4"><a class="header" href="#我們的決定-4">我們的決定</a></h3>
 <p>型別轉換運算子與接受單一引數的建構子必須在類別的定義中標註 <code>explicit</code>。 一個例外是，複製與轉移建構子不應該是 <code>explicit</code>，因為他們並不會進行型別轉換。 隱性轉換在某些時候可以是必要的且對設計為透明包裝其他型別的型別來說是適當的。 對於這種情況請聯絡你的專案領導人來請求免去這個限制。</p>
 <p>對於無法使用單一引數呼叫的建構子來說可以省略 <code>explicit</code>。 只接受單一 <code>std::initializer_list</code> 引數的建構子也應該省略 <code>explicit</code>，這樣才能支援複製初始化 (copy-initalization, 例如：<code>MyType m = {1, 2}'</code>)。</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="建置中"><a class="header" href="#建置中">建置中...</a></h1>
@@ -1044,7 +1042,7 @@ enum AlternateUrlTableErrors {
 <tr><td style="text-align: left">Implicit Instantiation</td><td style="text-align: left">隱性實例化</td></tr>
 <tr><td style="text-align: left">Inline Function</td><td style="text-align: left">行內函式</td></tr>
 <tr><td style="text-align: left">Instance</td><td style="text-align: left">實例</td></tr>
-<tr><td style="text-align: left">Internal Linkage</td><td style="text-align: left">內部連結性</td></tr>
+<tr><td style="text-align: left">Internal Linkage</td><td style="text-align: left">內部鏈結</td></tr>
 <tr><td style="text-align: left">Input</td><td style="text-align: left">輸入值</td></tr>
 <tr><td style="text-align: left">Iteration</td><td style="text-align: left">疊代</td></tr>
 <tr><td style="text-align: left">Library</td><td style="text-align: left">函式庫</td></tr>

@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>內部連結性 - Google C++ Style Guide 繁體中文版</title>
+        <title>內部鏈結 - Google C++ Style Guide 繁體中文版</title>
 
 
         <!-- Custom HTML head -->
@@ -160,21 +160,19 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2 id="內部連結性"><a class="header" href="#內部連結性">內部連結性</a></h2>
+                        <h2 id="內部鏈結-internal-linkage"><a class="header" href="#內部鏈結-internal-linkage">內部鏈結 (Internal Linkage)</a></h2>
 <blockquote>
-<p>當你需要在 <code>.cc</code> 檔內放一些不會被其他檔案參考的的定義，請將這些東西放在一個無名名稱空間中，或者將他們全部宣告為 <code>static</code>。 不要在 <code>.h</code> 檔內使用任何這種結構。</p>
+<p>當 <code>.cc</code> 檔中的定義不需要被外部檔案參考時，請透過將其放入無名名稱空間或宣告為 <code>static</code> 來使其具有內部鏈結，但不要在 <code>.h</code> 檔內使用任何這種結構。</p>
 </blockquote>
 <h3 id="定義"><a class="header" href="#定義">定義</a></h3>
-<p>無名名稱空間可以對所有宣告給予內部連結性 (Internal Linkage)。 函數與變數則可以透過宣告為 <code>static</code> 來給予內部連結性。 這代表你宣告的東西不能被其他檔案內的東西給存取。 如果其他檔案中宣告了同樣名稱的東西，那麼這兩者會被視為獨立的個體。</p>
-<h3 id="我們的決定"><a class="header" href="#我們的決定">我們的決定</a></h3>
-<p>我們鼓勵在 <code>.cc</code> 檔中對那些不需要被其他檔案參考的程式碼使用內部連結性，但不要在 <code>.h</code> 檔中使用。</p>
-<p>無名名稱空間的格式與一般名稱空間相同。 結尾註解的部分，名稱空間的名稱留白即可：</p>
+<p>所有的宣告都可以透過放入無名名稱空間來使其具有內部鏈結。 函數與變數也可以透過宣告為 <code>static</code> 來實現內部鏈結。 這表示所宣告的內容無法被其他檔案存取。 如果其他檔案中宣告了同樣名稱的東西，那麼這兩者會被視為獨立的個體。</p>
+<h3 id="決定"><a class="header" href="#決定">決定</a></h3>
+<p>我們鼓勵在 <code>.cc</code> 檔中對不需要外部引用的程式碼使用內部鏈結，但不要在 <code>.h</code> 檔中使用。</p>
+<p>無名名稱空間的格式與具名名稱空間相同。 對於這種名稱空間的結尾註解，只要在名稱的部分留白即可：</p>
 <pre><code class="language-c++">namespace {
 ...
 } // namespace
 </code></pre>
-<h3 id="譯註"><a class="header" href="#譯註">譯註</a></h3>
-<p>內部連結性 (Internal Linkage) 這個詞不常見，因此稍微解釋一下。 當今天有多個目的檔 (Object Files) 要合併成單一執行檔時，連結器 (Linker) 就會出動，並把這些檔案連結在一起。 具有內部連結性的變數或定義，具有可以在同一專案內被隨處使用，但是在專案外就無法使用的特性。 想要更深入了解可以參考這篇 <a href="https://www.geeksforgeeks.org/internal-linkage-external-linkage-c/">說明文件(英文)</a>。</p>
 
                     </main>
 
