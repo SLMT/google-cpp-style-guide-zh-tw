@@ -1,6 +1,6 @@
 ## 名稱空間 (Namespaces)
 
-> 除了某些特殊情況外，程式碼應當放在名稱空間中。 名稱空間應該具有基於專案名稱的獨特名稱，可能也包含其路徑。 不要使用 using 指示詞 (using-directive)，像是 `using namespace foo`。 不要使用行內名稱空間 (inline namespace)。 關於未命名的名稱空間，請參考  「[內部連結性](internal-linkage.md)」 一節。
+> 除了某些特殊情況外，程式碼應當放在名稱空間中。 名稱空間應該具有基於專案名稱的獨特名稱，可能也包含其路徑。 不要使用 using 指示詞 (using-directive)，像是 `using namespace foo`。 不要使用行內名稱空間 (inline namespace)。 關於未命名的名稱空間，請參考  「[內部鏈結](internal-linkage.md)」 一節。
 
 ### 定義
 

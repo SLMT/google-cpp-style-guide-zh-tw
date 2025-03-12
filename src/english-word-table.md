@@ -30,7 +30,7 @@
 | Implicit Instantiation | 隱性實例化                     |
 | Inline Function        | 行內函式                       |
 | Instance               | 實例                           |
-| Internal Linkage       | 內部連結性                     |
+| Internal Linkage       | 內部鏈結                       |
 | Input                  | 輸入值                         |
 | Iteration              | 疊代                           |
 | Library                | 函式庫                         |
