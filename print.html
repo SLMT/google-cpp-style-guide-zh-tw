@@ -613,14 +613,14 @@ void fun() {
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="非成員靜態成員全域函式"><a class="header" href="#非成員靜態成員全域函式">非成員、靜態成員、全域函式</a></h2>
 <blockquote>
-<p>盡量將非成員函式放在名稱空間中；少用完全的全域函式 (也就是說，不包含在任何名稱空間中)。 請不要把靜態函式包裝成一個類別。 類別的靜態成員一般來說應該要與類別的實例或者靜態資料有高度相關。</p>
+<p>盡量將非成員函式放在名稱空間中；應盡量避免使用全域範圍的函式（即不屬於任何名稱空間的函式）。 請不要單純為了組合靜態函式而創建一個類別。 類別的靜態函式一般來說應該要與類別的實例或者靜態資料有高度相關。</p>
 </blockquote>
 <h3 id="優點-3"><a class="header" href="#優點-3">優點</a></h3>
 <p>非成員及靜態成員函式在某些狀況下很有用。 將非成員函式放在名稱空間中可以避免汙染全域的名稱空間。</p>
 <h3 id="缺點-3"><a class="header" href="#缺點-3">缺點</a></h3>
-<p>非成員及靜態成員函式也許作為某個類別中的成員會更合理，特別是這些函式會存取一些外部資源或者有高度相關時。</p>
-<h3 id="我們的決定"><a class="header" href="#我們的決定">我們的決定</a></h3>
-<p>有時候定義一個不受類別實例限制的函式很有用。 這樣的函式可以是非成員或者靜態成員函式。 非成員函式不應該依賴在某個外部變數上，而且應該放在某個名稱空間內。 不要特別為了一群函式建立一個類別，這與直接在函式前面加上前綴 (Prefix) 沒甚麼兩樣，而且這種包裝通常都不是必要的。</p>
+<p>非成員及靜態成員函式也許作為某個類別中的成員會更合理，特別是當它們需要存取外部資源或具有較高的相依性時。</p>
+<h3 id="決定-4"><a class="header" href="#決定-4">決定</a></h3>
+<p>有時候定義一個不受類別實例綁住的函式很有用。 這樣的函式可以是靜態成員或者非成員函式。 非成員函式不應該依賴在某個外部變數上，而且應該幾乎都放在某個名稱空間內。 不要為了將一組靜態成員歸類而建立類別，這與直接在函式名稱前加上相同前綴並無不同，而這種做法通常沒有必要。</p>
 <p>如果你定義了一個非成員函式，而且它只需要用在它所屬的 <code>.cc</code> 檔中，請使用 <a href="scoping/internal-linkage.html">內部鏈結</a> 來限制它的作用域。</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="區域變數"><a class="header" href="#區域變數">區域變數</a></h2>
 <blockquote>
@@ -666,7 +666,7 @@ for (int i = 0; i &lt; 1000000; ++i) {
 <p>全域與靜態變數對於大量的應用來說非常好用： 命名的常數、一些轉換元件中的輔助資料結構、命令提示的旗標 (flag)、日誌、註冊機制、背景基礎設施等等。</p>
 <h3 id="缺點-4"><a class="header" href="#缺點-4">缺點</a></h3>
 <p>全域與靜態變數使用著動態初始化或者不平凡的解構函式產生的複雜度容易導致難以尋找的錯誤。 動態初始化在轉換元件之間或者解構時沒有被排序 (除了那種在反向初始化時的解構動作)。 當一個初始化指向另一個有著靜態儲存期的變數時，有可能會導致一個物件在他的存活期開始前 (或者結束之後) 被存取。 更甚者，當一個程式啟動了一些在結束時還沒加入的執行緒，這些執行緒可能會存取那些已經結束存活期的物件 (如果他的解構函式已經跑完的話)。</p>
-<h3 id="我們的決定-1"><a class="header" href="#我們的決定-1">我們的決定</a></h3>
+<h3 id="我們的決定"><a class="header" href="#我們的決定">我們的決定</a></h3>
 <h4 id="對於解構函式"><a class="header" href="#對於解構函式">對於解構函式</a></h4>
 <p>當解構函式是平凡的 (trivial)，他的執行完全並不會被順序所影響 (因為他們基本上不會執行)；不然的話，我們會暴露在某些物件的存活期結束之後存取他們的風險之中。 因此我們只允許可平凡解構的物件擁有靜態儲存期。 基礎型別 (像是指標或者 <code>int</code>) 都是可平凡解構的，這些型別的陣列也都是。 注意被標示 <code>constexpr</code> 的變數也是可平凡解構的。</p>
 <pre><code class="language-c++">const int kNum = 10;  // 允許
@@ -757,7 +757,7 @@ Bar b;                     // 選用的建構函數 Bar::Bar() 也不是 constex
 <li>一般類別的成員不能是 <code>thread_local</code>。</li>
 <li><code>thread_local</code> 可能不比某些編譯器的內建功能 (compiler intrinsics) 還要有效率。</li>
 </ul>
-<h3 id="我們的決定-2"><a class="header" href="#我們的決定-2">我們的決定</a></h3>
+<h3 id="我們的決定-1"><a class="header" href="#我們的決定-1">我們的決定</a></h3>
 <p>定義在函式內的 <code>thread_local</code> 變數沒有安全疑慮，因此可以被無限制的使用。 注意你可以利用定義一個會回傳 <code>thread_local</code> 變數的函式或靜態方法，來使用函式作用域等級的 <code>thread_local</code> 以模擬類別或是命名空間作用域等級的 <code>thread_local</code>：</p>
 <pre><code class="language-cpp">Foo&amp; MyThreadLocalFoo() {
   thread_local Foo result = ComplicatedInitialization(); // 函式名稱：很複雜的初始化
@@ -788,7 +788,7 @@ Bar b;                     // 選用的建構函數 Bar::Bar() 也不是 constex
 <li>如果工作失敗了，那我們此時就會有個初始化失敗的物件。 這個時候我們可能會需要一個像是 <code>bool IsValid()</code> 的方法來檢查狀態，但是大家常會忘記要呼叫它。</li>
 <li>你無法取得建構函式的記憶體位址，所以建構函式中的工作無法簡單地被移交，例如交給另一個執行緒。</li>
 </ul>
-<h3 id="我們的決定-3"><a class="header" href="#我們的決定-3">我們的決定</a></h3>
+<h3 id="我們的決定-2"><a class="header" href="#我們的決定-2">我們的決定</a></h3>
 <p>建構函式內部應該永遠不要呼叫虛擬函式。 如果你覺得合適的話，也許可以終止程式可以當作一種回報錯誤的方式。 除此之外，可以考慮像 <a href="https://abseil.io/tips/42">TotW #42</a> 所述那樣建立工廠方法 (Factory Method) 或者 <code>Init()</code> 方法。 避免在那些沒有儲存任何會影響到公用方法 (Public Methods) 的變數的物件中使用 <code>Init()</code> 方法 (有這種半建構式的物件存在時很難把程式寫對)。</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="隱性轉換-implicit-conversions"><a class="header" href="#隱性轉換-implicit-conversions">隱性轉換 (Implicit Conversions)</a></h2>
 <blockquote>
@@ -823,7 +823,7 @@ void Func(Foo f);
 <li>總是難以搞清楚到底該讓來源型別或目的型別提供轉換，如果兩邊都提供了轉換方式，程式碼就變的曖昧不明。</li>
 <li>List 初始化在目的型別不明確時也會遭遇相同問題，特別是在 list 中只有一個元素的時候。</li>
 </ul>
-<h3 id="我們的決定-4"><a class="header" href="#我們的決定-4">我們的決定</a></h3>
+<h3 id="我們的決定-3"><a class="header" href="#我們的決定-3">我們的決定</a></h3>
 <p>型別轉換運算子與接受單一引數的建構子必須在類別的定義中標註 <code>explicit</code>。 一個例外是，複製與轉移建構子不應該是 <code>explicit</code>，因為他們並不會進行型別轉換。 隱性轉換在某些時候可以是必要的且對設計為透明包裝其他型別的型別來說是適當的。 對於這種情況請聯絡你的專案領導人來請求免去這個限制。</p>
 <p>對於無法使用單一引數呼叫的建構子來說可以省略 <code>explicit</code>。 只接受單一 <code>std::initializer_list</code> 引數的建構子也應該省略 <code>explicit</code>，這樣才能支援複製初始化 (copy-initalization, 例如：<code>MyType m = {1, 2}'</code>)。</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="建置中"><a class="header" href="#建置中">建置中...</a></h1>
