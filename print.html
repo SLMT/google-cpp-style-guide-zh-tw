@@ -624,32 +624,39 @@ void fun() {
 <p>如果你定義了一個非成員函式，而且它只需要用在它所屬的 <code>.cc</code> 檔中，請使用 <a href="scoping/internal-linkage.html">內部鏈結</a> 來限制它的作用域。</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="區域變數"><a class="header" href="#區域變數">區域變數</a></h2>
 <blockquote>
-<p>將函式的變數盡可能地放在最小的作用域內，並在宣告變數的同時初始化</p>
+<p>將函式的變數盡可能地放在最小的作用域內，並在宣告變數的同時初始化。</p>
 </blockquote>
-<p>C++ 允許你在函式內的任何地方宣告變數。 我們鼓勵你盡可能地將變數宣告在越局部的 (local) 作用域越好，並且最好越靠近它第一次被使用的地方。 這讓讀者會更容易找到變數的宣告處以及了解它的型別是甚麼。 特別要注意初始化與宣告不該分開，例如：</p>
-<pre><code class="language-c++">int i;
+<p>C++ 允許你在函式內的任何地方宣告變數。 我們鼓勵你盡可能地將變數宣告在越局部的作用域越好，並且最好靠近它第一次被使用的地方。 這讓讀者更容易找到變數的宣告位置，並了解其型別及初始化值。 特別要注意初始化與宣告應避免分開，例如：</p>
+<pre><code class="language-cpp">int i;
 i = f();      // 不好 -- 初始化與宣告分離
 </code></pre>
-<pre><code class="language-c++">int j = g();  // 良好 -- 宣告同時初始化
+<pre><code class="language-cpp">int i = f();  // 很好 -- 宣告同時初始化
 </code></pre>
-<pre><code class="language-c++">vector&lt;int&gt; v;
-v.push_back(1);  // 最好使用括號初始化法 (brace initialization)
+<pre><code class="language-cpp">int jobs = NumJobs();
+// 很多程式碼...
+f(jobs);      // 不好 -- 宣告與使用處分離
+</code></pre>
+<pre><code class="language-cpp">int jobs = NumJobs();
+f(jobs);      // 很好 -- 宣告後面緊跟著（或很接近）使用處
+</code></pre>
+<pre><code class="language-cpp">std::vector&lt;int&gt; v;
+v.push_back(1);  // 偏好使用大括號初始化法 (brace initialization)
 v.push_back(2);
 </code></pre>
-<pre><code class="language-c++">vector&lt;int&gt; v = {1, 2};  // 良好 -- v 一開始就初始化好
+<pre><code class="language-cpp">std::vector&lt;int&gt; v = {1, 2};  // 很好 -- v 一開始就初始化好
 </code></pre>
-<p><code>if</code>、<code>while</code> 與 <code>for</code> 陳述句需要的變數一般來說應該要被宣告在那些陳述句中，這樣他們就會被限制在所屬的作用域內，例如：</p>
-<pre><code class="language-c++">while (const char* p = strchr(str, '/')) str = p + 1;
+<p><code>if</code>、<code>while</code> 與 <code>for</code> 陳述句需要的變數一般來說應宣告在該陳述句內，以將其限制在對應的作用域中。 例如：</p>
+<pre><code class="language-cpp">while (const char* p = strchr(str, '/')) str = p + 1;
 </code></pre>
-<p>有一個例外：如果該變數是物件，那該物件的建構函式每次進入這個作用域時就會被呼叫一次，解構函式也會每次離開時都會被呼叫到。</p>
-<pre><code class="language-c++">// 低效率的寫法
+<p>有一個例外：如果該變數是物件，則每次進入該作用域時，建構函式都會被呼叫，而解構函式則會在離開時執行。</p>
+<pre><code class="language-cpp">// 低效率的寫法
 for (int i = 0; i &lt; 1000000; ++i) {
   Foo f;  // 我的建構函式與解構函式會各被呼叫 1000000 次
   f.DoSomething(i);
 }
 </code></pre>
-<p>此時將這個變數宣告在迴圈外面，程式執行時會比較有效率：</p>
-<pre><code class="language-c++">Foo f;  // 我的建構函式與解構函式只會各被呼叫一次
+<p>在這種情況下，將變數宣告在迴圈外能提升執行效率：</p>
+<pre><code class="language-cpp">Foo f;  // 我的建構函式與解構函式只會各被呼叫一次
 for (int i = 0; i &lt; 1000000; ++i) {
   f.DoSomething(i);
 }
