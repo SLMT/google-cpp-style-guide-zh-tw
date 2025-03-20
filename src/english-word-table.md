@@ -34,6 +34,7 @@
 | Input                  | 輸入值                         |
 | Iteration              | 疊代                           |
 | Library                | 函式庫                         |
+| Lifetime               | 存活期                         |
 | Link                   | 連結                           |
 | Linker                 | 連結器                         |
 | Literal                | 字面值                         |
