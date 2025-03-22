@@ -12,6 +12,7 @@
 | Compile                | 編譯                           |
 | Compiler               | 編譯器                         |
 | Constructor            | 建構函式                       |
+| Data Race              | 資料競爭                       |
 | Declaration            | 宣告                           |
 | Define, Definition     | 定義                           |
 | Dependency             | 依賴關係                       |
