@@ -742,39 +742,41 @@ Bar b;                     // 選用的建構函數 Bar::Bar() 也不是 constex
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="thread_local-變數"><a class="header" href="#thread_local-變數"><code>thread_local</code> 變數</a></h2>
 <blockquote>
-<p>對於不是在 function 內宣告的 <code>thread_local</code> 變數，一定要以編譯時期常數來初始化，而且一定要用 <a href="https://github.com/abseil/abseil-cpp/blob/master/absl/base/attributes.h">ABSL_CONST_INIT</a> 屬性確保這件事。 偏好使用 <code>thread_local</code> 來定義執行緒內的區域變數。</p>
+<p>對於不是在 function 內宣告的 <code>thread_local</code> 變數，一定要以真編譯期常數 (true compile-time constant) 來初始化，這一點必須透過 <a href="https://en.cppreference.com/w/cpp/language/constinit"><code>constinit</code></a> 屬性來強制執行。 偏好使用 <code>thread_local</code> 來定義執行緒內資料 (thread-local data)。</p>
 </blockquote>
 <h3 id="定義-5"><a class="header" href="#定義-5">定義</a></h3>
-<p>從 C++11 開始，變數可以在宣告時加上 <code>thread_local</code>：</p>
-<pre><code class="language-c++">thread_local Foo foo = ...;
+<p>變數可以在宣告時加上 <code>thread_local</code> 修飾詞：</p>
+<pre><code class="language-cpp">thread_local Foo foo = ...;
 </code></pre>
-<p>這樣的變數其實是對應到一堆物件的集合。 當不同的執行緒在存取變數的時候，其實會存取到不同的物件。 <code>thread_local</code> 變數其實在很多方面與 <a href="scoping/static-and-global-variables.html">靜態儲存期變數</a> 很接近。 舉例來說，它們可以被宣告在命名空間的作用域、函式內部、或是做為類別的靜態成員，但不能做為一般類別的成員。</p>
-<p><code>thread_local</code> 變數的實體的初始化很像靜態變數的作法，只差在它們必須在每個執行緒裡面分別初始化，而不是在程式啟動時一次初始化。 這代表著那些在函式內宣告的 <code>thread_local</code> 變數很安全，但是其他的 <code>thread_local</code> 變數則會像靜態變數一樣遭遇初始化順序的問題 (以及其他問題)。</p>
-<p><code>thread_local</code> 變數的實體在執行緒結束時被摧毀，所以他們沒有靜態變數的解構順序問題。</p>
+<p>這類變數實際上是多個物件的集合，因此當不同的執行緒存取它時，實際上是在存取不同的物件。 <code>thread_local</code> 變數其實在很多方面與 <a href="scoping/static-and-global-variables.html">靜態儲存期變數</a> 很接近。 舉例來說，它們可以被宣告在命名空間的作用域、函式內部、或是做為類別的靜態成員，但不能做為一般類別的成員。</p>
+<p><code>thread_local</code> 變數的初始化很像靜態變數的作法，只差在它們必須在每個執行緒裡面分別初始化，而不是在程式啟動時一次初始化。 這代表著那些在函式內宣告的 <code>thread_local</code> 變數很安全，但是其他的 <code>thread_local</code> 變數則會像靜態變數一樣遭遇初始化順序的問題 (以及其他更多問題)。</p>
+<p><code>thread_local</code> 變數有一個微妙的解構順序問題： 在執行緒結束的時候，<code>thread_local</code> 變數會依照他們被初始化的相反順序進行解構 (在 C++ 通常是這樣)。 如果發生任何被解構函式觸動的程式碼參考了任何該執行緒內已經被銷毀的 <code>thread_local</code> 變數，那對我們來說會變得很難去分析釋出後使用 (use-after-free) 的問題。</p>
 <h3 id="優點-5"><a class="header" href="#優點-5">優點</a></h3>
 <ul>
-<li>執行緒內資料從本質上來說不會受到 data races 影響 (因為只有一個執行緒可以存取)，這點讓 <code>thread_local</code> 對並行程式設計很有幫助。</li>
-<li><code>thread_local</code> 是唯一定義在標準內，用來建立執行緒內變數 (thread-local variables) 的方式。</li>
+<li>執行緒內資料從本質上來說不會受到資料競爭 (data race) 影響 (因為只有一個執行緒可以存取)，這點讓 <code>thread_local</code> 對並行程式設計很有幫助。</li>
+<li><code>thread_local</code> 是唯一標準用來建立執行緒內變數 (thread-local variables) 的方式。</li>
 </ul>
 <h3 id="缺點-5"><a class="header" href="#缺點-5">缺點</a></h3>
 <ul>
-<li>存取 <code>thread_local</code> 的變數可能會觸發執行一些無法預期或是無法控制的程式碼。</li>
-<li><code>thread_local</code> 變數其實就是一個有效的全域變數，所以具備除了執行緒安全之外的所有全域變數的缺點。</li>
-<li><code>thread_local</code> 變數帶來的記憶體消耗會隨著執行緒數量增加而增長，有可能會造成程式中很大的負擔。</li>
-<li>一般類別的成員不能是 <code>thread_local</code>。</li>
-<li><code>thread_local</code> 可能不比某些編譯器的內建功能 (compiler intrinsics) 還要有效率。</li>
+<li>在執行緒啟動或者初次存取 <code>thread_local</code> 的變數時，可能會觸發無法預測且數量不可控的額外程式碼執行。</li>
+<li><code>thread_local</code> 變數本質上與全域變數無異，因此它具有全域變數的所有缺點，唯一的例外是它是執行緒安全的 (thread safe)。</li>
+<li><code>thread_local</code> 變數帶來的記憶體消耗會隨著執行緒數量增加而變大，有可能會造成很大的負擔。</li>
+<li>一般類別的成員除非是 <code>static</code>，不然就不能是 <code>thread_local</code>。</li>
+<li>如果 <code>thread_local</code> 變數有很複雜的解構函式，那可能會遭遇到釋出後使用 (use-after-free) 的問題。 特別是這類變數的解構函式不得間接或直接存取任何可能已被銷毀的 <code>thread_local</code> 資料。 但這件事情也很難被強制。</li>
+<li>對於防範全域或靜態資料發生釋出後使用問題的方法並無法用在 <code>thread_local</code> 資料上。 確切來說，我們可以允許略過全域或靜態變數的解構函數，因為他們的生存期止於程式結束。 因此，任何洩漏問題會由作業系統的資源與記憶體清理機制進行處理。 相反地，在程式執行中結束的執行緒若是略過 <code>thread_local</code> 變數的解構函式的話，可能會導致資源洩漏，其規模與程式執行期間終止的執行緒總數成正比。</li>
 </ul>
-<h3 id="我們的決定"><a class="header" href="#我們的決定">我們的決定</a></h3>
-<p>定義在函式內的 <code>thread_local</code> 變數沒有安全疑慮，因此可以被無限制的使用。 注意你可以利用定義一個會回傳 <code>thread_local</code> 變數的函式或靜態方法，來使用函式作用域等級的 <code>thread_local</code> 以模擬類別或是命名空間作用域等級的 <code>thread_local</code>：</p>
+<h3 id="決定-6"><a class="header" href="#決定-6">決定</a></h3>
+<p>對於類別與名稱空間作用域內的 <code>thread_local</code> 變數，一定要以真編譯期常數 (true compile-time constant) 來初始化 (換言之，他們不能用動態初始化)。 為了要強制這點，類別與名稱空間作用域內的 <code>thread_local</code> 變數一定要標註 <a href="https://en.cppreference.com/w/cpp/language/constinit"><code>constinit</code></a> (或是 <code>constexpr</code>，但須盡量少用)：</p>
+<pre><code class="language-cpp">constinit thread_local Foo foo = ...;
+</code></pre>
+<p>定義在函式內的 <code>thread_local</code> 變數沒有初始化疑慮，但在執行緒結束時可能會有釋出後使用 (use-after-free) 的問題。 注意你可以利用定義一個會回傳 <code>thread_local</code> 變數的函式或靜態方法，來使用函式作用域等級的 <code>thread_local</code> 變數，以模擬類別或是命名空間作用域等級的 <code>thread_local</code>：</p>
 <pre><code class="language-cpp">Foo&amp; MyThreadLocalFoo() {
   thread_local Foo result = ComplicatedInitialization(); // 函式名稱：很複雜的初始化
   return result;
 }
 </code></pre>
-<p>類別或是命名空間作用域等級的 <code>thread_local</code> 變數必須使用編譯期就決定的常數來初始化 (也就是說，不能具有任何動態初始化的部分)。 為了要強迫這個限制，類別內或是名稱空間內的 <code>thread_local</code> 變數一定要標註 <a href="https://github.com/abseil/abseil-cpp/blob/master/absl/base/attributes.h">ABSL_CONST_INIT</a> (或是 <code>constexpr</code>，但不常用)：</p>
-<pre><code class="language-cpp">ABSL_CONST_INIT thread_local Foo foo = ...;
-</code></pre>
-<p>在定義執行緒內變數 (thread-local variables) 時應優先使用 <code>thread_local</code>。</p>
+<p>注意 <code>thread_local</code> 變數會在執行緒結束時銷毀。 如果任何此類變數的解構函式用到其他可能被摧毀的 <code>thread_local</code> 變數，都可能會造成難以診斷的釋出後使用錯誤。 因此，宣告 <code>thread_local</code> 變數時應優先選擇簡單型別 (trivial type)，或確保在解構時不會執行使用者提供的程式碼，以降低誤用已刪除的 <code>thread_local</code> 變數的風險。</p>
+<p>應優先使用 <code>thread_local</code> 來定義執行緒內資料。</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="類別-classes"><a class="header" href="#類別-classes">類別 (Classes)</a></h1>
 <p>類別是 C++ 程式碼中的基本元件。 我們平常會廣泛地使用它。 這章列出了你在撰寫類別的時候，應該以及不應該做的事情。</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="在建構函式內的工作"><a class="header" href="#在建構函式內的工作">在建構函式內的工作</a></h2>
@@ -795,7 +797,7 @@ Bar b;                     // 選用的建構函數 Bar::Bar() 也不是 constex
 <li>如果工作失敗了，那我們此時就會有個初始化失敗的物件。 這個時候我們可能會需要一個像是 <code>bool IsValid()</code> 的方法來檢查狀態，但是大家常會忘記要呼叫它。</li>
 <li>你無法取得建構函式的記憶體位址，所以建構函式中的工作無法簡單地被移交，例如交給另一個執行緒。</li>
 </ul>
-<h3 id="我們的決定-1"><a class="header" href="#我們的決定-1">我們的決定</a></h3>
+<h3 id="我們的決定"><a class="header" href="#我們的決定">我們的決定</a></h3>
 <p>建構函式內部應該永遠不要呼叫虛擬函式。 如果你覺得合適的話，也許可以終止程式可以當作一種回報錯誤的方式。 除此之外，可以考慮像 <a href="https://abseil.io/tips/42">TotW #42</a> 所述那樣建立工廠方法 (Factory Method) 或者 <code>Init()</code> 方法。 避免在那些沒有儲存任何會影響到公用方法 (Public Methods) 的變數的物件中使用 <code>Init()</code> 方法 (有這種半建構式的物件存在時很難把程式寫對)。</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="隱性轉換-implicit-conversions"><a class="header" href="#隱性轉換-implicit-conversions">隱性轉換 (Implicit Conversions)</a></h2>
 <blockquote>
@@ -830,7 +832,7 @@ void Func(Foo f);
 <li>總是難以搞清楚到底該讓來源型別或目的型別提供轉換，如果兩邊都提供了轉換方式，程式碼就變的曖昧不明。</li>
 <li>List 初始化在目的型別不明確時也會遭遇相同問題，特別是在 list 中只有一個元素的時候。</li>
 </ul>
-<h3 id="我們的決定-2"><a class="header" href="#我們的決定-2">我們的決定</a></h3>
+<h3 id="我們的決定-1"><a class="header" href="#我們的決定-1">我們的決定</a></h3>
 <p>型別轉換運算子與接受單一引數的建構子必須在類別的定義中標註 <code>explicit</code>。 一個例外是，複製與轉移建構子不應該是 <code>explicit</code>，因為他們並不會進行型別轉換。 隱性轉換在某些時候可以是必要的且對設計為透明包裝其他型別的型別來說是適當的。 對於這種情況請聯絡你的專案領導人來請求免去這個限制。</p>
 <p>對於無法使用單一引數呼叫的建構子來說可以省略 <code>explicit</code>。 只接受單一 <code>std::initializer_list</code> 引數的建構子也應該省略 <code>explicit</code>，這樣才能支援複製初始化 (copy-initalization, 例如：<code>MyType m = {1, 2}'</code>)。</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="建置中"><a class="header" href="#建置中">建置中...</a></h1>
@@ -1031,6 +1033,7 @@ enum AlternateUrlTableErrors {
 <tr><td style="text-align: left">Compile</td><td style="text-align: left">編譯</td></tr>
 <tr><td style="text-align: left">Compiler</td><td style="text-align: left">編譯器</td></tr>
 <tr><td style="text-align: left">Constructor</td><td style="text-align: left">建構函式</td></tr>
+<tr><td style="text-align: left">Data Race</td><td style="text-align: left">資料競爭</td></tr>
 <tr><td style="text-align: left">Declaration</td><td style="text-align: left">宣告</td></tr>
 <tr><td style="text-align: left">Define, Definition</td><td style="text-align: left">定義</td></tr>
 <tr><td style="text-align: left">Dependency</td><td style="text-align: left">依賴關係</td></tr>
