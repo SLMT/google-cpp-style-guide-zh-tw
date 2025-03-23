@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>在建構子內工作 - Google C++ Style Guide 繁體中文版</title>
+        <title>🚧 例外 - Google C++ Style Guide 繁體中文版</title>
 
 
         <!-- Custom HTML head -->
@@ -162,36 +162,18 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2 id="在建構函式內的工作"><a class="header" href="#在建構函式內的工作">在建構函式內的工作</a></h2>
-<blockquote>
-<p>避免在建構函式內呼叫虛擬函式，並且在無法適當回報錯誤時，避免進行可能失敗的初始化。</p>
-</blockquote>
-<h3 id="定義"><a class="header" href="#定義">定義</a></h3>
-<p>建構函式內可以執行任意的初始化動作。</p>
-<h3 id="優點"><a class="header" href="#優點">優點</a></h3>
-<ul>
-<li>不需要擔心類別是否已經初始化過了。</li>
-<li>已經經過建構函式充分初始化的物件可以作為 <code>const</code> 使用，而且與標準容器與演算法使用時更容易。</li>
-</ul>
-<h3 id="缺點"><a class="header" href="#缺點">缺點</a></h3>
-<ul>
-<li>如果在建構函式內呼叫虛擬函式，這些呼叫不會被轉發至子類別的實作。 即使你的類別目前沒有子類別，未來的修改可能會悄然引入這個問題，造成困惑。</li>
-<li>建構函式沒有簡單的方法來回報錯誤，除了直接讓程式崩潰 (這並不總是合適) 或使用例外 (也被我們 <a href="../other-cpp-features/exceptions.html">禁止</a> 了)。</li>
-<li>如果工作失敗了，那我們此時就會有個初始化失敗的物件。 這時可能需要提供 <code>bool IsValid()</code> 之類的方法來檢查狀態，但這種機制容易被遺漏，導致錯誤。</li>
-<li>由於無法取得建構函式的函式指標，因此建構函式內的工作難以被移交，例如交給另一個執行緒。</li>
-</ul>
-<h3 id="決定"><a class="header" href="#決定">決定</a></h3>
-<p>建構函式應該永遠不要呼叫虛擬函式。 在適當的情況下，終止程式可能是一種合理的錯誤處理方式。 否則，可以考慮像 <a href="https://abseil.io/tips/42">TotW #42</a> 所述那樣建立工廠方法 (Factory Method) 或者 <code>Init()</code> 方法。 避免在沒有其他狀態影響可呼叫公用方法的物件上使用 <code>Init()</code> 方法 (這類半建構狀態的物件特別難以正確使用) (譯註：這句話的意思是，如果沒有需要延遲初始化或者錯誤處理的需求，就不要特別為了初始化寫一個 <code>Init()</code>，而是使用建構函式進行初始化即可。)</p>
+                        <h2 id="-例外-exceptions"><a class="header" href="#-例外-exceptions">🚧 例外 (Exceptions)</a></h2>
+<p>WIP</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../classes/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../other-cpp-features/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../classes/implicit-conversions.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../other-cpp-features/preprocessor-marcos.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -201,11 +183,11 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../classes/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../other-cpp-features/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../classes/implicit-conversions.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../other-cpp-features/preprocessor-marcos.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

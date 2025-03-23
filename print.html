@@ -780,27 +780,27 @@ Bar b;                     // 選用的建構函數 Bar::Bar() 也不是 constex
 <p>注意 <code>thread_local</code> 變數會在執行緒結束時銷毀。 如果任何此類變數的解構函式用到其他可能被摧毀的 <code>thread_local</code> 變數，都可能會造成難以診斷的釋出後使用錯誤。 因此，宣告 <code>thread_local</code> 變數時應優先選擇簡單型別 (trivial type)，或確保在解構時不會執行使用者提供的程式碼，以降低誤用已刪除的 <code>thread_local</code> 變數的風險。</p>
 <p>應優先使用 <code>thread_local</code> 來定義執行緒內資料。</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="類別-classes"><a class="header" href="#類別-classes">類別 (Classes)</a></h1>
-<p>類別是 C++ 程式碼中的基本元件。 我們平常會廣泛地使用它。 這章列出了你在撰寫類別的時候，應該以及不應該做的事情。</p>
+<p>類別是 C++ 程式碼中的基本元件。 我們很自然地會廣泛使用它。 這章列出了你在撰寫類別的時候，應該以及不應該做的事情。</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="在建構函式內的工作"><a class="header" href="#在建構函式內的工作">在建構函式內的工作</a></h2>
 <blockquote>
-<p>避免在建構函式內呼叫虛擬函式，而且避免在你無法送出錯誤訊號的時候進行一些可能失敗的初始化工作。</p>
+<p>避免在建構函式內呼叫虛擬函式，並且在無法適當回報錯誤時，避免進行可能失敗的初始化。</p>
 </blockquote>
 <h3 id="定義-6"><a class="header" href="#定義-6">定義</a></h3>
-<p>建構函式內有可能會執行任意的初始化動作。</p>
+<p>建構函式內可以執行任意的初始化動作。</p>
 <h3 id="優點-6"><a class="header" href="#優點-6">優點</a></h3>
 <ul>
-<li>不需要擔心類別是否已經初始化了。</li>
+<li>不需要擔心類別是否已經初始化過了。</li>
 <li>已經經過建構函式充分初始化的物件可以作為 <code>const</code> 使用，而且與標準容器與演算法使用時更容易。</li>
 </ul>
 <h3 id="缺點-6"><a class="header" href="#缺點-6">缺點</a></h3>
 <ul>
-<li>如果在建構函式內呼叫虛擬函式，這些呼叫並不會如預期般地分配給衍伸類別內的實作。 就算你的類別現在還沒被繼承，未來針對你的類別的修改可能會默默地造成這種問題，並產生更多疑惑。</li>
-<li>沒有除了直接讓程式崩潰 (不是一直都是個好辦法) 或使用 Exception (被我們禁止了) 之外的簡單方法可以讓建構函式送出錯誤訊息。</li>
-<li>如果工作失敗了，那我們此時就會有個初始化失敗的物件。 這個時候我們可能會需要一個像是 <code>bool IsValid()</code> 的方法來檢查狀態，但是大家常會忘記要呼叫它。</li>
-<li>你無法取得建構函式的記憶體位址，所以建構函式中的工作無法簡單地被移交，例如交給另一個執行緒。</li>
+<li>如果在建構函式內呼叫虛擬函式，這些呼叫不會被轉發至子類別的實作。 即使你的類別目前沒有子類別，未來的修改可能會悄然引入這個問題，造成困惑。</li>
+<li>建構函式沒有簡單的方法來回報錯誤，除了直接讓程式崩潰 (這並不總是合適) 或使用例外 (也被我們 <a href="classes/../other-cpp-features/exceptions.html">禁止</a> 了)。</li>
+<li>如果工作失敗了，那我們此時就會有個初始化失敗的物件。 這時可能需要提供 <code>bool IsValid()</code> 之類的方法來檢查狀態，但這種機制容易被遺漏，導致錯誤。</li>
+<li>由於無法取得建構函式的函式指標，因此建構函式內的工作難以被移交，例如交給另一個執行緒。</li>
 </ul>
-<h3 id="我們的決定"><a class="header" href="#我們的決定">我們的決定</a></h3>
-<p>建構函式內部應該永遠不要呼叫虛擬函式。 如果你覺得合適的話，也許可以終止程式可以當作一種回報錯誤的方式。 除此之外，可以考慮像 <a href="https://abseil.io/tips/42">TotW #42</a> 所述那樣建立工廠方法 (Factory Method) 或者 <code>Init()</code> 方法。 避免在那些沒有儲存任何會影響到公用方法 (Public Methods) 的變數的物件中使用 <code>Init()</code> 方法 (有這種半建構式的物件存在時很難把程式寫對)。</p>
+<h3 id="決定-7"><a class="header" href="#決定-7">決定</a></h3>
+<p>建構函式應該永遠不要呼叫虛擬函式。 在適當的情況下，終止程式可能是一種合理的錯誤處理方式。 否則，可以考慮像 <a href="https://abseil.io/tips/42">TotW #42</a> 所述那樣建立工廠方法 (Factory Method) 或者 <code>Init()</code> 方法。 避免在沒有其他狀態影響可呼叫公用方法的物件上使用 <code>Init()</code> 方法 (這類半建構狀態的物件特別難以正確使用) (譯註：這句話的意思是，如果沒有需要延遲初始化或者錯誤處理的需求，就不要特別為了初始化寫一個 <code>Init()</code>，而是使用建構函式進行初始化即可。)</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="隱性轉換-implicit-conversions"><a class="header" href="#隱性轉換-implicit-conversions">隱性轉換 (Implicit Conversions)</a></h2>
 <blockquote>
 <p>不要定義隱性轉換。 在轉換運算子與接受單一引數的建構子上標註 <code>explicit</code> 關鍵字。</p>
@@ -834,7 +834,7 @@ void Func(Foo f);
 <li>總是難以搞清楚到底該讓來源型別或目的型別提供轉換，如果兩邊都提供了轉換方式，程式碼就變的曖昧不明。</li>
 <li>List 初始化在目的型別不明確時也會遭遇相同問題，特別是在 list 中只有一個元素的時候。</li>
 </ul>
-<h3 id="我們的決定-1"><a class="header" href="#我們的決定-1">我們的決定</a></h3>
+<h3 id="我們的決定"><a class="header" href="#我們的決定">我們的決定</a></h3>
 <p>型別轉換運算子與接受單一引數的建構子必須在類別的定義中標註 <code>explicit</code>。 一個例外是，複製與轉移建構子不應該是 <code>explicit</code>，因為他們並不會進行型別轉換。 隱性轉換在某些時候可以是必要的且對設計為透明包裝其他型別的型別來說是適當的。 對於這種情況請聯絡你的專案領導人來請求免去這個限制。</p>
 <p>對於無法使用單一引數呼叫的建構子來說可以省略 <code>explicit</code>。 只接受單一 <code>std::initializer_list</code> 引數的建構子也應該省略 <code>explicit</code>，這樣才能支援複製初始化 (copy-initalization, 例如：<code>MyType m = {1, 2}'</code>)。</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="建置中"><a class="header" href="#建置中">建置中...</a></h1>
@@ -846,7 +846,10 @@ void Func(Foo f);
 <div style="break-before: page; page-break-before: always;"></div><h1 id="建置中-5"><a class="header" href="#建置中-5">建置中...</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="建置中-6"><a class="header" href="#建置中-6">建置中...</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="-其他-c-特性"><a class="header" href="#-其他-c-特性">🚧 其他 C++ 特性</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="-預處理器巨集"><a class="header" href="#-預處理器巨集">🚧 預處理器巨集</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="-例外-exceptions"><a class="header" href="#-例外-exceptions">🚧 例外 (Exceptions)</a></h2>
+<p>WIP</p>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="-預處理器巨集"><a class="header" href="#-預處理器巨集">🚧 預處理器巨集</a></h2>
+<p>WIP</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="命名-naming"><a class="header" href="#命名-naming">命名 (Naming)</a></h1>
 <p>最重要的一致性規則是那些管理命名的規則。 一個名稱的風格可以讓我們在不需要搜尋一個實體的宣告的情況下，立即告知我們被命名的實體是哪種類型的東西：一個型別、一個變數、一個函數、一個常數、一個巨集等等。 我們大腦中的模式匹配 (Pattern-Matching) 引擎很高程度地仰賴這些命名規則。</p>
 <p>命名的規則相當隨意，但是我們覺得在這個領域一致性比起個人的喜好更為重要，因此無論你發現這些規則是否明智，規則就是規則。</p>
@@ -1084,6 +1087,7 @@ enum AlternateUrlTableErrors {
 <tr><td style="text-align: left">Static Member Function</td><td style="text-align: left">靜態成員函式</td></tr>
 <tr><td style="text-align: left">Storage Duration</td><td style="text-align: left">儲存期</td></tr>
 <tr><td style="text-align: left">Struct</td><td style="text-align: left">結構</td></tr>
+<tr><td style="text-align: left">Subclass</td><td style="text-align: left">子類別</td></tr>
 <tr><td style="text-align: left">Symbol</td><td style="text-align: left">符號</td></tr>
 <tr><td style="text-align: left">Transitive Inclusion</td><td style="text-align: left">傳遞式引入</td></tr>
 <tr><td style="text-align: left">Template</td><td style="text-align: left">模板</td></tr>
