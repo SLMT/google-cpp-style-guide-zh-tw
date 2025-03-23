@@ -61,6 +61,7 @@
 | Static Member Function | 靜態成員函式                   |
 | Storage Duration       | 儲存期                         |
 | Struct                 | 結構                           |
+| Subclass               | 子類別                         |
 | Symbol                 | 符號                           |
 | Transitive Inclusion   | 傳遞式引入                     |
 | Template               | 模板                           |
