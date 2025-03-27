@@ -803,12 +803,12 @@ Bar b;                     // 選用的建構函數 Bar::Bar() 也不是 constex
 <p>建構函式應該永遠不要呼叫虛擬函式。 在適當的情況下，終止程式可能是一種合理的錯誤處理方式。 否則，可以考慮像 <a href="https://abseil.io/tips/42">TotW #42</a> 所述那樣建立工廠方法 (Factory Method) 或者 <code>Init()</code> 方法。 避免在沒有其他狀態影響可呼叫公用方法的物件上使用 <code>Init()</code> 方法 (這類半建構狀態的物件特別難以正確使用) (譯註：這句話的意思是，如果沒有需要延遲初始化或者錯誤處理的需求，就不要特別為了初始化寫一個 <code>Init()</code>，而是使用建構函式進行初始化即可。)</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="隱性轉換-implicit-conversions"><a class="header" href="#隱性轉換-implicit-conversions">隱性轉換 (Implicit Conversions)</a></h2>
 <blockquote>
-<p>不要定義隱性轉換。 在轉換運算子與接受單一引數的建構子上標註 <code>explicit</code> 關鍵字。</p>
+<p>不要定義隱性轉換。 轉換運算子和單一引數的建構函式應標記為 <code>explicit</code>。</p>
 </blockquote>
 <h3 id="定義-7"><a class="header" href="#定義-7">定義</a></h3>
-<p>隱性轉換允許將一種型別 (來源型別) 的物件用於原本預期另一種不同的型別 (目的型別) 的地方，像是將 <code>int</code> 的引數傳遞給接受 <code>double</code> 參數的函式。</p>
-<p>除了語言本身定義的隱性轉換之外，使用者也可以藉由在來源型別或目的型別的類別中加入成員來自行定義。 在來源型別定義隱性轉換的操作可以藉由定義一個以目的型別命名的轉型運算子來達成，例如 <code>operator bool()</code> 可以讓該型別隱性轉換為 <code>bool</code>。 在目的型別定義隱性轉換的操作則可以藉由定義一個只接受來源型別為唯一參數的建構子達到 (或是唯一一個沒有預設值的參數)。</p>
-<p>使用者可以在建構子或 (自從 C++11 之後) 在轉換運算子前加上 <code>explicit</code> 關鍵字，來確保只在使用當下明確知道目的型別 (例如強制轉型) 時才能使用。 這個限制除了應用於隱性轉換外，也會應用於 C++11 的 list 初始化語法：</p>
+<p>隱性轉換允許將一種型別 (稱為「來源型別」) 的物件用於原本預期另一種不同的型別 (稱為「目的型別」) 的地方，例如將一個 <code>int</code> 的引數傳給預期接受 <code>double</code> 引數的函式。</p>
+<p>除了語言本身定義的隱性轉換之外，使用者也可以藉由在來源型別或目的型別的類別中加入適當的成員來自行定義。 若要在來源型別中定義隱性轉換，可透過定義一個名稱為目的型別的型別轉換運算子來完成（例如：<code>operator bool()</code>）。 若要在目的型別中定義隱性轉換，則是透過定義一個僅接受來源型別作為唯一引數的建構函式（或唯一沒有預設值的引數）來完成。</p>
+<p>可以在建構函式或轉換運算子前加上 <code>explicit</code> 關鍵字，以確保只有在使用處明確指定目的型別（例如透過強制轉型）時才能使用。 這個限制除了應用於隱性轉換外，也會應用於 list 初始化語法：</p>
 <pre><code class="language-c++">class Foo {
   explicit Foo(int x, double y);
   ...
@@ -816,27 +816,28 @@ Bar b;                     // 選用的建構函數 Bar::Bar() 也不是 constex
 
 void Func(Foo f);
 </code></pre>
-<pre><code class="language-c++">Func({42, 3.14}); // 錯誤
+<pre><code class="language-c++">Func({42, 3.14}); // 發生錯誤
 </code></pre>
-<p>這類程式碼技術上來說並不算是隱性轉換，但是語言把它納入 <code>explicit</code> 關鍵字的規範中。</p>
+<p>這類程式碼技術上來說並不算是隱性轉換，但是語言把它納入 <code>explicit</code> 關鍵字的適用範圍中。</p>
 <h3 id="優點-7"><a class="header" href="#優點-7">優點</a></h3>
 <ul>
-<li>隱性轉換讓一個型別藉由在容易看出型別的場合消去明確寫出型別的必要，來使得該型別更易於使用且明瞭。</li>
-<li>隱性轉換可以當作比多載 (overloading) 更簡單的一種方案，例如可以免去一個名為 <code>string_view</code> 的函式為了 <code>string</code> 與 <code>const char*</code> 兩種型別使用多載的必要。</li>
-<li>List 初始化語法是一種用於初始化物件且簡潔明瞭的做法。</li>
+<li>當型別已經很明顯時，隱性轉換可以省去明確標示型別的必要，使程式更容易使用且更明瞭。</li>
+<li>隱性轉換可以當作比多載 (overloading) 更簡單的一種方案，例如一個接受 <code>string_view</code> 為引數的函式就可以同時代表接受 <code>string</code> 與 <code>const char*</code> 兩種型別的函式。</li>
+<li>List 初始化語法是一種簡潔明瞭的初始化做法。</li>
 </ul>
 <h3 id="缺點-7"><a class="header" href="#缺點-7">缺點</a></h3>
 <ul>
 <li>隱性轉換會隱藏型別不合 (type-mismatch) 的 bug，像是目的型別不符合使用者的預期，或是使用者根本沒意識到有轉換發生。</li>
-<li>隱性轉換會讓程式碼更難以閱讀，特別是在跟多載同時出現的場合，這使得更難找出確切哪一段程式碼被呼叫到。</li>
+<li>隱性轉換會讓程式碼難以閱讀，尤其在有多載函式時，會讓實際呼叫的程式碼變得不明確。</li>
 <li>單一引數的建構子可能會被意外地用於隱性型別轉換，就算這並非本意。</li>
 <li>如果一個單一引數的建構子沒有標註 <code>explicit</code>，並沒有一種可靠的方式能夠判斷到底是作者想要提供隱性轉換，還是只是單純忘記標註而已。</li>
-<li>總是難以搞清楚到底該讓來源型別或目的型別提供轉換，如果兩邊都提供了轉換方式，程式碼就變的曖昧不明。</li>
+<li>隱性轉換可能導致呼叫處產生混淆，特別是在雙向隱性轉換存在時。 這可能發生於兩邊的型別都有實作隱性轉換，或者一邊的型別同時實作了隱性建構函式與隱性型別的轉換函式。</li>
 <li>List 初始化在目的型別不明確時也會遭遇相同問題，特別是在 list 中只有一個元素的時候。</li>
 </ul>
-<h3 id="我們的決定"><a class="header" href="#我們的決定">我們的決定</a></h3>
-<p>型別轉換運算子與接受單一引數的建構子必須在類別的定義中標註 <code>explicit</code>。 一個例外是，複製與轉移建構子不應該是 <code>explicit</code>，因為他們並不會進行型別轉換。 隱性轉換在某些時候可以是必要的且對設計為透明包裝其他型別的型別來說是適當的。 對於這種情況請聯絡你的專案領導人來請求免去這個限制。</p>
-<p>對於無法使用單一引數呼叫的建構子來說可以省略 <code>explicit</code>。 只接受單一 <code>std::initializer_list</code> 引數的建構子也應該省略 <code>explicit</code>，這樣才能支援複製初始化 (copy-initalization, 例如：<code>MyType m = {1, 2}'</code>)。</p>
+<h3 id="決定-8"><a class="header" href="#決定-8">決定</a></h3>
+<p>型別轉換運算子與以單一引數呼叫的建構子必須在類別的定義中標註 <code>explicit</code>。 一個例外是，複製與轉移建構函式不應該是 <code>explicit</code>，因為他們並不會進行型別轉換。</p>
+<p>隱性轉換在某些時候對於可以互換的型別來說可能是必要且恰當的，例如當某兩種型別其實只是底層數值的不同表示方式時就是如此。 如果遇到這種情況，請聯繫你的專案領導來豁免這條規則。</p>
+<p>對於無法使用單一引數呼叫的建構子可以省略 <code>explicit</code>。 只接受單一 <code>std::initializer_list</code> 引述的建構函式也應該省略 <code>explicit</code>，以支援複製初始化語法 (copy-initalization, 例如：<code>MyType m = {1, 2};</code>)。</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="建置中"><a class="header" href="#建置中">建置中...</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="-struct-與-class-的比較"><a class="header" href="#-struct-與-class-的比較">🚧 Struct 與 Class 的比較</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="建置中-1"><a class="header" href="#建置中-1">建置中...</a></h1>
