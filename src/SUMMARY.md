@@ -36,7 +36,7 @@
   - [🚧 例外](other-cpp-features/exceptions.md)
   - [🚧 預處理器巨集](other-cpp-features/preprocessor-marcos.md)
 - [命名 (Naming)](naming/README.md)
-  - [通用命名規則](naming/general-naming-rules.md)
+  - [選擇名稱](naming/choosing-names.md)
   - [檔案名稱](naming/file-names.md)
   - [型別名稱](naming/type-names.md)
   - [變數名稱](naming/variable-names.md)
