@@ -162,20 +162,20 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="檔案名稱"><a class="header" href="#檔案名稱">檔案名稱</a></h1>
+                        <h2 id="檔案名稱-file-names"><a class="header" href="#檔案名稱-file-names">檔案名稱 (File Names)</a></h2>
 <blockquote>
-<p>檔案名稱應該完全使用小寫，並可以包含底線 (<code>_</code>) 或是橫槓 (<code>-</code>)。 關於這點請遵循各專案的慣例。 如果沒有可以遵循且一致的本地模式，偏好使用 <code>_</code>。</p>
+<p>檔案名稱應該全部使用小寫字母，並可以包含底線 (<code>_</code>) 或是橫槓 (<code>-</code>)。 關於這點請遵循各專案的慣例。 如果沒有一致可循的本地慣例，偏好使用 <code>_</code>。</p>
 </blockquote>
 <p>一些可接受的檔案名稱範例：</p>
 <ul>
 <li><code>my_useful_class.cc</code></li>
 <li><code>my-useful-class.cc</code></li>
 <li><code>myusefulclass.cc</code></li>
-<li><code>myusefulclass_test.cc // _unittest 與 _regtest 兩種寫法都過時了</code></li>
+<li><code>myusefulclass_test.cc // _unittest 與 _regtest 這兩種寫法已經不再推薦使用</code></li>
 </ul>
-<p>C++ 檔案應該以 <code>.cc</code> 結尾，同時標頭檔應該以 <code>.h</code> 結尾。 依賴於在某個特定位置被文字引入的檔案應該以 <code>.inc</code> 結尾 (更多請看<a href="../header-files/self-contained-headers.html">自給自足標頭檔</a>的章節)。</p>
+<p>C++ 檔案應該以 <code>.cc</code> 結尾，同時標頭檔應該以 <code>.h</code> 結尾。 需要在某個特定位置以文字方式引入的檔案應該以 <code>.inc</code> 結尾 (更多請看<a href="../header-files/self-contained-headers.html">自給自足標頭檔</a>的章節)。</p>
 <p>不要使用已經存在於 <code>/usr/include</code> 的檔名，像是 <code>db.h</code>。</p>
-<p>一般來說，應該要讓你的檔案名稱非常精確。 例如，使用 <code>http_server_logs.h</code> 而不是 <code>logs.h</code>。 一個常見的狀況是使用相同名稱為一對檔案命名，像是 <code>foo_bar.h</code> 與 <code>foo_bar.cc</code> 定義了名為 <code>FooBar</code> 的類別。</p>
+<p>一般來說，應該要讓你的檔案名稱非常精確。 例如，使用 <code>http_server_logs.h</code> 而不是 <code>logs.h</code>。 一個常見的情況是，當定義名為 <code>FooBar</code> 的類別時，通常會有一對檔案分別名為 <code>foo_bar.h</code> 與 <code>foo_bar.cc</code>。</p>
 
                     </main>
 
