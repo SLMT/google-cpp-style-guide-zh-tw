@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>通用命名規則 - Google C++ Style Guide 繁體中文版</title>
+        <title>選擇名稱 - Google C++ Style Guide 繁體中文版</title>
 
 
         <!-- Custom HTML head -->
@@ -162,29 +162,53 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2 id="通用命名規則-general-naming-rules"><a class="header" href="#通用命名規則-general-naming-rules">通用命名規則 (General Naming Rules)</a></h2>
+                        <h2 id="選擇名稱-choosing-names"><a class="header" href="#選擇名稱-choosing-names">選擇名稱 (Choosing Names)</a></h2>
 <blockquote>
-<p>命名應該要具有敘述的能力；避免使用縮寫。</p>
+<p>為事物命名時，應使其目的與意圖對讀者而言清晰易懂，即使是來自不同團隊的讀者也能理解。 不必在意節省橫向空間，因為讓程式碼能被新讀者立即理解更為重要。</p>
 </blockquote>
-<p>讓一個名稱具有越清楚的描述越好，包括原因在內。 不要去想節省橫向的空間，因為讓你的程式碼能夠被新讀者馬上讀懂這事重要得多。 不要使用會讓專案以外的讀者看起來曖昧不明的縮寫，以及不要利用刪除一個單詞之間的字母來製造縮寫。 那些可能對專案外但是具有一些相關領域知識的人來說看得懂的縮寫還算可以接受。 經驗上來說，一個縮寫如果有被列在維基百科 (Wikipedia) 上的話，應該也可以接受。</p>
-<p>符合規定：</p>
-<pre><code class="language-cpp">int price_count_reader;    // 不含縮寫
-int num_errors;            // 「num」是很廣泛運用的慣例
-int num_dns_connections;   // 大部份的人都知道「DNS」代表甚麼
-int lstm_size;             // 「LSTM」是機器學習 (Machine Learning) 領域中常見的縮寫
+<p>考慮該名稱可能被使用的情境。 名稱應該具有描述性，即使它會在離其定義處很遠的地方被使用，然而名稱不應重複當下語境中已經明示的資訊。 一般而言，名稱的描述性應該與其可見範圍成正比。 例如定義在標頭檔中的自由函式名稱可能會包含標頭檔所屬的函式庫名稱，而區域變數則不需要解釋它所屬的函式。</p>
+<p>盡量減少使用對專案外的人來說可能不熟悉的縮寫（特別是縮寫成首字母的縮略字）。 不要透過刪除單字中的字母來產生縮寫。 如果要使用縮寫，偏好將縮寫視作單一單字並只將首字母大寫 (像是 <code>StartRpc()</code>，而不是 <code>StartRPC()</code>)。 有一個原則是，一個縮寫如果有被列在維基百科 (Wikipedia) 上的話，應該也可以接受。 注意有些普遍知道的縮寫是可以接受的，像是 <code>i</code> 作為疊代 (iteration) 次數以及 <code>T</code> 作為模板 (template) 參數。</p>
+<p>你最常會看到的名稱與大多數名稱不同，極少數的「詞彙」名稱被廣泛重複使用，因此它們總是出現在適當語境中。 這些名稱傾向於很短或者甚至是縮寫，而他們完整的意思常來自於明確且完整的長篇文件而非僅靠名稱定義旁的註解或名稱本身的詞語來理解。 像是 <code>absl::Status</code> 在開發文件中有一個 <a href="https://abseil.io/docs/cpp/guides/status">專門的頁面</a> 說明它正確的用法。 你大概不會很常定義新的詞彙名稱，但如果有的話，記得進行額外的設計審查，以確保該名稱在廣泛使用時仍保持合適。</p>
+<p>好的例子：</p>
+<pre><code class="language-cpp">class MyClass {
+ public:
+  int CountFooErrors(const std::vector&lt;Foo&gt;&amp; foos) {
+    int n = 0;  // 在有限的作用域與上下文中意圖明顯
+    for (const auto&amp; foo : foos) {
+      ...
+      ++n;
+    }
+    return n;
+  }
+  // 函式的註解不需解釋這個函式在錯誤時會回傳 non-OK 狀態，因為 `absl::Status` 
+  // 本身就自帶這個意思。 但可以用來記錄某些特定錯誤碼的行為。
+  absl::Status DoSomethingImportant() {
+    std::string fqdn = ...;  // 這是 "Fully Qualified Domain Name" 的常見縮寫
+    return absl::OkStatus();
+  }
+ private:
+  const int kMaxAllowedConnections = ...;  // 在上下文中意圖明顯
+};
 </code></pre>
-<p>違反規定：</p>
-<pre><code class="language-cpp">int n;                     // 沒意義
-int nerr;                  // 曖昧的縮寫
-int n_comp_conns;          // 曖昧的縮寫
-int wgc_connections;       // 只有你的團隊才知道這代表甚麼
-int pc_reader;             // 很多東西都可以縮寫成「pc」
-int cstmr_id;              // 刪掉了一些中間字母
-FooBarRequestInfo fbri;    // 這根本不是一個字
+<p>不好的例子：</p>
+<pre><code class="language-cpp">class MyClass {
+ public:
+  int CountFooErrors(const std::vector&lt;Foo&gt;&amp; foos) {
+    int total_number_of_foo_errors = 0;  // 在有限作用域與上下文中顯得太冗長了
+    for (int foo_index = 0; foo_index &lt; foos.size(); ++foo_index) {  // 建議使用慣用的 `i`
+      ...
+      ++total_number_of_foo_errors;
+    }
+    return total_number_of_foo_errors;
+  }
+  // `Result` 這個名稱過於通用，若無廣泛教學則難以理解其含義
+  Result DoSomethingImportant() {
+    int cstmr_id = ...;  // 這種寫法刪除了單字內部的字母
+  }
+ private:
+  const int kNum = ...;  // 在這個較大的作用範圍內，這個名稱的意圖不明
+};
 </code></pre>
-<p>注意有些普遍知道的縮寫是可以接受的，像是 <code>i</code> 代表疊代 (iteration) 次數以及 <code>T</code> 代表模板 (template) 參數。</p>
-<p>對於某些符號，這份指引建議對應的名稱以大寫字母作為開頭，並在每一個單詞的首字都使用大寫字母 (也就是所謂的<a href="https://zh.wikipedia.org/wiki/%E9%A7%9D%E5%B3%B0%E5%BC%8F%E5%A4%A7%E5%B0%8F%E5%AF%AB">駝峰式命名法</a>)。 在這種名稱中如果出現縮寫或者首字型縮寫 (acronyms, 譯註：指的是用每個單字的第一個字母組成的縮寫) 的話，偏好將該縮寫或首字型縮寫視為一個單詞來處理 (像是 <code>StartRpc()</code>，而不是 <code>StartRPC()</code>)。</p>
-<p>模板參數應該要遵從所屬種類的命名風格：型別模板參數應該遵從<a href="type-names.html">型別名稱</a>的規則，以及非型別模板參數應該要遵從<a href="variable-names.html">變數名稱</a>的規則。</p>
 
                     </main>
 
