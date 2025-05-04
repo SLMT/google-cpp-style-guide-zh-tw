@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>型別名稱 - Google C++ Style Guide 繁體中文版</title>
+        <title>概念名稱 - Google C++ Style Guide 繁體中文版</title>
 
 
         <!-- Custom HTML head -->
@@ -162,35 +162,20 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2 id="型別名稱-type-names"><a class="header" href="#型別名稱-type-names">型別名稱 (Type Names)</a></h2>
+                        <h2 id="概念名稱-concept-names"><a class="header" href="#概念名稱-concept-names">概念名稱 (Concept Names)</a></h2>
 <blockquote>
-<p>型別名稱始於一個大寫字母，並且每個單字的開頭皆為大寫字母，同時不包含底線：<code>MyExcitingClass</code>、<code>MyExcitingEnum</code>。</p>
+<p>概念名稱使用與 <a href="type-names.html">型別名稱</a> 相同的規則。</p>
 </blockquote>
-<p>所有型別的名稱 - 類別、結構、型別別名、列舉、型別模板參數 - 都有相同的命名慣例。 型別名稱始於一個大寫字母，並且每個單字的開頭皆為大寫字母。 沒有底線。 例如：</p>
-<pre><code class="language-c++">// 類別與結構
-class UrlTable { ...
-class UrlTableTester { ...
-struct UrlTableProperties { ...
-
-// typedef
-typedef hash_map&lt;UrlTableProperties *, string&gt; PropertiesMap;
-
-// 使用別名
-using PropertiesMap = hash_map&lt;UrlTableProperties *, string&gt;;
-
-// 列舉
-enum UrlTableErrors { ...
-</code></pre>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../naming/file-names.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../naming/type-names.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../naming/concept-names.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../naming/variable-names.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -200,11 +185,11 @@ enum UrlTableErrors { ...
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../naming/file-names.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../naming/type-names.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../naming/concept-names.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../naming/variable-names.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
