@@ -39,6 +39,7 @@
   - [選擇名稱](naming/choosing-names.md)
   - [檔案名稱](naming/file-names.md)
   - [型別名稱](naming/type-names.md)
+  - [概念名稱](naming/concept-names.md)
   - [變數名稱](naming/variable-names.md)
   - [常數名稱](naming/constant-names.md)
   - [函數名稱](naming/function-names.md)
