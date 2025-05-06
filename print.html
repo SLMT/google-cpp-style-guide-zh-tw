@@ -941,35 +941,37 @@ enum UrlTableErrors { ...
 </blockquote>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="變數名稱-variable-names"><a class="header" href="#變數名稱-variable-names">變數名稱 (Variable Names)</a></h2>
 <blockquote>
-<p>變數 (包含函式的參數) 與資料成員的名稱全部都使用小寫，並使用底線隔開單字。 類別 (但不包含結構) 的資料成員要另外在尾部加上底線。 例如，區域變數：<code>a_local_variable</code>、結構資料成員：<code>a_struct_data_member</code>、類別資料成員：<code>a_class_data_member_</code>。</p>
+<p>變數 (包含函式的參數) 與資料成員的名稱都用蛇形命名法（<code>snake_case</code>，也就是全部小寫，並使用底線隔開單字）。 類別的資料成員（但結構的資料成員不包括在內）還需在名稱尾端加上底線。 例如，區域變數：<code>a_local_variable</code>、結構資料成員：<code>a_struct_data_member</code>、類別資料成員：<code>a_class_data_member_</code>。</p>
 </blockquote>
-<h3 id="常見的變數名稱"><a class="header" href="#常見的變數名稱">常見的變數名稱</a></h3>
-<p>可以接受的：</p>
-<pre><code class="language-c++">string table_name;  // 可以 - 使用底線
-string tablename;   // 可以 - 全部小寫
+<h3 id="一般變數名稱"><a class="header" href="#一般變數名稱">一般變數名稱</a></h3>
+<p>好的：</p>
+<pre><code class="language-cpp">string table_name;  // 可以 - 蛇形命名法
 </code></pre>
-<p>不可接受的：</p>
-<pre><code class="language-c++">string tableName;   // 不好 - 大小寫混合
+<p>不好的：</p>
+<pre><code class="language-cpp">string tableName;   // 不好 - 大小寫混合
 </code></pre>
 <h3 id="類別資料成員"><a class="header" href="#類別資料成員">類別資料成員</a></h3>
-<p>類別資料成員，包括靜態 (<code>static</code>) 與非靜態的，都如同一般變數命名，但要在尾端加上底線。</p>
-<pre><code>class TableInfo {
+<p>類別的資料成員（無論是靜態或非靜態）應像一般的非成員變數一樣命名，但要加上尾端底線。 唯一的例外是靜態常數類別成員，應該要以 <a href="naming/constant-names.html">常數的方式</a> 命名。</p>
+<pre><code class="language-cpp">class TableInfo {
+ public:
   ...
+  static const int kTableVersion = 3;  // 可以 - 常數命名方式
+  ...
+
  private:
-  string table_name_;  // 可以 - 尾端有底線
-  string tablename_;   // 可以
-  static Pool&lt;TableInfo&gt;* pool_;  // 可以
+  std::string table_name_;             // 可以 - 尾端有底線
+  static Pool&lt;TableInfo&gt;* pool_;       // 可以
 };
 </code></pre>
 <h3 id="結構資料成員"><a class="header" href="#結構資料成員">結構資料成員</a></h3>
-<p>類別資料成員，包括靜態 (<code>static</code>) 與非靜態的，都如同一般變數命名。 他們不像類別一樣要在尾端加上底線。</p>
-<pre><code>struct UrlTableProperties {
-  string name;
+<p>結構的資料成員（無論是靜態或非靜態）應像一般的非成員變數一樣命名。 不像類別的資料成員，它們不需加上尾端底線。</p>
+<pre><code class="language-cpp">struct UrlTableProperties {
+  std::string name;
   int num_entries;
   static Pool&lt;UrlTableProperties&gt;* pool;
 };
 </code></pre>
-<p>請看<a href="naming/../classes/structs-vs-classes.html">結構與類別</a>章節的討論來瞭解何時該使用結構而不是類別。</p>
+<p>請參考 <a href="naming/../classes/structs-vs-classes.html">結構與類別章節</a> 的討論來瞭解何時該使用結構而不是類別。</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="常數名稱"><a class="header" href="#常數名稱">常數名稱</a></h1>
 <blockquote>
 <p>使用 <code>constexpr</code> 或 <code>const</code> 宣告的變數，以及在程式全期數值皆是固定的變數，其名稱應該以「k」為開頭，並使用大小寫混和的寫法。 底線可以用在少數無法使用大小寫明確分開的場合。例如：</p>
