@@ -162,17 +162,17 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="函數名稱"><a class="header" href="#函數名稱">函數名稱</a></h1>
+                        <h2 id="函數名稱-function-names"><a class="header" href="#函數名稱-function-names">函數名稱 (Function Names)</a></h2>
 <blockquote>
-<p>一般函式應使用大小寫混和；存取子 (Accessor) 與修改子 (Mutator) 可以使用變數的方式命名。</p>
+<p>一般函式應使用大小寫混合命名法 (mixed case)；而存取子 (Accessor) 與修改子 (Mutator) 則可以選擇以變數風格命名。</p>
 </blockquote>
 <p>一般來說，函式應以大寫字母開頭，並在每一個新單字的首字使用大寫字母。</p>
 <pre><code class="language-c++">AddTableEntry()
 DeleteUrl()
 OpenFileOrDie()
 </code></pre>
-<p>(相同的命名規則也適用於類別與名稱空間範圍之中，那些作為 API 的一部分釋出的、或是意圖使人看起來像是函數的常數。 因為這些常數其實是物件而不是函式這點算是不重要的實作細節。)</p>
-<p>存取子與修改子 (get 與 set 函式) 可以用變數的方式命名。 他們的命名通常與實際的成員變數有關，但這並非必要。 例如：<code>int count()</code> 與 <code>void set_count(int count)</code>。</p>
+<p>(相同的命名規則也適用於類別與名稱空間範圍之中，那些作為 API 的一部分公開的、或是意圖讓其看起來像函數的常數。 因為它們是物件而非函式這一點只是無關緊要的實作細節。)</p>
+<p>存取子與修改子 (get 與 set 函式) 可以用變數的方式命名，這些函式的命名通常對應到實際的成員變數，但這並非必要。 例如：<code>int count()</code> 與 <code>void set_count(int count)</code>。</p>
 
                     </main>
 
