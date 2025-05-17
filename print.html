@@ -972,13 +972,27 @@ enum UrlTableErrors { ...
 };
 </code></pre>
 <p>請參考 <a href="naming/../classes/structs-vs-classes.html">結構與類別章節</a> 的討論來瞭解何時該使用結構而不是類別。</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="常數名稱"><a class="header" href="#常數名稱">常數名稱</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="常數名稱"><a class="header" href="#常數名稱">常數名稱</a></h2>
 <blockquote>
-<p>使用 <code>constexpr</code> 或 <code>const</code> 宣告的變數，以及在程式全期數值皆是固定的變數，其名稱應該以「k」為開頭，並使用大小寫混和的寫法。 底線可以用在少數無法使用大小寫明確分開的場合。例如：</p>
-<pre><code class="language-c++">const int kDaysInAWeek = 7;
+<p>使用 <code>constexpr</code> 或 <code>const</code> 宣告的變數，以及數值在整個程式執行期間皆固定的變數，其名稱應該以「k」為開頭，並使用大小寫混和命名法 (mixed case)。 僅在無法用大小寫分隔的少數特殊情況下，才可使用底線分隔。例如：</p>
+<pre><code class="language-cpp">const int kDaysInAWeek = 7;
 const int kAndroid8_0_0 = 24;  // Android 8.0.0
 </code></pre>
-<p>所有具備以上性質同時有靜態儲存期 (例如靜態變數與全域變數，詳情請參照<a href="http://en.cppreference.com/w/cpp/language/storage_duration#Storage_duration">儲存期</a>) 的變數都應該這樣命名。 這項慣例對其他儲存種類的變數來說是選擇性的 (例如自動變數)，其他情況應使用一般的變數命名規則。</p>
+<p>所有具備以上性質同時有靜態儲存期 (例如靜態變數與全域變數，詳情請參照<a href="http://en.cppreference.com/w/cpp/language/storage_duration#Storage_duration">儲存期</a>) 的變數都應該這樣命名，包括類別中的靜態常數資料成員以及在模板中可能因不同實例而有不同值的成員。 對於其他儲存類別的變數而言，此命名慣例屬於選擇性的 (例如自動變數)，其他情況應使用一般的變數命名規則，例如：</p>
+<pre><code class="language-cpp">void ComputeFoo(absl::string_view suffix) {
+ // 任何一種寫法都可以接受
+ const absl::string_view kPrefix = "prefix";
+ const absl::string_view prefix = "prefix";
+ ...
+}
+</code></pre>
+<p>不好的例子：</p>
+<pre><code class="language-cpp">void ComputeFoo(absl::string_view suffix) {
+ // 不好 - 每次呼叫 `ComputeFoo` 時可能都會產生不同的 `kCombined` 數值
+ const std::string kCombined = absl::StrCat(kPrefix, suffix);
+ ...
+}
+</code></pre>
 </blockquote>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="函數名稱"><a class="header" href="#函數名稱">函數名稱</a></h1>
 <blockquote>
