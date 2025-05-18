@@ -1013,23 +1013,25 @@ OpenFileOrDie()
 <p>注意<a href="naming/general-naming-rules.html">針對縮寫名稱的規則</a>也如同變數一樣適用於名稱空間。 名稱空間中的程式碼很少會需要提及名稱空間的名稱，所以通常沒有使用縮寫的必要。</p>
 <p>避免使用名稱與知名頂層名稱空間衝突的巢狀名稱空間。 名稱空間的命名衝突可能因為命名查詢規則造成意外的建置錯誤。 特別是不要建立任何命名為 <code>std</code> 的巢狀名稱空間。 優先使用獨特的專案 ID (<code>websearch::index</code>、<code>websearch::index_util</code>)，而不是容易發生衝突的名稱，像是 <code>websearch::util</code>。</p>
 <p>對於 <code>internal</code> 名稱空間，請注意將其他程式碼加入同樣的 <code>internal</code> 名稱空間中會導致衝突 (團隊內部的輔助函式 (Helper Functions) 傾向於且可能導致衝突)。 在這種情況下，使用檔名來建立一個獨特的內部名稱很有用 (像是對 <code>frobber.h</code> 中的程式使用 <code>websearch::index::frobber_internal</code>)。</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="列舉器名稱"><a class="header" href="#列舉器名稱">列舉器名稱</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="列舉器名稱-enumerator-names"><a class="header" href="#列舉器名稱-enumerator-names">列舉器名稱 (Enumerator Names)</a></h2>
 <blockquote>
-<p>列舉器的值 (無論是否有限定範圍) 都應該要以<a href="naming/constant-names.html">常數</a>或者<a href="naming/macro-names.html">巨集</a>的方式命名：像是 <code>kEnumName</code> 或 <code>ENUM_NAME</code>。</p>
+<p>列舉器的值 (無論是否有限定作用域) 都應該要以<a href="naming/constant-names.html">常數</a>方式命名，不可以用<a href="naming/macro-names.html">巨集</a>的方式；也就是像是 <code>kEnumName</code> ，不可以像是 <code>ENUM_NAME</code>。</p>
 </blockquote>
-<p>可以的話，列舉器的值傾向於用<a href="naming/constant-names.html">常數</a>的方式命名，不過使用<a href="naming/macro-names.html">巨集</a>的方式也是可以接受的。 列舉器本身的名稱，例如 <code>UrlTableErrors</code> (與 <code>AlternateUrlTableErrors</code>)，是一種型別，因此使用大小寫混和的命名方式。</p>
-<pre><code class="language-c++">enum UrlTableErrors {
-  kOK = 0,
-  kErrorOutOfMemory,
-  kErrorMalformedInput,
+<p>範例：</p>
+<pre><code class="language-cpp">enum class UrlTableError {
+  kOk = 0,
+  kOutOfMemory,
+  kMalformedInput,
 };
-enum AlternateUrlTableErrors {
+</code></pre>
+<p>不好的例子：</p>
+<pre><code class="language-cpp">enum class AlternateUrlTableError {
   OK = 0,
   OUT_OF_MEMORY = 1,
   MALFORMED_INPUT = 2,
 };
 </code></pre>
-<p>到 2009 年一月前，這個指引寫著應該要以<a href="naming/macro-names.html">巨集</a>的方式命名。 這造成了列舉器的值與巨集的名稱衝突問題。 因此才改成了建議使用常數命名法。 新的程式碼應該在可以的時候皆使用常數命名法。 然而目前也沒有理由要把舊程式碼也改成常數命名法，除非舊程式碼造成了編譯時期的問題。</p>
+<p>到 2009 年一月前，這個指引寫著應該要以<a href="naming/macro-names.html">巨集</a>的方式命名。 這導致列舉值與巨集名稱之間產生衝突。 因此才改成了建議使用常數命名法。 新的程式碼應該皆使用常數命名法。</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="巨集名稱"><a class="header" href="#巨集名稱">巨集名稱</a></h1>
 <blockquote>
 <p>你不是真要定義一個<a href="naming/../other-cpp-features/preprocessor-marcos.html">巨集</a>吧？ 如果真的要做的話，他們應該長這樣：<code>MY_MACRO_THAT_SCARES_SMALL_CHILDREN_AND_ADULTS_ALIKE</code>。</p>
