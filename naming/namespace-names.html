@@ -162,14 +162,13 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="名稱空間名稱"><a class="header" href="#名稱空間名稱">名稱空間名稱</a></h1>
+                        <h2 id="名稱空間名稱-namespace-names"><a class="header" href="#名稱空間名稱-namespace-names">名稱空間名稱 (Namespace Names)</a></h2>
 <blockquote>
-<p>名稱空間全部使用小寫。 最頂層的名稱空間應使用基於專案名稱的名字。 避免巢狀名稱空間以及與知名頂層名稱空間的命名碰撞。</p>
+<p>名稱空間應使用蛇形命名法 (<code>snake_case</code>，全部小寫，並且用底線分開單字)。</p>
 </blockquote>
-<p>頂層的命名空間應通常使用專案名稱或者開發該程式的團隊名稱。 該名稱空間中的程式碼應該要放在與其名稱空間的命名相符的資料夾中 (或是子資料夾中)。</p>
-<p>注意<a href="general-naming-rules.html">針對縮寫名稱的規則</a>也如同變數一樣適用於名稱空間。 名稱空間中的程式碼很少會需要提及名稱空間的名稱，所以通常沒有使用縮寫的必要。</p>
-<p>避免使用名稱與知名頂層名稱空間衝突的巢狀名稱空間。 名稱空間的命名衝突可能因為命名查詢規則造成意外的建置錯誤。 特別是不要建立任何命名為 <code>std</code> 的巢狀名稱空間。 優先使用獨特的專案 ID (<code>websearch::index</code>、<code>websearch::index_util</code>)，而不是容易發生衝突的名稱，像是 <code>websearch::util</code>。</p>
-<p>對於 <code>internal</code> 名稱空間，請注意將其他程式碼加入同樣的 <code>internal</code> 名稱空間中會導致衝突 (團隊內部的輔助函式 (Helper Functions) 傾向於且可能導致衝突)。 在這種情況下，使用檔名來建立一個獨特的內部名稱很有用 (像是對 <code>frobber.h</code> 中的程式使用 <code>websearch::index::frobber_internal</code>)。</p>
+<p>在為名稱空間<a href="./choosing-names.html">選擇名稱</a>的時候，應該注意在名稱空間外的標頭檔就必須使用完整限定名稱 (fully qualified name)，因為<a href="../other-cpp-features/alias.html">未限定名稱的別名一般來說不被允許</a>。</p>
+<p>頂層的名稱空間應該要在全域之中獨一無二而且容易辨識，而且應該由一個專案或團隊擁有，其中命名應基於該專案或團隊的名稱。 通常所有該名稱空間下的程式碼應該都要在與名稱空間名字相同的一個或多個資料夾內。</p>
+<p>巢狀名稱空間 (nested namespaces) 應該避免使用已知的頂層名稱，特別是 <code>std</code> 或 <code>absl</code>，因為在 C++ 中，名稱空間不會防範其他名稱空間下的命名衝突 (請參考 <a href="https://abseil.io/tips/130">TotW #130</a>)。</p>
 
                     </main>
 
