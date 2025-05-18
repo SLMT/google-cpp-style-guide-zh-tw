@@ -34,6 +34,7 @@
 - [🚧 Google 特有的魔術](work-in-progress.md)
 - [🚧 其他 C++ 特性](other-cpp-features/README.md)
   - [🚧 例外](other-cpp-features/exceptions.md)
+  - [🚧 別名](other-cpp-features/alias.md)
   - [🚧 預處理器巨集](other-cpp-features/preprocessor-marcos.md)
 - [命名 (Naming)](naming/README.md)
   - [選擇名稱](naming/choosing-names.md)
