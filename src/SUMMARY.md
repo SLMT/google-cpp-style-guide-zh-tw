@@ -46,6 +46,7 @@
   - [函數名稱](naming/function-names.md)
   - [名稱空間名稱](naming/namespace-names.md)
   - [列舉器名稱](naming/enumerator-names.md)
+  - [模板參數名稱](naming/template-parameter-names.md)
   - [巨集名稱](naming/macro-names.md)
   - [名稱規則的例外](naming/exceptions-to-naming-rules.md)
 - [🚧 註解](work-in-progress.md)
