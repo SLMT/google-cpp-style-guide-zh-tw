@@ -24,7 +24,7 @@
 - [類別 (Classes)](classes/README.md)
     - [在建構子內工作](classes/doing-work-in-constructor.md)
     - [隱性轉換](classes/implicit-conversions.md)
-    - [🚧 可複製或可轉移的型別](work-in-progress.md)
+    - [可複製與可轉移的型別](classes/copyable-and-movable-types.md)
     - [🚧 Struct 與 Class 的比較](classes/structs-vs-classes.md)
     - [🚧 繼承](work-in-progress.md)
     - [🚧 運算子多載](work-in-progress.md)
