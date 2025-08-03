@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>🚧 Struct 與 Class 的比較 - Google C++ Style Guide 繁體中文版</title>
+        <title>可複製與可轉移的型別 - Google C++ Style Guide 繁體中文版</title>
 
 
         <!-- Custom HTML head -->
@@ -162,17 +162,75 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="-struct-與-class-的比較"><a class="header" href="#-struct-與-class-的比較">🚧 Struct 與 Class 的比較</a></h1>
+                        <h2 id="可複製與可轉移的型別-copyable-and-movable-types"><a class="header" href="#可複製與可轉移的型別-copyable-and-movable-types">可複製與可轉移的型別 (Copyable and Movable Types)</a></h2>
+<blockquote>
+<p>一個類別的公用 API 應該要清楚表明該類別是可複製、只能轉移、或者不能複製也不能轉移的型別。 在複製與/或轉移對你的型別具有明顯意義時應提供這些操作。</p>
+</blockquote>
+<h3 id="定義"><a class="header" href="#定義">定義</a></h3>
+<p>一個可轉移的型別是指可以從暫時變數初始化 (initialization) 或者指派 (assignment) 的型別。</p>
+<p>一個可複製的型別是指可以從相同型別的任意物件初始化或者指派的型別 (因此定義上來說也是可轉移的)，但規定來源物件的值不得被改變。 <code>std::unique_ptr&lt;int&gt;</code> 就是一個可轉移但不可複製的型別範例，因為來源 <code>std::unique_ptr&lt;int&gt;</code> 會在指派的時候被修改。 <code>int</code> 跟 <code>std::string</code> 則是可轉移且可複製型別的範例，其中對 <code>int</code> 來說轉移與複製的動作是相同的，對 <code>std::string</code> 來說轉移操作的成本低於複製操作。</p>
+<p>對於使用者自行定義的型別來說，複製的行為是由複製建構子與複製指派運算子定義。 如果有轉移建構子與轉移指派運算子的話，轉移的行為由這些函式定義；如果沒有的話，則由複製建構子與複製指派運算子定義。</p>
+<p>複製或轉移建構子可以被編譯器隱含呼叫，例如在以傳值 (pass by value) 方式傳遞物件給函式時。</p>
+<h3 id="優點"><a class="header" href="#優點">優點</a></h3>
+<p>可複製與轉移的型別的物件可以用於以值傳遞與回傳 (pass and return by value)，這讓 API 更簡單、更安全以及更具通用性。 不像傳指標 (pass by pointer) 或參考 (pass by reference) 的方式，這些型別不會造成所有權、生存期、修改性以及其他類似的問題，而且也不需要在介面合約中加以說明。 它也避免用戶端與實作之間產生非局部的互動，這讓他們更容易被理解、維護與被編譯器優化。 更甚者，這些物件可以被那些要求傳值呼叫的泛用 API 使用，例如大多數的容器，而且也允許額外的彈性，例如型別組合 (type composition)。</p>
+<p>複製或轉移建構子和指派運算子通常比起其他選擇像是 <code>Clone()</code>、<code>CopyFrom()</code> 或者 <code>Swap()</code> 更容易定義，因為這些函式可以透過編譯器隱含或者透過 <code>=</code> 預設函式產生。 這些函式簡潔，並可確保所有資料成員都被正確複製。 複製與轉移建構子通常更有效率，因為他們不需要分配 heap 空間或者額外的初始化或指派動作，而且他們也適用於許多優化，像是複製省略 (copy elision)。</p>
+<p>轉移運算子允許從右值物件 (rvalue object) 中隱性且高效地將資源移出。 這允許在某些狀況下寫出更簡潔直觀的程式碼。</p>
+<h3 id="缺點"><a class="header" href="#缺點">缺點</a></h3>
+<p>有些型別不需要是可以複製的，而且對於這些型別來說提供複製操作可能令人困惑、不合邏輯，甚至完全錯誤。 像是代表單例 (singleton) 的物件 (<code>Registerer</code>)、物件綁定在特定作用域 (<code>Cleanup</code>) 或緊密連結物件身分 (<code>Mutex</code>) 的型別無法以有意義的方式複製。 用於具多型用途之基底類別的複製操作是危險的，因為可能會造成<a href="https://en.wikipedia.org/wiki/Object_slicing">物件切割 (object slicing)</a> 的狀況。 預設或者缺乏細心實作的複製操作可能會不正確，並且可能導致難以察覺或診斷的錯誤。</p>
+<p>複製建構子是隱性呼叫的，這使得呼叫處容易被忽略，而且可能會讓那些習慣傳參考呼叫 (pass by reference) 的程式語言的程式設計師感到困惑。 這也可能會鼓勵過度使用複製，並進一步造成效能問題。</p>
+<h3 id="決定"><a class="header" href="#決定">決定</a></h3>
+<p>每一個類別的公用界面必須清楚定義該類別支援哪些複製與轉移操作。 這應該要透過在類別宣告的公用 (public) 區域明確宣告以及/或刪除適當的運算子來達到。</p>
+<p>具體來說，一個可複製的類別應該明確宣告複製運算子；一個只能轉移的類別應該明確宣告轉移運算子；一個不能複製或轉移的類別應該明確刪除複製運算子。 一個可複製的型別可以額外宣告轉移運算子來提供更高效的轉移操作。 可以選擇明確宣告或刪除所有四種複製與轉移操作，但這並非必要。 如果你提供複製或轉移指派運算子，則必須同時提供對應的建構子。</p>
+<pre><code class="language-cpp">class Copyable {
+ public:
+  Copyable(const Copyable&amp; other) = default;
+  Copyable&amp; operator=(const Copyable&amp; other) = default;
+
+  // 上述宣告會抑制隱式的轉移操作
+  // 你可以透過明確宣告轉移操作來提供高效的轉移
+};
+
+class MoveOnly {
+ public:
+  MoveOnly(MoveOnly&amp;&amp; other) = default;
+  MoveOnly&amp; operator=(MoveOnly&amp;&amp; other) = default;
+
+  // 複製操作會被隱性刪除，但若有需要，也可以明確地宣告：
+  MoveOnly(const MoveOnly&amp;) = delete;
+  MoveOnly&amp; operator=(const MoveOnly&amp;) = delete;
+};
+
+class NotCopyableOrMovable {
+ public:
+  // 不可以複製且不可以轉移
+  NotCopyableOrMovable(const NotCopyableOrMovable&amp;) = delete;
+  NotCopyableOrMovable&amp; operator=(const NotCopyableOrMovable&amp;)
+      = delete;
+
+  // 轉移操作會被隱性禁用，但若有需要，也可以明確地宣告：
+  NotCopyableOrMovable(NotCopyableOrMovable&amp;&amp;) = delete;
+  NotCopyableOrMovable&amp; operator=(NotCopyableOrMovable&amp;&amp;)
+      = delete;
+};
+</code></pre>
+<p>只有在這些宣告或刪除的行為明顯可推導時，才可以省略：</p>
+<ul>
+<li>如果一個類別沒有私有 (private) 區域，像是一個 <a href="./structs-vs-classes.html">struct</a> 或者純介面基底類別，則其是否可複製或可轉移，可由其公開資料成員決定。</li>
+<li>如果一個基底類別明顯不是可複製或轉移的，那麼它的衍伸類別自然也不會是。 一個純介面基底類別如果讓這些操作隱性定義的話，並不足以讓具體子類別的特性明確。</li>
+<li>注意如果你明確宣告或刪除了複製建構子或者複製指派運算子的話，另一個複製操作便不再是明確的，必須一併明確宣告或刪除。 轉移操作也相同。</li>
+</ul>
+<p>如果一個類別的複製與轉移對一般使用者來說不明確，或者這些操作可能會造成不可預期的代價，則不應將其設計為可複製或可轉移的。 可複製型別的轉移操作本質上屬於效能優化，而且是潛在造成錯誤與複雜性的源頭，因此除非定義它們可以顯著地相較於複製操作提升效能，否則應避免定義。 如果你的型別提供複製操作，建議設計你的類別讓其預設的複製行為是正確的。 務必如同檢查其他程式碼一般，審視所有預設操作的正確性。</p>
+<p>為了消除物件切割 (object slicing) 的風險，偏好將基底類別定義為抽象的 (abstract)，這可透過右列方式實現：將建構子宣告為 <code>protected</code>、將解構子宣告為 <code>protected</code> 或者給它們一或更多的虛擬成員函式 (virtual member function)。 偏好避免從具體類別 (concrete class) 繼承。</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../classes/copyable-and-movable-types.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../classes/implicit-conversions.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../work-in-progress.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../classes/structs-vs-classes.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -182,11 +240,11 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../classes/copyable-and-movable-types.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../classes/implicit-conversions.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../work-in-progress.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../classes/structs-vs-classes.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
