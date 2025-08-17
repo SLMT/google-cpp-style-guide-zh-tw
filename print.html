@@ -897,7 +897,15 @@ class NotCopyableOrMovable {
 </ul>
 <p>如果一個類別的複製與轉移對一般使用者來說不明確，或者這些操作可能會造成不可預期的代價，則不應將其設計為可複製或可轉移的。 可複製型別的轉移操作本質上屬於效能優化，而且是潛在造成錯誤與複雜性的源頭，因此除非定義它們可以顯著地相較於複製操作提升效能，否則應避免定義。 如果你的型別提供複製操作，建議設計你的類別讓其預設的複製行為是正確的。 務必如同檢查其他程式碼一般，審視所有預設操作的正確性。</p>
 <p>為了消除物件切割 (object slicing) 的風險，偏好將基底類別定義為抽象的 (abstract)，這可透過右列方式實現：將建構子宣告為 <code>protected</code>、將解構子宣告為 <code>protected</code> 或者給它們一或更多的虛擬成員函式 (virtual member function)。 偏好避免從具體類別 (concrete class) 繼承。</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="-struct-與-class-的比較"><a class="header" href="#-struct-與-class-的比較">🚧 Struct 與 Class 的比較</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="結構-struct-與-類別-class-的比較"><a class="header" href="#結構-struct-與-類別-class-的比較">結構 (struct) 與 類別 (class) 的比較</a></h2>
+<blockquote>
+<p>只對僅用於承載資料的被動物件使用 <code>struct</code>，剩下的都用 <code>class</code>。</p>
+</blockquote>
+<p>C++ 中的 <code>struct</code> 與 <code>class</code> 幾乎相同，不過我們對這些關鍵字賦予了額外的語義，因此你應該要注意對你定義的資料型別賦予適當的關鍵字。</p>
+<p><code>struct</code> 應該被用在那些攜帶資料，也可以包含相關常數的被動性物件。 所有的欄位必須是公用的 (<code>public</code>)。 <code>struct</code> 不該包含暗示不同欄位之間關係的不變條件 (invariant)，因為直接存取那些欄位可能會打破那些不變條件。 建構函式、解構函式與幫手函式可以存在；但這些函式不該要求或強制任何不變條件。</p>
+<p>如果需要更多的功能或不變條件，抑或是 <code>struct</code> 具有廣泛可見度並且預期會持續演化，那麼使用 <code>class</code> 應該更為恰當。 如果有疑慮，就用 <code>class</code>。</p>
+<p>為了與 STL 保持一致性，你可以對不保存狀態的型別，像是特徵 (trait)、<a href="classes/../other-cpp-features/template-metaprogramming.html">模板元函式 (template metafunctions)</a> 與一些函子 (functor) 使用 <code>struct</code>。</p>
+<p>注意 <code>struct</code> 與 <code>class</code> 的成員變數有著<a href="classes/../naming/variable-names.html">不同的命名規則</a>。</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="建置中"><a class="header" href="#建置中">建置中...</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="建置中-1"><a class="header" href="#建置中-1">建置中...</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="建置中-2"><a class="header" href="#建置中-2">建置中...</a></h1>
@@ -906,6 +914,8 @@ class NotCopyableOrMovable {
 <div style="break-before: page; page-break-before: always;"></div><h1 id="建置中-5"><a class="header" href="#建置中-5">建置中...</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="-其他-c-特性"><a class="header" href="#-其他-c-特性">🚧 其他 C++ 特性</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="-例外-exceptions"><a class="header" href="#-例外-exceptions">🚧 例外 (Exceptions)</a></h2>
+<p>WIP</p>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="-模板元程式設計-template-metaprogramming"><a class="header" href="#-模板元程式設計-template-metaprogramming">🚧 模板元程式設計 (Template Metaprogramming)</a></h2>
 <p>WIP</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="-別名-alias"><a class="header" href="#-別名-alias">🚧 別名 (Alias)</a></h2>
 <p>WIP</p>
@@ -1165,6 +1175,7 @@ OpenFileOrDie()
 <tr><td style="text-align: left">External Linkage</td><td style="text-align: left">外部連結性</td></tr>
 <tr><td style="text-align: left">Forward Declaration</td><td style="text-align: left">前向宣告</td></tr>
 <tr><td style="text-align: left">Function</td><td style="text-align: left">函式</td></tr>
+<tr><td style="text-align: left">Functor</td><td style="text-align: left">函子</td></tr>
 <tr><td style="text-align: left">Global Scope</td><td style="text-align: left">全域</td></tr>
 <tr><td style="text-align: left">Handler</td><td style="text-align: left">(尚無翻譯)</td></tr>
 <tr><td style="text-align: left">Header, Header File</td><td style="text-align: left">標頭檔</td></tr>
