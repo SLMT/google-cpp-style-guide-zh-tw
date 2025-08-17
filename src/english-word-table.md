@@ -25,6 +25,7 @@
 | External Linkage       | 外部連結性                     |
 | Forward Declaration    | 前向宣告                       |
 | Function               | 函式                           |
+| Functor                | 函子                           |
 | Global Scope           | 全域                           |
 | Handler                | (尚無翻譯)                     |
 | Header, Header File    | 標頭檔                         |
