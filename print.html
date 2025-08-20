@@ -906,6 +906,12 @@ class NotCopyableOrMovable {
 <p>如果需要更多的功能或不變條件，抑或是 <code>struct</code> 具有廣泛可見度並且預期會持續演化，那麼使用 <code>class</code> 應該更為恰當。 如果有疑慮，就用 <code>class</code>。</p>
 <p>為了與 STL 保持一致性，你可以對不保存狀態的型別，像是特徵 (trait)、<a href="classes/../other-cpp-features/template-metaprogramming.html">模板元函式 (template metafunctions)</a> 與一些函子 (functor) 使用 <code>struct</code>。</p>
 <p>注意 <code>struct</code> 與 <code>class</code> 的成員變數有著<a href="classes/../naming/variable-names.html">不同的命名規則</a>。</p>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="結構-struct-與對-pair-和元組-tuple-的比較"><a class="header" href="#結構-struct-與對-pair-和元組-tuple-的比較">結構 (Struct) 與對 (Pair) 和元組 (Tuple) 的比較</a></h2>
+<blockquote>
+<p>當元素可以有明確的名稱時，偏好使用 <code>struct</code> 而非對 (pair) 與元組 (tuple)。</p>
+</blockquote>
+<p>雖然使用對與元組可以避免定義自訂型別，並可能減少需要撰寫的程式碼，但是欄位名稱總比 <code>.first</code>、<code>.second</code> 或 <code>std::get&lt;X&gt;</code> 清楚好讀。 雖然 C++14 後來引進了 <code>std::get&lt;Type&gt;</code> 來透過型別來存取，而不是透過索引存取元組的元件，這在某些情況下能部分減輕問題，但是欄位名稱還是比型別名稱更清楚且更具資訊。</p>
+<p>在泛型程式碼中，如果元素本身沒有特定意義時，對和元組可能是適合的選擇。 他們也可以用在既有的程式碼或 API 有要求時。</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="建置中"><a class="header" href="#建置中">建置中...</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="建置中-1"><a class="header" href="#建置中-1">建置中...</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="建置中-2"><a class="header" href="#建置中-2">建置中...</a></h1>
